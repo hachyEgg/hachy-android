@@ -2,7 +2,27 @@
     <string name="app_name">Foodiemate</string>
     <string name="action_settings">Settings</string>
 
+    <string name="facebook_app_id" translatable="false">968575153306898</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb968575153306898</string>
+
     <string name="title_activity_login">LoginActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_foodiemate">FoodieMate</string>
+    <string name="login_btn_facebook">Login by Facebook</string>
+    <string name="login_failed">Login Failed, please try again</string>
+    <string name="title_activity_google_sign_in">GoogleSignInActivity</string>
+    <string name="disconnect">discounnect</string>
+    <string name="sign_out">sign out</string>
+    <string name="signed_out">sign out</string>
+    <string name="google_title_text">title</string>
+    <string name="desc_firebase_lockup">descFireLookup</string>
+
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="google_status_fmt">Google User: %s</string>
+    <string name="loading">loading</string>
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="take_picture">shoot</string>
+    <string name="desc">description</string>
+
 </resources>

@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "263207866975",
-    "firebase_url": "https://foodiemate-17b4d.firebaseio.com",
-    "project_id": "foodiemate-17b4d",
-    "storage_bucket": "foodiemate-17b4d.appspot.com"
+    "project_number": "842812802622",
+    "firebase_url": "https://foodiemate-41193.firebaseio.com",
+    "project_id": "foodiemate-41193",
+    "storage_bucket": "foodiemate-41193.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:263207866975:android:c89190298cc06e88",
+        "mobilesdk_app_id": "1:842812802622:android:c89190298cc06e88",
         "android_client_info": {
           "package_name": "ms.imagine.foodiemate"
         }
       },
       "oauth_client": [
         {
-          "client_id": "263207866975-ibavl7198e4vspoddie817t12ler1e9q.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ms.imagine.foodiemate",
-            "certificate_hash": "a3179b0b8be2be8d23fea78efef85c4cdaa98c48"
-          }
-        },
-        {
-          "client_id": "263207866975-ug2jtalq2mi7dbj1mv88ks21ikiu3p8d.apps.googleusercontent.com",
+          "client_id": "842812802622-5pccug0ao42dct9grs0vld7lnkcvnjgv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCMZkBQa2cS3eCOGfaAdC7YW-Ptz2YBHqA"
+          "current_key": "AIzaSyAKQj5V-fDRSbaAR6rrDNgM5TfSyHKEGqo"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "263207866975-ug2jtalq2mi7dbj1mv88ks21ikiu3p8d.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2
