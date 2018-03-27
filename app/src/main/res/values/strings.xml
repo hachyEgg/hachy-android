@@ -24,5 +24,6 @@
     <string name="title_activity_camera">CameraActivity</string>
     <string name="take_picture">shoot</string>
     <string name="desc">description</string>
+    <string name="login_desc">Facebook</string>
 
 </resources>
