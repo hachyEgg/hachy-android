@@ -1,12 +1,12 @@
-package ms.imagine.foodiemate
+package ms.imagine.foodiemate.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.data.Egg
-import org.w3c.dom.Text
 
 /**
  * Created by eugen on 3/30/2018.
@@ -34,7 +34,7 @@ class ResViewAdapter(private val myDataset: ArrayList<Egg>) :
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): ResViewAdapter.ViewHolder {
+                                    viewType: Int): ViewHolder {
         // create a new view
         val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.card, parent, false) as View
@@ -48,8 +48,8 @@ class ResViewAdapter(private val myDataset: ArrayList<Egg>) :
         // - replace the contents of the view with that element
         var egg = myDataset[position];
         holder.title.text = egg.geteggName();
-        holder.timestamp.text = egg.getTimeStamp();
-        holder.status.text = egg.getStatus();
+        holder.timestamp.text = egg.timeStamp;
+        holder.status.text = egg.status;
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -1,4 +1,4 @@
-package ms.imagine.foodiemate;
+package ms.imagine.foodiemate.activity;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import ms.imagine.foodiemate.ImageSurfaceView;
+import ms.imagine.foodiemate.R;
 
 
 public class CameraActivity extends AppCompatActivity {

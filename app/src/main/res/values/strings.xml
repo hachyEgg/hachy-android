@@ -28,5 +28,6 @@
     <string name="continue_with_facebook">Continue with Facebook</string>
     <string name="continue_with_device">Continue without Login</string>
     <string name="action_signout">signout</string>
+    <string name="title_activity_egg_detail">EggDetailActivity</string>
 
 </resources>
