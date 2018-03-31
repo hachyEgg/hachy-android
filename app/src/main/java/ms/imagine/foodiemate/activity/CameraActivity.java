@@ -15,7 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import ms.imagine.foodiemate.ImageSurfaceView;
+import ms.imagine.foodiemate.views.ImageSurfaceView;
 import ms.imagine.foodiemate.R;
 
 

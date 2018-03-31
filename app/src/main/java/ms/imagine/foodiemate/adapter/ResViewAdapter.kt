@@ -20,6 +20,9 @@ class ResViewAdapter(private val myDataset: ArrayList<Egg>) :
     // Each data item is just a string in this case that is shown in a TextView.
 
 
+
+
+
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var title: TextView
         var timestamp: TextView
@@ -46,10 +49,11 @@ class ResViewAdapter(private val myDataset: ArrayList<Egg>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        var egg = myDataset[position];
-        holder.title.text = egg.geteggName();
-        holder.timestamp.text = egg.timeStamp;
-        holder.status.text = egg.status;
+        var egg = myDataset[position]
+        holder.title.text = egg.geteggName()
+        holder.timestamp.text = egg.timeStamp
+        holder.status.text = egg.status
+       // holder.itemView.setTag(99, position);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

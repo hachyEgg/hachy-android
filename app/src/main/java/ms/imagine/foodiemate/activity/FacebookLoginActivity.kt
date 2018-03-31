@@ -46,13 +46,12 @@ import ms.imagine.foodiemate.R
  */
 class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
 
-    private var mAuth: FirebaseAuth? = null
-    lateinit var mBtnDevice: Button
-    lateinit var mBtnFacebook: Button
-    lateinit var loginButton: LoginButton
+    private lateinit var mAuth: FirebaseAuth
+    private lateinit var mBtnDevice: Button
+    private lateinit var mBtnFacebook: Button
+    private lateinit var loginButton: LoginButton
 
     // mAuth declared in BaseActivity
-
     private var mCallbackManager: CallbackManager? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {

@@ -9,7 +9,9 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
@@ -75,14 +77,18 @@ class MainActivity : BaseActivity(), FirebaseAuth.AuthStateListener {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
-
             // use a linear layout manager
             layoutManager = viewManager
-
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
-
         }
+
+        /*recyclerView.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                toast(v?.getTag(99).toString());
+            }
+        })
+        */
     }
 
 

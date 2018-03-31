@@ -1,4 +1,4 @@
-package ms.imagine.foodiemate;
+package ms.imagine.foodiemate.views;
 
 /**
  * Created by eugen on 3/27/2018.

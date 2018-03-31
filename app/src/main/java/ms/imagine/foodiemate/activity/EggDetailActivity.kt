@@ -14,6 +14,8 @@ class EggDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_egg_detail)
         setSupportActionBar(toolbar)
 
+
+
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
