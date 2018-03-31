@@ -25,5 +25,8 @@
     <string name="take_picture">shoot</string>
     <string name="desc">description</string>
     <string name="login_desc">Facebook</string>
+    <string name="continue_with_facebook">Continue with Facebook</string>
+    <string name="continue_with_device">Continue without Login</string>
+    <string name="action_signout">signout</string>
 
 </resources>

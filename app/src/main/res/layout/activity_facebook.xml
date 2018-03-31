@@ -2,22 +2,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
-    tools:context="ms.imagine.foodiemate.LoginActivity">
+    android:background="@color/egg_white"
+    android:layout_margin="0dp"
+    tools:context="ms.imagine.foodiemate.FacebookLoginActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
-    <TextView
-        android:id="@+id/fullscreen_content"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/title_foodiemate"
-        android:textColor="#33b5e5"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_marginBottom="60dp"
+        android:paddingTop="20dp"
+        >
+
+
+        <ImageView
+            android:layout_margin="30dp"
+            android:layout_height="240dp"
+            android:layout_width="160dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/logo_icon" >
+        </ImageView>
+
+
+
+    </FrameLayout>
+
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
@@ -32,35 +45,58 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/black_overlay"
+            android:background="#ffffff"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button
-                    android:background="@color/grey_100"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="60dp"
-                    android:text="Continue"/>
+                android:orientation="vertical">
 
-                <com.facebook.login.widget.LoginButton
-                    android:layout_gravity="center"
-                    android:id="@+id/button_facebook_login"
-                    android:layout_centerInParent="true"
-                    xmlns:fb="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                <Button
+                    android:id="@+id/btn_sub_device"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:contentDescription="@string/login_desc"
-                    android:scaleType="centerInside"
-                    fb:login_text=""
-                    fb:logout_text=""
-                    />
+                    android:layout_weight="1"
+                    android:adjustViewBounds="false"
+                    android:background="@color/grey_300"
+                    android:cropToPadding="true"
+                    android:padding="10dp"
+                    android:drawableLeft="@drawable/log_device"
+                    android:textSize="20sp"
+                    android:text="@string/continue_with_device"
+                    android:textColor="#000000" />
+
+                <Button
+                    android:id="@+id/btn_sub_facebook"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@color/com_facebook_blue"
+                    android:drawablePadding="10dp"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    android:textSize="20sp"
+                    android:drawableLeft="@drawable/log_facebook"
+                    android:text="@string/continue_with_facebook"
+                    android:textColor="#ffffff" />
+
+
             </LinearLayout>
 
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/button_facebook_login"
+                style="@style/FacebookLoginButton"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:contentDescription="@string/login_desc"
+                android:scaleType="centerInside" />
 
 
         </LinearLayout>

@@ -1,10 +1,10 @@
-package ms.imagine.foodiemate;
+package ms.imagine.foodiemate.data;
 
 /**
  * Created by eugen on 3/27/2018.
  */
 
-public class food {
+public class Food {
     String name;
     String location;
     String Macros;

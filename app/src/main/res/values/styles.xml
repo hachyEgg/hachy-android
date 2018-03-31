@@ -67,4 +67,17 @@
         <item name="android:gravity">center</item>
         <item name="android:textSize">36sp</item>
     </style>
+
+    <style name="FacebookLoginButton">
+        <item name="android:layout_height">60dp</item>
+        <item name="android:text">Continue with Facebook</item>
+        <item name="android:background">@color/com_facebook_blue</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="DeviceButton" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="colorButtonNormal">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
 </resources>

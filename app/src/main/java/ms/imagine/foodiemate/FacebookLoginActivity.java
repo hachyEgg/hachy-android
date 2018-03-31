@@ -26,6 +26,8 @@ import android.support.annotation.NonNull;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,19 +51,22 @@ import com.google.firebase.auth.FirebaseUser;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import ms.imagine.foodiemate.views.ILoginView;
+
+import static ms.imagine.foodiemate.MainActivity.TO_SIGN_OUT;
+
 /**
  * Demonstrate Firebase Authentication using a Facebook access token.
  */
-public class FacebookLoginActivity extends BaseActivity {
+public class FacebookLoginActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final String TAG = "FacebookLogin";
-
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
-
-    // [START declare_auth]
     private FirebaseAuth mAuth;
-    // [END declare_auth]
+    private static final String TAG = "FacebookLogin";
+    Button mBtnDevice;
+    Button mBtnFacebook;
+    LoginButton loginButton;
+
+    // mAuth declared in BaseActivity
 
     private CallbackManager mCallbackManager;
 
@@ -71,16 +76,17 @@ public class FacebookLoginActivity extends BaseActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_facebook);
 
+        mBtnDevice = findViewById(R.id.btn_sub_device);
+        mBtnFacebook = findViewById(R.id.btn_sub_facebook);
+        mBtnFacebook.setOnClickListener(this);
+        mBtnDevice.setOnClickListener(this);
 
-        // [START initialize_auth]
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
 
-        // [START initialize_fblogin]
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
-        LoginButton loginButton = findViewById(R.id.button_facebook_login);
+        loginButton = findViewById(R.id.button_facebook_login);
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -92,48 +98,57 @@ public class FacebookLoginActivity extends BaseActivity {
             @Override
             public void onCancel() {
                 Log.d(TAG, "facebook:onCancel");
-                // [START_EXCLUDE]
-                updateUI(null);
-                // [END_EXCLUDE]
+                onLoginStatusChanged();
             }
 
             @Override
             public void onError(FacebookException error) {
                 Log.d(TAG, "facebook:onError", error);
-                // [START_EXCLUDE]
-                updateUI(null);
-                // [END_EXCLUDE]
+                onLoginStatusChanged();
             }
         });
-        // [END initialize_fblogin]
     }
 
-    // [START on_start_check_user]
+    // Check if User is logged in on start
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        Log.w("eugwarn", "entered on startup");
+        onLoginStatusChanged();
     }
-    // [END on_start_check_user]
 
-    // [START on_activity_result]
+    // call facebook activity for signin operation
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Pass the activity result back to the Facebook SDK
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
-    // [END on_activity_result]
 
-    // [START auth_with_facebook]
+    private void handleAnynomousSignIn(){
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInAnonymously:success");
+                            onLoginStatusChanged();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            Toast.makeText(FacebookLoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            onLoginStatusChanged();
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
-        // [START_EXCLUDE silent]
         showProgressDialog();
-        // [END_EXCLUDE]
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
@@ -143,45 +158,55 @@ public class FacebookLoginActivity extends BaseActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            onLoginStatusChanged();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(FacebookLoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            onLoginStatusChanged();
                         }
-
-                        // [START_EXCLUDE]
                         hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
     }
     // [END auth_with_facebook]
 
-    public void signOut() {
-        mAuth.signOut();
-        LoginManager.getInstance().logOut();
 
-        updateUI(null);
-    }
 
-    private void updateUI(FirebaseUser user) {
-        hideProgressDialog();
+    private void onLoginStatusChanged() {
+        FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             Intent i = new Intent(FacebookLoginActivity.this, MainActivity.class);
             i.putExtra("user", user);
+            finish();
             startActivity(i);
-        } else {
-            Toast.makeText(this, "Oops", Toast.LENGTH_LONG);
-            //mStatusTextView.setText(R.string.signed_out);
-            //mDetailTextView.setText(null);
 
-            //findViewById(R.id.button_facebook_login).setVisibility(View.VISIBLE);
-            //findViewById(R.id.button_facebook_signout).setVisibility(View.GONE);
+        } else {
+            Toast.makeText(this, "Oops, you are logged out", Toast.LENGTH_LONG);
         }
+    }
+
+    //This is how you sign out
+    public void signOut() {
+        mAuth.signOut();
+        LoginManager.getInstance().logOut();
+        onLoginStatusChanged();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_sub_facebook:
+                loginButton.performClick();
+                break;
+            case R.id.btn_sub_device:
+                handleAnynomousSignIn();
+                break;
+            default:
+                break;
+        }
+
     }
 
 
