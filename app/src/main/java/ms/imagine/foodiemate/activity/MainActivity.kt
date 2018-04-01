@@ -16,14 +16,20 @@ import android.widget.Toast
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.data.Egg
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.ValueEventListener
+
+
 
 class MainActivity : BaseActivity(), FirebaseAuth.AuthStateListener {
-    private lateinit var mDatabase: DatabaseReference
+    internal lateinit var mDatabase: DatabaseReference
     internal lateinit var txt: TextView
     private lateinit var mAuth: FirebaseAuth
 
@@ -49,7 +55,7 @@ class MainActivity : BaseActivity(), FirebaseAuth.AuthStateListener {
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val i = Intent(this@MainActivity, CameraActivity::class.java)
-            list.add(0,Egg());
+            list.add(0,Egg(false));
             recyclerView.adapter.notifyDataSetChanged();
             //startActivity(i)
             //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -58,16 +64,16 @@ class MainActivity : BaseActivity(), FirebaseAuth.AuthStateListener {
         //DB stuff
         mAuth = FirebaseAuth.getInstance()
         mDatabase = FirebaseDatabase.getInstance().reference
-
+        mDatabase.child(mAuth.currentUser?.uid).addValueEventListener(postListener)
 
         //Logic
         checkUser()
         list = ArrayList<Egg>();
 
         //Думмы Дата Думп
-
         ResViewInit(list);
     }
+
 
     private fun ResViewInit(coolDataHere: ArrayList<Egg>){
         viewManager = LinearLayoutManager(this)
@@ -89,6 +95,33 @@ class MainActivity : BaseActivity(), FirebaseAuth.AuthStateListener {
             }
         })
         */
+    }
+
+    var postListener: ValueEventListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            // Get Post object and use the values to update the UI
+            val post = dataSnapshot.children.forEach(fun(child){
+                child
+                val egg = Egg(child.child("eggTag").getValue().toString(),
+                        child.child("timestamp").getValue().toString(),
+                        child.child("status").getValue().toString())
+                Log.w("postegg", egg.toString())
+                list.add(egg)
+            })
+            recyclerView.adapter.notifyDataSetChanged()
+
+            // ...
+        }
+
+        override fun onCancelled(databaseError: DatabaseError) {
+            // Getting Post failed, log a message
+            Log.w("post", "loadPost:onCancelled", databaseError.toException())
+            // ...
+        }
+    }
+
+    private fun retrieveEgg(){
+
     }
 
 

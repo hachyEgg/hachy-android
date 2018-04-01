@@ -38,6 +38,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
 
 import ms.imagine.foodiemate.R
 
@@ -50,6 +51,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
     private lateinit var mBtnDevice: Button
     private lateinit var mBtnFacebook: Button
     private lateinit var loginButton: LoginButton
+
 
     // mAuth declared in BaseActivity
     private var mCallbackManager: CallbackManager? = null

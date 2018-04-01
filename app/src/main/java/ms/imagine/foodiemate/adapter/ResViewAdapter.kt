@@ -50,8 +50,8 @@ class ResViewAdapter(private val myDataset: ArrayList<Egg>) :
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         var egg = myDataset[position]
-        holder.title.text = egg.geteggName()
-        holder.timestamp.text = egg.timeStamp
+        holder.title.text = egg.eggtag
+        holder.timestamp.text = egg.timestamp
         holder.status.text = egg.status
        // holder.itemView.setTag(99, position);
     }
