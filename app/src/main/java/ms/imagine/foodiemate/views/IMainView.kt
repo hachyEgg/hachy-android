@@ -7,5 +7,7 @@ import ms.imagine.foodiemate.data.Egg
 interface IMainView {
     fun signOut()
     fun retrieveEgg(key: String, egg: Egg)
-    fun retrieveEggError(e: DatabaseException);
+    fun retrieveEggError(e: DatabaseException)
+    fun showEggDetail(egg:Egg)
+    fun showEggDetail(eggimg: String)
 }

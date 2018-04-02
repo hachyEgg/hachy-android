@@ -1,11 +1,14 @@
 package ms.imagine.foodiemate.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.util.Log
 
 import android.view.Menu
 import android.view.MenuItem
@@ -18,7 +21,9 @@ import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.data.Egg
 import ms.imagine.foodiemate.Presenter.FbDatabasePresenter
+import ms.imagine.foodiemate.utils.BgData
 import ms.imagine.foodiemate.views.IMainView
+import java.net.URI
 
 
 class MainActivity : BaseActivity(), IMainView {
@@ -51,11 +56,13 @@ class MainActivity : BaseActivity(), IMainView {
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val i = Intent(this@MainActivity, CameraActivity::class.java)
-            fbdatabase.writeEgg(Egg("cool", System.currentTimeMillis().toString(), "uo"))
+            //fbdatabase.writeEgg(Egg("cool", System.currentTimeMillis().toString(), "uo"))
             //recyclerView.adapter.notifyDataSetChanged();
-            //startActivity(i)
+            startActivityForResult(i, TAKE_PIC_CAMERA);
             //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
+
+
 
 
 
@@ -71,6 +78,15 @@ class MainActivity : BaseActivity(), IMainView {
         ResViewInit(list);
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == TAKE_PIC_CAMERA){
+            if (resultCode == Activity.RESULT_OK){
+                val uri = data?.extras?.get(TAKE_PIC_FINISHED) as URI;
+                Log.w("EUGWARN_CAM", uri.toString())
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
 
     private fun ResViewInit(coolDataHere: ArrayList<Egg>){
         viewManager = LinearLayoutManager(this)
@@ -143,13 +159,36 @@ class MainActivity : BaseActivity(), IMainView {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        var a = BgData.retrieve(this, TAKE_PIC_FINISHED, NULL) as String
+        if (!a.equals(NULL)) {
+            showEggDetail(a)
+            toast(a)
+        }
+    }
+
     override fun retrieveEggError(e: DatabaseException) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun showEggDetail(egg: Egg) {
+        var i = Intent(this@MainActivity, EggDetailActivity::class.java)
+        //i.putExtra("Egg", egg);
+        startActivity(i)
+    }
+
+    override fun showEggDetail(eggimg: String) {
+        var i = Intent(this@MainActivity, EggDetailActivity::class.java)
+        //i.putExtra(TAKE_PIC_FINISHED, eggimg);
+        startActivity(i)
+    }
+
     companion object {
         const val TO_SIGN_OUT = "sign_out"
+        const val TAKE_PIC_CAMERA = 0x9
+        const val TAKE_PIC_FINISHED = "picTaken"
+        const val NULL = "null_Found"
     }
 }
-
 

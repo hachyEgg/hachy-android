@@ -1,31 +1,53 @@
 package ms.imagine.foodiemate.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import ms.imagine.foodiemate.utils.BgData;
 import ms.imagine.foodiemate.views.ImageSurfaceView;
 import ms.imagine.foodiemate.R;
 
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
-public class CameraActivity extends AppCompatActivity {
+
+public class CameraActivity extends AppCompatActivity implements View.OnClickListener{
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int MEDIA_TYPE_VIDEO = 2;
+
+    public static final String TAG = "CameraActivity";
 
     private ImageSurfaceView mImageSurfaceView;
     private Camera camera;
 
     private FrameLayout cameraPreviewLayout;
-    private ImageView capturedImageHolder;
+    //private ImageView capturedImageHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +56,35 @@ public class CameraActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         cameraPreviewLayout = findViewById(R.id.camera_preview);
-        capturedImageHolder = findViewById(R.id.captured_image);
+        //capturedImageHolder = findViewById(R.id.captured_image);
 
         camera = checkDeviceCamera();
+
+        //STEP #1: Get rotation degrees
+        Camera.CameraInfo info = new Camera.CameraInfo();
+        Camera.getCameraInfo(Camera.CameraInfo.CAMERA_FACING_BACK, info);
+        int rotation = this.getWindowManager().getDefaultDisplay().getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0: degrees = 0; break; //Natural orientation
+            case Surface.ROTATION_90: degrees = 90; break; //Landscape left
+            case Surface.ROTATION_180: degrees = 180; break;//Upside down
+            case Surface.ROTATION_270: degrees = 270; break;//Landscape right
+        }
+        int rotate = (info.orientation - degrees + 360) % 360;
+
+        //STEP #2: Set the 'rotation' parameter
+        Camera.Parameters params = camera.getParameters();
+        params.setRotation(rotate);
+        camera.setParameters(params);
+
         mImageSurfaceView = new ImageSurfaceView(CameraActivity.this, camera);
         cameraPreviewLayout.addView(mImageSurfaceView);
 
-        Button captureButton = findViewById(R.id.button);
-        captureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                camera.takePicture(null, null, pictureCallback);
-            }
-        });
+        Button captureButton = findViewById(R.id.button_tak_pic);
+        // lol
+        //cameraPreviewLayout.setOnClickListener(this);
+        captureButton.setOnClickListener(this);
     }
     private Camera checkDeviceCamera(){
         Camera mCamera = null;
@@ -61,18 +99,54 @@ public class CameraActivity extends AppCompatActivity {
     PictureCallback pictureCallback = new PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
+            /* noo need to convert here
             Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
             if(bitmap==null){
                 Toast.makeText(CameraActivity.this, "Captured image is empty", Toast.LENGTH_LONG).show();
                 return;
             }
-            capturedImageHolder.setImageBitmap(scaleDownBitmapImage(bitmap, 300, 300 ));
+            */
+            // sendBack();
+            //capturedImageHolder.setImageBitmap(scaleDownBitmapImage(bitmap, 300, 300 ));
+            Log.w("EUGWARN_CAM", "pictureCallBackRegistered");
+            File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+
+            Uri uri = Uri.fromFile(pictureFile);
+            if (pictureFile == null){
+                Log.w("EUGWARN_CAM", "Error creating media file, check storage permissions: ");
+                return;
+            }
+
+
+            try {
+                Log.d(TAG, "worked to fileOutput");
+                FileOutputStream fos = new FileOutputStream(pictureFile);
+                fos.write(data);
+                fos.close();
+                Log.w("EUGWARN_CAM", "WriteFiles Finished");
+                sendBack(uri);
+            } catch (FileNotFoundException e) {
+                Log.d(TAG, "File not found: " + e.getMessage());
+            } catch (IOException e) {
+                Log.d(TAG, "Error accessing file: " + e.getMessage());
+            } finally {
+                Log.w("EUGWARN_CAM", "Cam_Finished()");
+                //finish();
+            }
         }
     };
 
     private Bitmap scaleDownBitmapImage(Bitmap bitmap, int newWidth, int newHeight){
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
         return resizedBitmap;
+    }
+
+    private void sendBack(Uri uri){
+        Log.w("EUGWARN_CAM", uri.toString());
+        if (BgData.write(this, MainActivity.TAKE_PIC_FINISHED, uri.toString())){
+            Log.w("EUGWARN_CAM", "value written");
+        }
+        finish();
     }
 
     @Override
@@ -95,5 +169,53 @@ public class CameraActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+        camera.takePicture(null, null, pictureCallback);
+    }
+
+    // Media File Creation
+    /** Create a file Uri for saving an image or video */
+    private static Uri getOutputMediaFileUri(int type){
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    /** Create a File for saving an image or video */
+    private static File getOutputMediaFile(int type){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "Foodiemate");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.d("EUGWARN_CAM", "failed to create directory");
+                return null;
+            }
+        }
+
+        Log.w("EUGWARN_CAM", "HasFolder");
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE){
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_"+ timeStamp + ".jpg");
+            Log.w("EUGWARN_CAM", mediaFile.getAbsolutePath());
+        } else if(type == MEDIA_TYPE_VIDEO) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "VID_"+ timeStamp + ".mp4");
+        } else {
+            return null;
+        }
+
+        return mediaFile;
     }
 }
