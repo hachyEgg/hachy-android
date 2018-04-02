@@ -6,32 +6,27 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.util.Log
+
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 
-import com.facebook.login.LoginManager
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
+import ms.imagine.foodiemate.Presenter.FbAuthStatePresenter
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.data.Egg
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.ValueEventListener
+import ms.imagine.foodiemate.Presenter.FbDatabasePresenter
+import ms.imagine.foodiemate.views.IMainView
 
 
+class MainActivity : BaseActivity(), IMainView {
 
-class MainActivity : BaseActivity(), FirebaseAuth.AuthStateListener {
-    internal lateinit var mDatabase: DatabaseReference
     internal lateinit var txt: TextView
-    private lateinit var mAuth: FirebaseAuth
+    internal lateinit var fbdatabase: FbDatabasePresenter
+    internal lateinit var fbAuthStatePresenter: FbAuthStatePresenter
+    internal lateinit var eggIndex: HashSet<String>
 
     //RecyclerView
     private lateinit var recyclerView: RecyclerView
@@ -43,6 +38,7 @@ class MainActivity : BaseActivity(), FirebaseAuth.AuthStateListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //View System set up
+        eggIndex = HashSet();
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         txt = findViewById(R.id.txt)
@@ -55,22 +51,23 @@ class MainActivity : BaseActivity(), FirebaseAuth.AuthStateListener {
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val i = Intent(this@MainActivity, CameraActivity::class.java)
-            list.add(0,Egg(false));
-            recyclerView.adapter.notifyDataSetChanged();
+            fbdatabase.writeEgg(Egg("cool", System.currentTimeMillis().toString(), "uo"))
+            //recyclerView.adapter.notifyDataSetChanged();
             //startActivity(i)
             //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
 
-        //DB stuff
-        mAuth = FirebaseAuth.getInstance()
-        mDatabase = FirebaseDatabase.getInstance().reference
-        mDatabase.child(mAuth.currentUser?.uid).addValueEventListener(postListener)
+
+
+
+        // FB connection Presenters:
+        fbAuthStatePresenter = FbAuthStatePresenter(this, this)
+        fbdatabase = FbDatabasePresenter(this, this, fbAuthStatePresenter.userState()!!.uid)
+
 
         //Logic
         checkUser()
         list = ArrayList<Egg>();
-
-        //Думмы Дата Думп
         ResViewInit(list);
     }
 
@@ -97,44 +94,20 @@ class MainActivity : BaseActivity(), FirebaseAuth.AuthStateListener {
         */
     }
 
-    var postListener: ValueEventListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot) {
-            // Get Post object and use the values to update the UI
-            val post = dataSnapshot.children.forEach(fun(child){
-                child
-                val egg = Egg(child.child("eggTag").getValue().toString(),
-                        child.child("timestamp").getValue().toString(),
-                        child.child("status").getValue().toString())
-                Log.w("postegg", egg.toString())
-                list.add(egg)
-            })
-            recyclerView.adapter.notifyDataSetChanged()
-
-            // ...
-        }
-
-        override fun onCancelled(databaseError: DatabaseError) {
-            // Getting Post failed, log a message
-            Log.w("post", "loadPost:onCancelled", databaseError.toException())
-            // ...
-        }
-    }
-
-    private fun retrieveEgg(){
-
-    }
-
-
     private fun checkUser() {
-        val b = intent.extras
-        val user = b.get("user") as FirebaseUser?
+        // todo should we even pass user locally at all?
+        var user = intent.extras.get("user") as FirebaseUser?
 
-        if (user == null) {
-            txt.text = "null"
-            finish()
-
-        } else {
-            txt.text = user.uid
+        when {
+            user != null -> txt.text = user.uid
+            fbAuthStatePresenter.userState() !=null -> {
+                user = fbAuthStatePresenter.userState()
+                txt.text = user!!.uid
+            }
+            else -> {
+                txt.text = "null"
+                finish()
+            }
         }
     }
 
@@ -149,33 +122,34 @@ class MainActivity : BaseActivity(), FirebaseAuth.AuthStateListener {
         when (item.itemId) {
             R.id.action_settings -> return true
             R.id.action_signout -> {
-                signOut()
+                fbAuthStatePresenter.signOut();
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
         }
     }
 
-    fun signOut() {
-        mAuth.signOut()
-        FirebaseAuth.getInstance().signOut()
-        LoginManager.getInstance().logOut()
-        Log.w("SIGNs", "not null MAuth")
-
+    override fun signOut() {
         val i = Intent(this@MainActivity, FacebookLoginActivity::class.java)
         i.putExtra(TO_SIGN_OUT, true)
         finish()
         startActivity(i)
     }
 
-    override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {
-        val i = Intent(this@MainActivity, FacebookLoginActivity::class.java)
-        i.putExtra(TO_SIGN_OUT, true)
-        finish()
-        startActivity(i)
+    override fun retrieveEgg(key: String, egg: Egg){
+        if(eggIndex.add(key)){
+            list.add(0,egg)
+            recyclerView.adapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun retrieveEggError(e: DatabaseException) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     companion object {
         const val TO_SIGN_OUT = "sign_out"
     }
 }
+
+

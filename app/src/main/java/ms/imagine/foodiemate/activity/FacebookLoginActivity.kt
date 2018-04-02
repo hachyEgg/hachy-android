@@ -118,8 +118,6 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
                                 Toast.LENGTH_SHORT).show()
                         onLoginStatusChanged()
                     }
-
-                    // ...
                 }
     }
 
