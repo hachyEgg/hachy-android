@@ -11,4 +11,5 @@
     <color name="grey_500">#9E9E9E</color>
     <color name="egg_yellow">#ffd54b</color>
     <color name="egg_white">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>

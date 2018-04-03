@@ -63,18 +63,13 @@
             android:label="@string/title_activity_camera"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.EggDetailActivity"
-            android:label="@string/title_activity_egg_detail"
-            android:parentActivityName=".activity.MainActivity"
+            android:name=".activity.DetailActivity"
+            android:label="@string/title_activity_detail"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ms.imagine.foodiemate.activity.MainActivity" />
         </activity>
-        <activity
-            android:name=".activity.DetailActivity"
-            android:label="@string/title_activity_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

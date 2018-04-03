@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.util.Log
+import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseException
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -42,13 +43,15 @@ class DetailActivity : BaseActivity(), IDetailView, IFbDataBase, IAuthView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         setSupportActionBar(toolbar)
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+
 
 
         egg = intent.extras.get("Egg") as Egg
         titleBox.text = egg.eggtag
         time.text = egg.displayTime()
         status.text = egg.status;
-        key_button.text = "Remove Egg"
+
         toast(egg.imgURL)
 
 
@@ -66,6 +69,15 @@ class DetailActivity : BaseActivity(), IDetailView, IFbDataBase, IAuthView {
                     .load(storageUploadPresenter.imgReference().child(egg.imgURL))
                     .into(imgView)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     fun determineEgg() {

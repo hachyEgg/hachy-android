@@ -13,6 +13,7 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            app:titleTextColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -71,14 +72,15 @@
                 android:textSize="30dp" />
         </LinearLayout>
 
-        <Button
+        <ImageButton
+            android:padding="10dp"
+            android:src="@drawable/save"
+            android:scaleType="fitCenter"
             android:id="@+id/key_button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/egg_yellow"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:background="@color/egg_yellow" />
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

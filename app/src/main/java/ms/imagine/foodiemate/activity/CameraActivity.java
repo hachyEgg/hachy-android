@@ -16,6 +16,7 @@ import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -75,7 +76,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         mImageSurfaceView = new ImageSurfaceView(CameraActivity.this, camera);
         cameraPreviewLayout.addView(mImageSurfaceView);
 
-        Button captureButton = findViewById(R.id.button_tak_pic);
+        ImageButton captureButton = findViewById(R.id.button_tak_pic);
         // lol
         //cameraPreviewLayout.setOnClickListener(this);
         captureButton.setOnClickListener(this);
@@ -213,7 +214,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             return null;
         }
-
         return mediaFile;
     }
 }
