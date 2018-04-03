@@ -20,7 +20,7 @@ class FbDatabasePresenter{
     }
 
     fun writeEgg(egg: Egg){
-        var map = HashMap<String, String>()
+        var map = HashMap<String, Any>()
         map.put("eggTag", egg.eggtag);
         map.put("timestamp", egg.timestamp);
         map.put("status", egg.status);
@@ -34,7 +34,7 @@ class FbDatabasePresenter{
             // Get Post object and use the values to update the UI
             dataSnapshot.children.forEach(fun(child){
                 val egg = Egg(child.child("eggTag").getValue().toString(),
-                        child.child("timestamp").getValue().toString(),
+                        child.child("timestamp").getValue().toString().toLong(),
                         child.child("status").getValue().toString())
                 Log.w("postegg", egg.toString())
                 mainview.retrieveEgg(child.key, egg)

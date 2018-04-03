@@ -8,14 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.data.Egg
-import android.R.attr.onClick
-import android.R.attr.onClick
-import ms.imagine.foodiemate.adapter.ResViewAdapter.OnItemClicked
-
-
-
-
-
 
 
 /**
@@ -68,7 +60,7 @@ class ResViewAdapter(private val myDataset: ArrayList<Egg>) :
         // - replace the contents of the view with that element
         var egg = myDataset[position]
         holder.title.text = egg.eggtag
-        holder.timestamp.text = egg.timestamp
+        holder.timestamp.text = egg.displayTime()
         holder.status.text = egg.status
 
         holder.entity.setOnClickListener { onClick.onItemClick(position) }

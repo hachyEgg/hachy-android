@@ -1,16 +1,13 @@
 package ms.imagine.foodiemate.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -19,8 +16,6 @@ import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,11 +25,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import ms.imagine.foodiemate.R;
 import ms.imagine.foodiemate.utils.BgData;
 import ms.imagine.foodiemate.views.ImageSurfaceView;
-import ms.imagine.foodiemate.R;
-
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
+import ms.imagine.foodiemate.data.Egg;
 
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener{
@@ -146,6 +140,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         if (BgData.write(this, MainActivity.TAKE_PIC_FINISHED, uri.toString())){
             Log.w("EUGWARN_CAM", "value written");
             Intent i = new Intent(CameraActivity.this, DetailActivity.class);
+            i.putExtra("Egg", new Egg("coo", System.currentTimeMillis(), "loooool"));
             startActivity(i);
         }
         finish();

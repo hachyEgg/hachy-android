@@ -2,17 +2,16 @@ package ms.imagine.foodiemate.activity
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
-import ms.imagine.foodiemate.R
-
 import kotlinx.android.synthetic.main.activity_detail.*
+import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.data.Egg
-import ms.imagine.foodiemate.utils.BgData
 
+// There has ato be an egg being passsed into this activity for it to function normally,
+// This could be a sudo Egg, but an egg has to present
+// This Activity display Egg Information
 class DetailActivity : BaseActivity() {
 
     //Following field for creating Egg
-
     //Following field for viewing an egg
 
 
@@ -29,8 +28,8 @@ class DetailActivity : BaseActivity() {
         }
 
 
-        var a = intent.extras.get("Egg") as Egg
-        toast(a.toString())
+        var egg = intent.extras.get("Egg") as Egg
+        toast(egg.toString())
 
     }
 

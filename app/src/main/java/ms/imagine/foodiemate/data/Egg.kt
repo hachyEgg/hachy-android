@@ -8,7 +8,8 @@ import com.google.firebase.database.IgnoreExtraProperties
 import java.sql.Time
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
+
 
 /**
  * Created by eugen on 3/30/2018.
@@ -16,7 +17,7 @@ import java.util.Date
 
 class Egg(): Parcelable {
     var eggtag = "Healthy Egg"
-    var timestamp = "2018-04-20@UTC19:01:22"
+    var timestamp: Long = 100
     var status = "This egg has no embryo development"
 
 
@@ -28,8 +29,14 @@ class Egg(): Parcelable {
         return "EGG: \n\teggtag: "+eggtag +"\n\ttimestamp: "+ timestamp + "\n\tstatus: "+ status;
     }
 
+    fun displayTime(): String{
+        val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
+        val formattedDate = df.format(timestamp)
+        return formattedDate
+    }
 
-    constructor(eggtag: String, timestamp: String, status: String) : this() {
+
+    constructor(eggtag: String, timestamp: Long, status: String) : this() {
         this.eggtag = eggtag
         this.timestamp = timestamp
         this.status = status
@@ -42,27 +49,19 @@ class Egg(): Parcelable {
     constructor(compactString: String) : this() {
         var arr = compactString.split(sep)
         eggtag = arr[0]
-        timestamp = arr[1]
+        timestamp = arr[1].toLong()
         status = arr[2]
-    }
-
-    fun timeStampGenerator() {
-        val yourmilliseconds = System.currentTimeMillis()
-        val sdf = SimpleDateFormat("MMM dd,yyyy HH:mm")
-        val resultdate = Date(yourmilliseconds)
-        timestamp = sdf.format(resultdate)
-        Log.w("TIME", timestamp)
     }
 
     constructor(parcel: Parcel) : this() {
         eggtag = parcel.readString()
-        timestamp = parcel.readString()
+        timestamp = parcel.readLong()
         status = parcel.readString()
     }
 
     override fun writeToParcel(p0: Parcel?, p1: Int) {
         p0?.writeString(eggtag)
-        p0?.writeString(timestamp)
+        p0?.writeLong(timestamp)
         p0?.writeString(status)
     }
 
