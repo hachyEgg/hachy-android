@@ -1,18 +1,20 @@
 package ms.imagine.foodiemate.Presenter
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.database.*
 import ms.imagine.foodiemate.views.IMainView
 import ms.imagine.foodiemate.data.Egg
+import ms.imagine.foodiemate.views.IFbDataBase
 
 class FbDatabasePresenter{
     lateinit var mContext: Context;
-    lateinit var mainview: IMainView;
+    lateinit var mainview: IFbDataBase;
     lateinit var firebaseDB: DatabaseReference;  //usernode here
 
 
-    constructor(context: Context, view: IMainView, _uid:String?){
+    constructor(context: Context, view: IFbDataBase, _uid:String?){
         mainview = view;
         mContext = context
         firebaseDB = FirebaseDatabase.getInstance().reference.child(_uid);
@@ -24,6 +26,7 @@ class FbDatabasePresenter{
         map.put("eggTag", egg.eggtag);
         map.put("timestamp", egg.timestamp);
         map.put("status", egg.status);
+        map.put("imgURL", egg.imgURL);
 
         var leKey = firebaseDB.push().key
         firebaseDB.child(leKey).updateChildren(map as Map<String, Any>?);
@@ -35,7 +38,8 @@ class FbDatabasePresenter{
             dataSnapshot.children.forEach(fun(child){
                 val egg = Egg(child.child("eggTag").getValue().toString(),
                         child.child("timestamp").getValue().toString().toLong(),
-                        child.child("status").getValue().toString())
+                        child.child("status").getValue().toString(),
+                        child.child("imgURL").getValue().toString())
                 Log.w("postegg", egg.toString())
                 mainview.retrieveEgg(child.key, egg)
             })

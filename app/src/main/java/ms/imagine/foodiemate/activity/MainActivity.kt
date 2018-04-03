@@ -23,11 +23,13 @@ import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.data.Egg
 import ms.imagine.foodiemate.Presenter.FbDatabasePresenter
 import ms.imagine.foodiemate.utils.BgData
+import ms.imagine.foodiemate.views.IAuthView
+import ms.imagine.foodiemate.views.IFbDataBase
 import ms.imagine.foodiemate.views.IMainView
 import java.net.URI
 
 
-class MainActivity : BaseActivity(), IMainView, ResViewAdapter.OnItemClicked {
+class MainActivity : BaseActivity(), IMainView, IAuthView, IFbDataBase, ResViewAdapter.OnItemClicked {
 
 
     internal lateinit var txt: TextView

@@ -16,11 +16,11 @@ import ms.imagine.foodiemate.views.IMainView
 
 class FbAuthStatePresenter: FirebaseAuth.AuthStateListener{
     var mContext: Context;
-    var mainview: IMainView;
+    var mainview: IAuthView;
     var mAuth: FirebaseAuth;  //usernode here
 
 
-    constructor(context: Context, view: IMainView){
+    constructor(context: Context, view: IAuthView){
         mainview = view;
         mContext = context
         mAuth = FirebaseAuth.getInstance()
