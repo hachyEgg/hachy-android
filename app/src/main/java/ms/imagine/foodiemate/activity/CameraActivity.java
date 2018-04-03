@@ -145,6 +145,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         Log.w("EUGWARN_CAM", uri.toString());
         if (BgData.write(this, MainActivity.TAKE_PIC_FINISHED, uri.toString())){
             Log.w("EUGWARN_CAM", "value written");
+            Intent i = new Intent(CameraActivity.this, DetailActivity.class);
+            startActivity(i);
         }
         finish();
     }

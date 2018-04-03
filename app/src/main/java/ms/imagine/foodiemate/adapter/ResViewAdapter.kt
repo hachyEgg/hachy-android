@@ -1,5 +1,6 @@
 package ms.imagine.foodiemate.adapter
 
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.data.Egg
+import android.R.attr.onClick
+import android.R.attr.onClick
+import ms.imagine.foodiemate.adapter.ResViewAdapter.OnItemClicked
+
+
+
+
+
+
 
 /**
  * Created by eugen on 3/30/2018.
@@ -14,21 +24,28 @@ import ms.imagine.foodiemate.data.Egg
 class ResViewAdapter(private val myDataset: ArrayList<Egg>) :
         RecyclerView.Adapter<ResViewAdapter.ViewHolder>() {
 
+    private lateinit var onClick: OnItemClicked
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder.
     // Each data item is just a string in this case that is shown in a TextView.
 
-
-
-
+    fun setOnClick(onClick: OnItemClicked) {
+        this.onClick = onClick
+    }
+    interface OnItemClicked {
+        fun onItemClick(position: Int)
+    }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var title: TextView
         var timestamp: TextView
         var status: TextView
+        var entity: CardView
 
         init {
+            entity = view.findViewById<View>(R.id.card_view) as CardView
             title = view.findViewById<View>(R.id.egg_tag) as TextView
             timestamp = view.findViewById<View>(R.id.egg_timestamp) as TextView
             status = view.findViewById<View>(R.id.egg_info) as TextView
@@ -53,9 +70,13 @@ class ResViewAdapter(private val myDataset: ArrayList<Egg>) :
         holder.title.text = egg.eggtag
         holder.timestamp.text = egg.timestamp
         holder.status.text = egg.status
-       // holder.itemView.setTag(99, position);
+
+        holder.entity.setOnClickListener { onClick.onItemClick(position) }
+        // holder.itemView.setTag(99, position);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = myDataset.size
+
+
 }

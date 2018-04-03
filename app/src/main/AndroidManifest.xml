@@ -7,9 +7,12 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-feature android:name="android.hardware.camera" android:required="false"/>
-    <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
-
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -55,7 +58,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.CameraActivity"
             android:label="@string/title_activity_camera"
@@ -69,6 +71,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ms.imagine.foodiemate.activity.MainActivity" />
         </activity>
+        <activity
+            android:name=".activity.DetailActivity"
+            android:label="@string/title_activity_detail"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

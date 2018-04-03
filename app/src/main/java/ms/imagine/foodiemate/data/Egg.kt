@@ -35,6 +35,16 @@ class Egg(): Parcelable {
         this.status = status
     }
 
+    fun zip(): String{
+        return eggtag + sep + timestamp + sep + status;
+    }
+
+    constructor(compactString: String) : this() {
+        var arr = compactString.split(sep)
+        eggtag = arr[0]
+        timestamp = arr[1]
+        status = arr[2]
+    }
 
     fun timeStampGenerator() {
         val yourmilliseconds = System.currentTimeMillis()
@@ -66,5 +76,6 @@ class Egg(): Parcelable {
         override fun newArray(size: Int): Array<Egg?> {
             return arrayOfNulls(size)
         }
+        const val sep = "lolxd";
     }
 }

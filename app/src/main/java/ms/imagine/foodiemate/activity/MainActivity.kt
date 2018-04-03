@@ -12,6 +12,7 @@ import android.util.Log
 
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 
 import com.google.firebase.auth.FirebaseUser
@@ -26,7 +27,8 @@ import ms.imagine.foodiemate.views.IMainView
 import java.net.URI
 
 
-class MainActivity : BaseActivity(), IMainView {
+class MainActivity : BaseActivity(), IMainView, ResViewAdapter.OnItemClicked {
+
 
     internal lateinit var txt: TextView
     internal lateinit var fbdatabase: FbDatabasePresenter
@@ -35,7 +37,7 @@ class MainActivity : BaseActivity(), IMainView {
 
     //RecyclerView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewAdapter: ResViewAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     //List
@@ -58,7 +60,7 @@ class MainActivity : BaseActivity(), IMainView {
             val i = Intent(this@MainActivity, CameraActivity::class.java)
             //fbdatabase.writeEgg(Egg("cool", System.currentTimeMillis().toString(), "uo"))
             //recyclerView.adapter.notifyDataSetChanged();
-            startActivityForResult(i, TAKE_PIC_CAMERA);
+            startActivity(i);
             //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
 
@@ -92,6 +94,7 @@ class MainActivity : BaseActivity(), IMainView {
         viewManager = LinearLayoutManager(this)
         viewAdapter = ResViewAdapter(coolDataHere)
 
+
         recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
@@ -101,13 +104,8 @@ class MainActivity : BaseActivity(), IMainView {
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
         }
+        viewAdapter.setOnClick(this);
 
-        /*recyclerView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                toast(v?.getTag(99).toString());
-            }
-        })
-        */
     }
 
     private fun checkUser() {
@@ -161,11 +159,17 @@ class MainActivity : BaseActivity(), IMainView {
 
     override fun onResume() {
         super.onResume()
+
+        /*
         var a = BgData.retrieve(this, TAKE_PIC_FINISHED, NULL) as String
         if (!a.equals(NULL)) {
-            showEggDetail(a)
+
             toast(a)
+            var i = Intent(this@MainActivity, DetailActivity::class.java)
+            //i.putExtra("Egg", egg);
+            startActivity(i)
         }
+         */
     }
 
     override fun retrieveEggError(e: DatabaseException) {
@@ -173,15 +177,14 @@ class MainActivity : BaseActivity(), IMainView {
     }
 
     override fun showEggDetail(egg: Egg) {
-        var i = Intent(this@MainActivity, EggDetailActivity::class.java)
-        //i.putExtra("Egg", egg);
+        var i = Intent(this@MainActivity, DetailActivity::class.java)
+        i.putExtra("Egg", egg);
         startActivity(i)
     }
 
-    override fun showEggDetail(eggimg: String) {
-        var i = Intent(this@MainActivity, EggDetailActivity::class.java)
-        //i.putExtra(TAKE_PIC_FINISHED, eggimg);
-        startActivity(i)
+    override fun onItemClick(position: Int) {
+        // toast(""+position)
+        showEggDetail(list.get(position));
     }
 
     companion object {
