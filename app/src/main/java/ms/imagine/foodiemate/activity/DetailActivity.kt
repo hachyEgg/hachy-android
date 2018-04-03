@@ -19,6 +19,7 @@ import ms.imagine.foodiemate.views.IDetailView
 import ms.imagine.foodiemate.views.IFbDataBase
 import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.bumptech.glide.Glide
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.StorageReference
 
 
@@ -89,8 +90,20 @@ class DetailActivity : BaseActivity(), IDetailView, IFbDataBase, IAuthView {
 
 
         //write some eggs here
-
+        writeEgg(egg);
         //fbDatabasePresenter.writeEgg(egg)
+    }
+
+    fun writeEgg(egg: Egg){
+        var map = HashMap<String, Any>()
+        map.put("eggTag", egg.eggtag);
+        map.put("timestamp", egg.timestamp);
+        map.put("status", egg.status);
+        map.put("imgURL", egg.imgURL);
+
+        var firebaseDB = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser!!.uid)
+        var leKey = firebaseDB.push().key
+        firebaseDB.child(leKey).updateChildren(map as Map<String, Any>?);
     }
 
     override fun retrieveEgg(key: String, egg: Egg) {
