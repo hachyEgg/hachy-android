@@ -140,6 +140,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         if (BgData.write(this, MainActivity.TAKE_PIC_FINISHED, uri.toString())){
             Log.w("EUGWARN_CAM", "value written");
             Intent i = new Intent(CameraActivity.this, DetailActivity.class);
+            i.putExtra("isNewEgg", true);
             i.putExtra("Egg", new Egg("coo", System.currentTimeMillis(), "loooool"));
             startActivity(i);
         }

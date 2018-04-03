@@ -20,14 +20,65 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_detail" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="?attr/actionBarSize">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+
+        <ImageView
+            android:background="@color/black_overlay"
+            android:id="@+id/imgView"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:src="@drawable/logo_icon"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_below="@+id/imgView"
+            android:layout_above="@+id/key_button"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/titleBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="title"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="title"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="status"
+                android:textSize="30dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/key_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/egg_yellow"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

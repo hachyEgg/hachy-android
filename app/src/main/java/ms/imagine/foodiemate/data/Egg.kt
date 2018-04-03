@@ -20,11 +20,7 @@ class Egg(): Parcelable {
     var timestamp: Long = 100
     var status = "This egg has no embryo development"
 
-
-
     //no data for testing purpose
-
-
     override fun toString(): String {
         return "EGG: \n\teggtag: "+eggtag +"\n\ttimestamp: "+ timestamp + "\n\tstatus: "+ status;
     }
