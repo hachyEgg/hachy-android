@@ -7,8 +7,8 @@ import ms.imagine.foodiemate.views.DbReadCallBacks
 class FbDatabaseWrite: FbDatabasePresenter{
     var callback: DbReadCallBacks
 
-    constructor(cContext: Context, _uid:String?, callBacks: DbReadCallBacks) :
-            super(cContext, _uid) {
+    constructor(_uid:String?, callBacks: DbReadCallBacks) :
+            super(_uid) {
         callback = callBacks
     }
 

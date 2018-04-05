@@ -19,8 +19,4 @@ class FbStorageWrite (private val callback: StWriteCallBacks): FbStoragePresente
             Log.w("EUGWARN_CAM", "successful pic")
         })
     }
-
-    private fun downloadImage(){
-
-    }
 }

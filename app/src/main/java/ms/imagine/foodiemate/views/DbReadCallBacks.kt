@@ -5,5 +5,5 @@ import ms.imagine.foodiemate.data.Egg
 
 interface  DbReadCallBacks {
     fun retrieveEgg(key: String, egg: Egg)
-    fun retrieveEggError(e: DatabaseException)
+    fun retrieveEggError()
 }

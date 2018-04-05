@@ -24,10 +24,9 @@ class AzurePresenter(val context: BaseActivity , val azureCallbacks: AzureCallBa
 
         // Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(context)
-        val url = "http://www.google.com"
 
         // Request a string response from the provided URL.
-        val stringRequest = StringRequest(Request.Method.GET, url,
+        val stringRequest = StringRequest(Request.Method.POST, AZURE_VIEWREC_URL,
                 Response.Listener<String> { response ->
                     // Display the first 500 characters of the response string.
                     context.toast("Response is: ${response.substring(0, 500)}")

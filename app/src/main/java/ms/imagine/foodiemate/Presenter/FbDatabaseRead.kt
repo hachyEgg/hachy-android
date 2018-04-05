@@ -9,8 +9,8 @@ import ms.imagine.foodiemate.views.DbReadCallBacks
 class FbDatabaseRead: FbDatabasePresenter{
     lateinit var callback: DbReadCallBacks
 
-    constructor(cContext: Context, _uid:String?, callBacks: DbReadCallBacks) :
-            super(cContext, _uid) {
+    constructor(_uid:String?, callBacks: DbReadCallBacks) :
+            super( _uid) {
         callback = callBacks
         firebaseDB.addValueEventListener(postListener)
     }
@@ -30,7 +30,7 @@ class FbDatabaseRead: FbDatabasePresenter{
 
         override fun onCancelled(databaseError: DatabaseError) {
             // Getting Post failed, log a message
-            callback.retrieveEggError(databaseError.toException());
+            callback.retrieveEggError();
             Log.w("post", "loadPost:onCancelled", databaseError.toException())
         }
     }
