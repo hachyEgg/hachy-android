@@ -2,7 +2,7 @@ package ms.imagine.foodiemate.views
 
 import android.net.Uri
 
-interface IDetailView {
+interface StWriteCallBacks {
     fun uploadFailed()
     fun uploadSuccess(uri: Uri?)
 }
