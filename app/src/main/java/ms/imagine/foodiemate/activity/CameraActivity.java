@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import ms.imagine.foodiemate.R;
 import ms.imagine.foodiemate.utils.BgData;
+import ms.imagine.foodiemate.utils.Eulog;
 import ms.imagine.foodiemate.views.ImageSurfaceView;
 import ms.imagine.foodiemate.data.Egg;
 
@@ -103,29 +104,29 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             */
             // sendBack();
             //capturedImageHolder.setImageBitmap(scaleDownBitmapImage(bitmap, 300, 300 ));
-            Log.w("EUGWARN_CAM", "pictureCallBackRegistered");
+            Eulog.INSTANCE.w("pictureCallBackRegistered");
             File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
 
             Uri uri = Uri.fromFile(pictureFile);
             if (pictureFile == null){
-                Log.w("EUGWARN_CAM", "Error creating media file, check storage permissions: ");
+                Eulog.INSTANCE.w("Error creating media file, check storage permissions: ");
                 return;
             }
 
 
             try {
-                Log.d(TAG, "worked to fileOutput");
+                Eulog.INSTANCE.d(TAG+ ": worked to fileOutput");
                 FileOutputStream fos = new FileOutputStream(pictureFile);
                 fos.write(data);
                 fos.close();
-                Log.w("EUGWARN_CAM", "WriteFiles Finished");
+                Eulog.INSTANCE.d(TAG + ": WriteFiles Finished");
                 sendBack(uri);
             } catch (FileNotFoundException e) {
-                Log.d(TAG, "File not found: " + e.getMessage());
+                Eulog.INSTANCE.d( TAG + ": File not found: " + e.getMessage());
             } catch (IOException e) {
-                Log.d(TAG, "Error accessing file: " + e.getMessage());
+                Eulog.INSTANCE.d(TAG + ": Error accessing file: " + e.getMessage());
             } finally {
-                Log.w("EUGWARN_CAM", "Cam_Finished()");
+                Eulog.INSTANCE.w(TAG + ": Cam_Finished()");
                 //finish();
             }
         }
@@ -137,12 +138,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void sendBack(Uri uri){
-        Log.w("EUGWARN_CAM", uri.toString());
-        if (BgData.write(this, MainActivity.TAKE_PIC_FINISHED, uri.toString())){
-            Log.w("EUGWARN_CAM", "value written");
+        Eulog.INSTANCE.w( uri.toString());
+        if (BgData.INSTANCE.write(this, MainActivity.TAKE_PIC_FINISHED, uri.toString())){
+            Eulog.INSTANCE.w( "value written");
             Intent i = new Intent(CameraActivity.this, DetailActivity.class);
             i.putExtra("isNewEgg", true);
-            i.putExtra("Egg", new Egg("coo", System.currentTimeMillis(), "loooool"));
+            i.putExtra("Egg", new Egg("coo", System.currentTimeMillis(), 0));
             startActivity(i);
         }
         finish();
@@ -194,12 +195,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         // Create the storage directory if it does not exist
         if (! mediaStorageDir.exists()){
             if (! mediaStorageDir.mkdirs()){
-                Log.d("EUGWARN_CAM", "failed to create directory");
+                Eulog.INSTANCE.d("failed to create directory");
                 return null;
             }
         }
 
-        Log.w("EUGWARN_CAM", "HasFolder");
+        Eulog.INSTANCE.w( "HasFolder");
 
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
@@ -207,7 +208,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         if (type == MEDIA_TYPE_IMAGE){
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
                     "IMG_"+ timeStamp + ".jpg");
-            Log.w("EUGWARN_CAM", mediaFile.getAbsolutePath());
+            Eulog.INSTANCE.w(mediaFile.getAbsolutePath());
         } else if(type == MEDIA_TYPE_VIDEO) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
                     "VID_"+ timeStamp + ".mp4");

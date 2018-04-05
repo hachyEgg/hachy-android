@@ -1,10 +1,12 @@
 package ms.imagine.foodiemate.adapter
 
+import android.content.Context
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.data.Egg
@@ -13,7 +15,7 @@ import ms.imagine.foodiemate.data.Egg
 /**
  * Created by eugen on 3/30/2018.
  */
-class ResViewAdapter(private val myDataset: ArrayList<Egg>) :
+class ResViewAdapter(private val myDataset: ArrayList<Egg>, private val context: Context) :
         RecyclerView.Adapter<ResViewAdapter.ViewHolder>() {
 
     private lateinit var onClick: OnItemClicked
@@ -32,12 +34,14 @@ class ResViewAdapter(private val myDataset: ArrayList<Egg>) :
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var title: TextView
+        var imgView: ImageView
         var timestamp: TextView
         var status: TextView
         var entity: CardView
 
         init {
             entity = view.findViewById<View>(R.id.card_view) as CardView
+            imgView = view.findViewById<View>(R.id.imgview_thumbnail) as ImageView
             title = view.findViewById<View>(R.id.egg_tag) as TextView
             timestamp = view.findViewById<View>(R.id.egg_timestamp) as TextView
             status = view.findViewById<View>(R.id.egg_info) as TextView
@@ -61,8 +65,8 @@ class ResViewAdapter(private val myDataset: ArrayList<Egg>) :
         var egg = myDataset[position]
         holder.title.text = egg.eggtag
         holder.timestamp.text = egg.displayTime()
-        holder.status.text = egg.status
-
+        holder.status.text = egg.displayStatus()
+        holder.imgView.setImageDrawable(egg.displayStatusThumbnail(context))
         holder.entity.setOnClickListener { onClick.onItemClick(position) }
         // holder.itemView.setTag(99, position);
     }

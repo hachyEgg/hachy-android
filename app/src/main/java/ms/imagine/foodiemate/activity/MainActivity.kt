@@ -3,7 +3,6 @@ package ms.imagine.foodiemate.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -12,7 +11,6 @@ import android.util.Log
 
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 
 import com.google.firebase.auth.FirebaseUser
@@ -22,14 +20,12 @@ import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.data.Egg
 import ms.imagine.foodiemate.Presenter.FbDatabasePresenter
-import ms.imagine.foodiemate.utils.BgData
-import ms.imagine.foodiemate.views.IAuthView
-import ms.imagine.foodiemate.views.IFbDataBase
-import ms.imagine.foodiemate.views.IMainView
+import ms.imagine.foodiemate.Presenter.FbDatabaseRead
+import ms.imagine.foodiemate.views.DbReadCallBacks
 import java.net.URI
 
 
-class MainActivity : BaseActivity(), IMainView, IAuthView, IFbDataBase, ResViewAdapter.OnItemClicked {
+class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClicked {
 
 
     internal lateinit var txt: TextView
@@ -62,18 +58,13 @@ class MainActivity : BaseActivity(), IMainView, IAuthView, IFbDataBase, ResViewA
             val i = Intent(this@MainActivity, CameraActivity::class.java)
             //fbdatabase.writeEgg(Egg("cool", System.currentTimeMillis().toString(), "uo"))
             //recyclerView.adapter.notifyDataSetChanged();
-            startActivity(i);
             //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            startActivity(i);
         }
 
-
-
-
-
-
         // FB connection Presenters:
-        fbAuthStatePresenter = FbAuthStatePresenter(this, this)
-        fbdatabase = FbDatabasePresenter(this, this, fbAuthStatePresenter.userState()!!.uid)
+        fbAuthStatePresenter = FbAuthStatePresenter()
+        fbdatabase = FbDatabaseRead(this, fbAuthStatePresenter.userState()!!.uid, this)
 
 
         //Logic
@@ -94,7 +85,7 @@ class MainActivity : BaseActivity(), IMainView, IAuthView, IFbDataBase, ResViewA
 
     private fun ResViewInit(coolDataHere: ArrayList<Egg>){
         viewManager = LinearLayoutManager(this)
-        viewAdapter = ResViewAdapter(coolDataHere)
+        viewAdapter = ResViewAdapter(coolDataHere, this)
 
 
         recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
@@ -139,13 +130,14 @@ class MainActivity : BaseActivity(), IMainView, IAuthView, IFbDataBase, ResViewA
             R.id.action_settings -> return true
             R.id.action_signout -> {
                 fbAuthStatePresenter.signOut();
+                signOut()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
         }
     }
 
-    override fun signOut() {
+    fun signOut() {
         val i = Intent(this@MainActivity, FacebookLoginActivity::class.java)
         i.putExtra(TO_SIGN_OUT, true)
         finish()
@@ -159,26 +151,11 @@ class MainActivity : BaseActivity(), IMainView, IAuthView, IFbDataBase, ResViewA
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        /*
-        var a = BgData.retrieve(this, TAKE_PIC_FINISHED, NULL) as String
-        if (!a.equals(NULL)) {
-
-            toast(a)
-            var i = Intent(this@MainActivity, DetailActivity::class.java)
-            //i.putExtra("Egg", egg);
-            startActivity(i)
-        }
-         */
-    }
-
     override fun retrieveEggError(e: DatabaseException) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showEggDetail(egg: Egg) {
+    fun showEggDetail(egg: Egg) {
         var i = Intent(this@MainActivity, DetailActivity::class.java)
         i.putExtra("Egg", egg);
         startActivity(i)

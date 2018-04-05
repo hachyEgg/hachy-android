@@ -30,7 +30,7 @@ open class BaseActivity : AppCompatActivity() {
         mProgressDialog!!.show()
     }
 
-    fun Context.toast(message: CharSequence) =
+    fun toast(message: CharSequence) =
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
     fun hideProgressDialog() {

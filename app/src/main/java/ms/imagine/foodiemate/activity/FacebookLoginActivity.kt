@@ -21,7 +21,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
 
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
@@ -41,6 +40,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 
 import ms.imagine.foodiemate.R
+import ms.imagine.foodiemate.utils.Eulog
 
 /**
  * Demonstrate Firebase Authentication using a Facebook access token.
@@ -75,17 +75,17 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
         loginButton.setReadPermissions("email", "public_profile")
         loginButton.registerCallback(mCallbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult)
+                Eulog.d(TAG + "facebook:onSuccess:" + loginResult)
                 handleFacebookAccessToken(loginResult.accessToken)
             }
 
             override fun onCancel() {
-                Log.d(TAG, "facebook:onCancel")
+                Eulog.d(TAG + "facebook:onCancel")
                 onLoginStatusChanged()
             }
 
             override fun onError(error: FacebookException) {
-                Log.d(TAG, "facebook:onError", error)
+                Eulog.d(TAG + "facebook:onError"+ error)
                 onLoginStatusChanged()
             }
         })
@@ -109,20 +109,19 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInAnonymously:success")
+                        Eulog.d(TAG + "signInAnonymously:success")
                         onLoginStatusChanged()
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInAnonymously:failure", task.exception)
-                        Toast.makeText(this@FacebookLoginActivity, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
+                        toast("Authentication failed.")
                         onLoginStatusChanged()
                     }
                 }
     }
 
     private fun handleFacebookAccessToken(token: AccessToken) {
-        Log.d(TAG, "handleFacebookAccessToken:" + token)
+        Eulog.d(TAG + "handleFacebookAccessToken:" + token)
         showProgressDialog()
 
         val credential = FacebookAuthProvider.getCredential(token.token)
@@ -130,13 +129,12 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithCredential:success")
+                        Eulog.d(TAG + "signInWithCredential:success")
                         onLoginStatusChanged()
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.exception)
-                        Toast.makeText(this@FacebookLoginActivity, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
+                        toast("Authentication failed.")
                         onLoginStatusChanged()
                     }
                     hideProgressDialog()
@@ -153,7 +151,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
             startActivity(i)
 
         } else {
-            Toast.makeText(this, "Oops, you are logged out", Toast.LENGTH_LONG)
+            toast("Oops, you are logged out")
         }
     }
 
@@ -170,14 +168,12 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
             R.id.btn_sub_facebook -> loginButton.performClick()
             R.id.btn_sub_device -> handleAnynomousSignIn()
             else -> {
+                // do Nothing
             }
         }
-
     }
 
     companion object {
         private val TAG = "FacebookLogin"
     }
-
-
 }

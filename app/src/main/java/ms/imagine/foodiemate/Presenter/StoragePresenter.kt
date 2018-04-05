@@ -50,6 +50,4 @@ class StorageUploadPresenter {
     private fun downloadImage(){
 
     }
-
-
 }

@@ -35,6 +35,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:12.0.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
 
+    // use Volley for http requests
+    implementation 'com.android.volley:volley:1.1.0'
     // Facebook Android SDK (only required for Facebook Login)
     // Used in FacebookLoginActivity.
     implementation 'com.facebook.android:facebook-login:4.31.0'
