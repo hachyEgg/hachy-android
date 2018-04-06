@@ -10,13 +10,16 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import ms.imagine.foodiemate.Presenter.AzurePresenter
 import ms.imagine.foodiemate.Presenter.FbAuthStatePresenter
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.data.Egg
 import ms.imagine.foodiemate.Presenter.FbDatabasePresenter
 import ms.imagine.foodiemate.Presenter.FbDatabaseRead
+import ms.imagine.foodiemate.callbacks.AzureCallBacks
 import ms.imagine.foodiemate.callbacks.DbReadCallBacks
+import ms.imagine.foodiemate.data.EggStagePossibility
 import java.net.URI
 
 
@@ -32,6 +35,18 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        var rando = AzurePresenter(object : AzureCallBacks{
+            override fun onAzureSuccess(eggStagePossibility: EggStagePossibility) {
+                println()
+            }
+
+            override fun onAzureFailure() {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        })
+        rando.dispatch(AzurePresenter.TEST_IMG_URL)
 
         //fab icon
         val fab = findViewById<FloatingActionButton>(R.id.fab)

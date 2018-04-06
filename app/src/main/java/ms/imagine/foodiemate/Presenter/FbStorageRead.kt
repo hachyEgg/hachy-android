@@ -21,4 +21,5 @@ class FbStorageRead (private val callback: StReadCallBacks): FbStoragePresenter(
             return null
         }
     }
+
 }

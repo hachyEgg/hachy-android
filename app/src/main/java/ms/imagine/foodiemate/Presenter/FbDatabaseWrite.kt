@@ -2,11 +2,12 @@ package ms.imagine.foodiemate.Presenter
 
 import ms.imagine.foodiemate.data.Egg
 import ms.imagine.foodiemate.callbacks.DbReadCallBacks
+import ms.imagine.foodiemate.callbacks.DbWriteCallBacks
 
 class FbDatabaseWrite: FbDatabasePresenter{
-    var callback: DbReadCallBacks
+    var callback: DbWriteCallBacks
 
-    constructor(_uid:String?, callBacks: DbReadCallBacks) :
+    constructor(_uid:String?, callBacks: DbWriteCallBacks) :
             super(_uid) {
         callback = callBacks
     }
@@ -19,6 +20,8 @@ class FbDatabaseWrite: FbDatabasePresenter{
         map.put("imgURL", egg.imgURL)
 
         var leKey = firebaseDB.push().key
-        firebaseDB.child(leKey).updateChildren(map as Map<String, Any>?);
+        firebaseDB.child(leKey).updateChildren(map as Map<String, Any>?)
+                .addOnCompleteListener { callback.hashCode() }
+                .addOnFailureListener {  }
     }
 }

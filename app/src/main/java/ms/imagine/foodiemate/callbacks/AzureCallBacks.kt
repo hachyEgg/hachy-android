@@ -1,5 +1,8 @@
 package ms.imagine.foodiemate.callbacks
 
-interface AzureCallBacks{
+import ms.imagine.foodiemate.data.EggStagePossibility
 
+interface AzureCallBacks{
+    fun onAzureSuccess(eggStagePossibility: EggStagePossibility);
+    fun onAzureFailure();
 }
