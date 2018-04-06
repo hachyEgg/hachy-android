@@ -1,5 +1,6 @@
 package ms.imagine.foodiemate.data
 
+import org.json.JSONObject
 import kotlin.math.max
 
 class EggStagePossibility {
@@ -12,9 +13,5 @@ class EggStagePossibility {
     fun waEgg():Int = stage.indices.maxBy { stage[it] } ?: -1
     companion object {
         const val IS_EGG = 0.11;
-
-        fun create(src: String): EggStagePossibility{
-            return EggStagePossibility()
-        }
     }
 }

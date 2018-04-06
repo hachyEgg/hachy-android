@@ -31,22 +31,9 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
     private lateinit var list: ArrayList<Egg>;
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //View System set up
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        var rando = AzurePresenter(object : AzureCallBacks{
-            override fun onAzureSuccess(eggStagePossibility: EggStagePossibility) {
-                println()
-            }
-
-            override fun onAzureFailure() {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-        })
-        rando.dispatch(AzurePresenter.TEST_IMG_URL)
 
         //fab icon
         val fab = findViewById<FloatingActionButton>(R.id.fab)

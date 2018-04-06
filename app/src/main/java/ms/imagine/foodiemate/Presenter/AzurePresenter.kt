@@ -1,12 +1,15 @@
 package ms.imagine.foodiemate.Presenter
 
 
-import android.util.Log
-import ms.imagine.foodiemate.activity.BaseActivity
 import ms.imagine.foodiemate.callbacks.AzureCallBacks
-import ms.imagine.foodiemate.data.EggStagePossibility
 import ms.imagine.foodiemate.utils.Eulog
-import okhttp3.*
+import okhttp3.MediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.Callback
+import okhttp3.Call
+import okhttp3.Response
 import java.io.IOException
 
 class AzurePresenter(val callBacks: AzureCallBacks) {
@@ -21,7 +24,8 @@ class AzurePresenter(val callBacks: AzureCallBacks) {
     }
 
     fun dispatch(link: String) {
-
+        Eulog.w("yes_dispatch")
+        println("YES_dispatch")
         var client = OkHttpClient();
         var mediaType= MediaType.parse("application/json");
         var body = RequestBody.create(mediaType, body(link));
@@ -30,20 +34,19 @@ class AzurePresenter(val callBacks: AzureCallBacks) {
                 .post(body)
                 .addHeader("prediction-key", "4e26554b300f47478e5c880d2a6492d7")
                 .addHeader("content-type", "application/json")
-                .build();
-        Log.d("EUGWARN", "Async request")
+                .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) = callBacks.onAzureFailure()
             override fun onResponse(call: Call, response: Response){
                 val str = response.body()?.string()
                 if (str != null && response.code() == 200  ) {
-                    var q = EggStagePossibility.create(str)
-                    callBacks.onAzureSuccess(q)
+                    println("Success" + str);
+                    callBacks.onAzureSuccess(str)
                 } else {
                     callBacks.onAzureFailure()
+
                 }
-                println(response.body()?.string())
             }
         })
 

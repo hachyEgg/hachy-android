@@ -9,9 +9,7 @@ import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.activity.MainActivity.Companion.NULL
 import ms.imagine.foodiemate.data.Egg
 import ms.imagine.foodiemate.utils.BgData
-import com.firebase.ui.storage.images.FirebaseImageLoader
-import com.bumptech.glide.Glide
-import com.google.firebase.storage.StorageReference
+import ms.imagine.foodiemate.Presenter.AzurePresenter
 import ms.imagine.foodiemate.Presenter.FbAuthStatePresenter
 import ms.imagine.foodiemate.Presenter.FbDatabaseWrite
 import ms.imagine.foodiemate.Presenter.FbStorageWrite
@@ -25,6 +23,7 @@ import ms.imagine.foodiemate.data.EggStagePossibility
 class DetailActivity : BaseActivity(), StWriteCallBacks, DbWriteCallBacks, AzureCallBacks {
     private lateinit var storagePresenter: FbStorageWrite
     private lateinit var databaseWrite: FbDatabaseWrite;
+    private lateinit var azure: AzurePresenter;
     private lateinit var egg: Egg
     private lateinit var uriImg: String
 
@@ -35,6 +34,7 @@ class DetailActivity : BaseActivity(), StWriteCallBacks, DbWriteCallBacks, Azure
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
         storagePresenter = FbStorageWrite( this)
         databaseWrite = FbDatabaseWrite(FbAuthStatePresenter().userState()!!.uid, this)
+        azure = AzurePresenter(this)
 
         egg = intent.extras.get("Egg") as Egg
         titleBox.text = egg.eggtag
@@ -78,19 +78,22 @@ class DetailActivity : BaseActivity(), StWriteCallBacks, DbWriteCallBacks, Azure
 
     override fun uploadSuccess(uri: Uri?) {
         hideProgressDialog() // cannot stop here, still gotta do recognition
-        Log.w("EUGWARN_CAM", uri.toString());
-        toast(""+uri.toString())
+        Log.w("EUGWARN_CAM", uri.toString())
+
+        val remote_url = uri.toString()
+        toast(""+remote_url)
         egg.imgURL = uriImg
-        //determine egg before write egg
 
 
-        //write to DB afterwards
-        databaseWrite.writeEgg(egg)
+
+        azure.dispatch(remote_url);
+        //write to DB afterwards  even more ...
     }
 
     // DBWrite Good or bad
     override fun onDbWriteSuccess() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onDbWriteFailure() {
@@ -98,11 +101,13 @@ class DetailActivity : BaseActivity(), StWriteCallBacks, DbWriteCallBacks, Azure
     }
 
     // Azure stuff
-    override fun onAzureSuccess(eggStagePossibility: EggStagePossibility) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onAzureSuccess(str: String) {
+        // hideProgressDialog()
+        println(str)
+        databaseWrite.writeEgg(egg)
     }
 
     override fun onAzureFailure() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // hideProgressDialog()
     }
 }
