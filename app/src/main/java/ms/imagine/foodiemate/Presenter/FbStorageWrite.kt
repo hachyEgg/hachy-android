@@ -10,21 +10,26 @@ import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_detail.*
 import ms.imagine.foodiemate.callbacks.StWriteCallBacks
+import ms.imagine.foodiemate.utils.Time
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FbStorageWrite (private val callback: StWriteCallBacks): FbStoragePresenter() {
 
     fun uploadImage(uri: Uri) {
         val riversRef = imagesRef.child(uri.lastPathSegment)
         var uploadTask = riversRef.putFile(uri)
-
-        uploadTask.addOnFailureListener({
-            it->it.printStackTrace()
-            callback.uploadFailed()
-        }).addOnSuccessListener({ taskSnapshot ->
+        println ("UPLOADING("+ Time.timehrs()+ "): started")
+        uploadTask.addOnSuccessListener({ taskSnapshot ->
             val downloadUrl = taskSnapshot.downloadUrl
             callback.uploadSuccess(downloadUrl);
-            Log.w("EUGWARN_CAM", "successful pic")
+            println("UPLOADING("+ Time.timehrs()+ "): finished")
         })
+
+        uploadTask.addOnProgressListener {
+            taskSnapshot ->
+            println ("UPLOADING("+ Time.timehrs()+ "): " + taskSnapshot.bytesTransferred)
+        }
     }
 
     fun downloadImage(context: Context, imgURL: String, imgView:ImageView){

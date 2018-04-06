@@ -14,6 +14,7 @@
         android:id="@+id/pb1"
         android:layout_marginTop="?attr/actionBarSize"
         style="?android:attr/progressBarStyleHorizontal"
+        android:visibility="gone"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:indeterminate="true"

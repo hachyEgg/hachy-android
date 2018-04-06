@@ -95,7 +95,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun handleAnynomousSignIn() {
-        mAuth!!.signInAnonymously()
+        mAuth.signInAnonymously()
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
@@ -115,7 +115,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
         showProgressDialog()
 
         val credential = FacebookAuthProvider.getCredential(token.token)
-        mAuth!!.signInWithCredential(credential)
+        mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information

@@ -30,12 +30,15 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+
         android:indeterminate="true"
         android:max="100"
         android:backgroundTint="@color/egg_white"
         android:layout_below="@+id/framelauout"
         android:indeterminateTint="#1a09d6"
         />
+    <!--android:visibility="gone"-->
+
 
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="?attr/actionBarSize"

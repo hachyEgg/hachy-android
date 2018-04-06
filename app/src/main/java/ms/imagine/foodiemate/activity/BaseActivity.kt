@@ -4,11 +4,7 @@ package ms.imagine.foodiemate.activity
  * Created by eugen on 3/26/2018.
  */
 
-
-import android.app.ProgressDialog
 import android.content.Context
-import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.annotation.VisibleForTesting
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -24,7 +20,6 @@ import android.widget.ProgressBar
 open class BaseActivity : AppCompatActivity() {
 
     @VisibleForTesting
-    var mProgressDialog: ProgressDialog? = null
     var progressBar: ProgressBar? = null
 
     fun showProgressDialog() {
@@ -39,6 +34,7 @@ open class BaseActivity : AppCompatActivity() {
 
     fun hideProgressDialog() {
         if (progressBar != null) {
+            progressBar!!.visibility = View.INVISIBLE     // To Hide ProgressBar
             progressBar!!.visibility = View.GONE     // To Hide ProgressBar
         }
     }
