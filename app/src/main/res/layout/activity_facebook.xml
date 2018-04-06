@@ -9,6 +9,20 @@
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
+
+    <ProgressBar
+        android:id="@+id/pb1"
+        android:layout_marginTop="?attr/actionBarSize"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:max="100"
+        android:backgroundTint="@color/egg_white"
+        android:layout_below="@+id/framelauout"
+        android:indeterminateTint="#1a09d6"
+        />
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

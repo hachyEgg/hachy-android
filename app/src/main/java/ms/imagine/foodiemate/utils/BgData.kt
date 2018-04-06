@@ -9,6 +9,8 @@ import android.preference.PreferenceManager
 object BgData {
     internal lateinit var sp: SharedPreferences
 
+
+
     private fun init(context: Context) {
         sp = PreferenceManager.getDefaultSharedPreferences(context)
     }

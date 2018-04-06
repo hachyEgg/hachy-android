@@ -21,7 +21,21 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+
     </android.support.design.widget.AppBarLayout>
+
+    <ProgressBar
+        android:id="@+id/pb1"
+        android:layout_marginTop="?attr/actionBarSize"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:max="100"
+        android:backgroundTint="@color/egg_white"
+        android:layout_below="@+id/framelauout"
+        android:indeterminateTint="#1a09d6"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="?attr/actionBarSize"

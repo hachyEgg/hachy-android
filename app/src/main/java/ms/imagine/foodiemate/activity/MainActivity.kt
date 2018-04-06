@@ -20,6 +20,7 @@ import ms.imagine.foodiemate.Presenter.FbDatabaseRead
 import ms.imagine.foodiemate.callbacks.AzureCallBacks
 import ms.imagine.foodiemate.callbacks.DbReadCallBacks
 import ms.imagine.foodiemate.data.EggStagePossibility
+import ms.imagine.foodiemate.utils.BgData
 import java.net.URI
 
 
@@ -54,10 +55,27 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        println("OnREsult")
         if (requestCode == TAKE_PIC_CAMERA){
             if (resultCode == Activity.RESULT_OK){
                 val uri = data?.extras?.get(TAKE_PIC_FINISHED) as URI;
                 Log.w("EUGWARN_CAM", uri.toString())
+            }
+        } else if (requestCode == SELECT_PIC_LOCAL) {
+            println("selectLocal")
+            if (resultCode == Activity.RESULT_OK){
+                println("imgSelect_OK")
+                val uri = data?.data
+                if (uri!=null ) {
+                    println("uri.notnull")
+                    // got to detailed View Here
+                    BgData.write(this, TAKE_PIC_FINISHED, uri.toString())
+                    val i = Intent(this@MainActivity, DetailActivity::class.java)
+                    i.putExtra("isNewEgg", true)
+                    i.putExtra("Egg", Egg("coo", System.currentTimeMillis(), 0))
+                    startActivity(i)
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
@@ -86,6 +104,19 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
             R.id.action_signout -> {
                 fbAuthStatePresenter.signOut();
                 signOut()
+                return true
+            }
+            R.id.action_imageselect -> {
+                val getIntent = Intent(Intent.ACTION_GET_CONTENT)
+                getIntent.type = "image/*"
+
+                val pickIntent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                pickIntent.type = "image/*"
+
+                val chooserIntent = Intent.createChooser(getIntent, "Select Image")
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
+
+                startActivityForResult(chooserIntent, SELECT_PIC_LOCAL)
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
@@ -124,6 +155,7 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
     companion object {
         const val TO_SIGN_OUT = "sign_out"
         const val TAKE_PIC_CAMERA = 0x9
+        const val SELECT_PIC_LOCAL = 0x7
         const val TAKE_PIC_FINISHED = "picTaken"
         const val NULL = "null_Found"
     }
