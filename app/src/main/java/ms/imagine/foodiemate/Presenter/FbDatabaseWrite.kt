@@ -1,8 +1,7 @@
 package ms.imagine.foodiemate.Presenter
 
-import android.content.Context
 import ms.imagine.foodiemate.data.Egg
-import ms.imagine.foodiemate.views.DbReadCallBacks
+import ms.imagine.foodiemate.callbacks.DbReadCallBacks
 
 class FbDatabaseWrite: FbDatabasePresenter{
     var callback: DbReadCallBacks

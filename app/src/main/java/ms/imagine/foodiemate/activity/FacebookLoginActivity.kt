@@ -38,6 +38,7 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
+import kotlinx.android.synthetic.main.activity_facebook.*
 
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.utils.Eulog
@@ -46,11 +47,7 @@ import ms.imagine.foodiemate.utils.Eulog
  * Demonstrate Firebase Authentication using a Facebook access token.
  */
 class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
-
     private lateinit var mAuth: FirebaseAuth
-    private lateinit var mBtnDevice: Button
-    private lateinit var mBtnFacebook: Button
-    private lateinit var loginButton: LoginButton
 
 
     // mAuth declared in BaseActivity
@@ -58,22 +55,15 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FacebookSdk.sdkInitialize(applicationContext)
         setContentView(R.layout.activity_facebook)
+        btn_sub_facebook.setOnClickListener(this)
+        btn_sub_device.setOnClickListener(this)
 
-        mBtnDevice = findViewById(R.id.btn_sub_device)
-        mBtnFacebook = findViewById(R.id.btn_sub_facebook)
-        mBtnFacebook.setOnClickListener(this)
-        mBtnDevice.setOnClickListener(this)
-
-        // Initialize Firebase Auth
+        //Firebase Auth
         mAuth = FirebaseAuth.getInstance()
-
-        // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create()
-        loginButton = findViewById(R.id.button_facebook_login)
-        loginButton.setReadPermissions("email", "public_profile")
-        loginButton.registerCallback(mCallbackManager, object : FacebookCallback<LoginResult> {
+        button_facebook_login.setReadPermissions("email", "public_profile")
+        button_facebook_login.registerCallback(mCallbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 Eulog.d(TAG + "facebook:onSuccess:" + loginResult)
                 handleFacebookAccessToken(loginResult.accessToken)
@@ -98,7 +88,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
         onLoginStatusChanged()
     }
 
-    // call facebook activity for signin operation
+    // Received Result from FB
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
         mCallbackManager!!.onActivityResult(requestCode, resultCode, data)
@@ -133,7 +123,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
                         onLoginStatusChanged()
                     } else {
                         // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithCredential:failure", task.exception)
+                        Eulog.d(TAG + "signInWithCredential:failure\n" + task.exception)
                         toast("Authentication failed.")
                         onLoginStatusChanged()
                     }
@@ -143,33 +133,21 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
 
 
     private fun onLoginStatusChanged() {
-        val user = mAuth!!.currentUser
+        val user = mAuth.currentUser
         if (user != null) {
             val i = Intent(this@FacebookLoginActivity, MainActivity::class.java)
             i.putExtra("user", user)
             finish()
             startActivity(i)
-
         } else {
             toast("Oops, you are logged out")
         }
     }
 
-    // This is how you sign out
-    // signout not used in this activity
-    fun signOut() {
-        mAuth!!.signOut()
-        LoginManager.getInstance().logOut()
-        onLoginStatusChanged()
-    }
-
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.btn_sub_facebook -> loginButton.performClick()
+            R.id.btn_sub_facebook -> button_facebook_login.performClick()
             R.id.btn_sub_device -> handleAnynomousSignIn()
-            else -> {
-                // do Nothing
-            }
         }
     }
 

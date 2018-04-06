@@ -1,13 +1,12 @@
 package ms.imagine.foodiemate.Presenter
 
-import android.content.Context
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import ms.imagine.foodiemate.activity.BaseActivity
 
-import ms.imagine.foodiemate.views.AzureCallBacks
+import ms.imagine.foodiemate.callbacks.AzureCallBacks
 
 class AzurePresenter(val context: BaseActivity , val azureCallbacks: AzureCallBacks) {
     companion object {

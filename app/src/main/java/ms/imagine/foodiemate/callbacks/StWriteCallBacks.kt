@@ -1,4 +1,4 @@
-package ms.imagine.foodiemate.views
+package ms.imagine.foodiemate.callbacks
 
 import android.net.Uri
 

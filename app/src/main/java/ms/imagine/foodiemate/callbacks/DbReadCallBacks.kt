@@ -1,6 +1,5 @@
-package ms.imagine.foodiemate.views
+package ms.imagine.foodiemate.callbacks
 
-import com.google.firebase.database.DatabaseException
 import ms.imagine.foodiemate.data.Egg
 
 interface  DbReadCallBacks {

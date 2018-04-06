@@ -10,7 +10,6 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_detail.*
-import ms.imagine.foodiemate.Presenter.FbStoragePresenter
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.activity.MainActivity.Companion.NULL
 import ms.imagine.foodiemate.data.Egg
@@ -20,7 +19,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.StorageReference
 import ms.imagine.foodiemate.Presenter.FbStorageWrite
-import ms.imagine.foodiemate.views.StWriteCallBacks
+import ms.imagine.foodiemate.callbacks.StWriteCallBacks
 
 
 // Note: must have an Egg for this activity (hint: create a fake egg)

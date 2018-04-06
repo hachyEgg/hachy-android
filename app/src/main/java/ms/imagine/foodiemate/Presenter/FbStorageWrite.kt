@@ -2,7 +2,7 @@ package ms.imagine.foodiemate.Presenter
 
 import android.net.Uri
 import android.util.Log
-import ms.imagine.foodiemate.views.StWriteCallBacks
+import ms.imagine.foodiemate.callbacks.StWriteCallBacks
 
 class FbStorageWrite (private val callback: StWriteCallBacks): FbStoragePresenter() {
 
