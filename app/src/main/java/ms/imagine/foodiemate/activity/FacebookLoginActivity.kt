@@ -112,7 +112,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
 
     private fun handleFacebookAccessToken(token: AccessToken) {
         Eulog.d(TAG + "handleFacebookAccessToken:" + token)
-        showProgressDialog()
+        pb1.visibility = View.VISIBLE
 
         val credential = FacebookAuthProvider.getCredential(token.token)
         mAuth.signInWithCredential(credential)
@@ -127,7 +127,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
                         toast("Authentication failed.")
                         onLoginStatusChanged()
                     }
-                    hideProgressDialog()
+                    pb1.visibility = View.GONE
                 }
     }
 

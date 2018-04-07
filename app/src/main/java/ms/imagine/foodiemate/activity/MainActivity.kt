@@ -10,16 +10,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
-import ms.imagine.foodiemate.Presenter.AzurePresenter
 import ms.imagine.foodiemate.Presenter.FbAuthStatePresenter
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.data.Egg
 import ms.imagine.foodiemate.Presenter.FbDatabasePresenter
 import ms.imagine.foodiemate.Presenter.FbDatabaseRead
-import ms.imagine.foodiemate.callbacks.AzureCallBacks
 import ms.imagine.foodiemate.callbacks.DbReadCallBacks
-import ms.imagine.foodiemate.data.EggStagePossibility
 import ms.imagine.foodiemate.utils.BgData
 import java.net.URI
 
@@ -69,6 +66,9 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
                 val uri = data?.data
                 if (uri!=null ) {
                     println("uri.notnull")
+
+                    // No need to zip hence ignored here
+                    //var uris = Image.createImage(uri);
                     // got to detailed View Here
                     BgData.write(this, TAKE_PIC_FINISHED, uri.toString())
                     val i = Intent(this@MainActivity, DetailActivity::class.java)

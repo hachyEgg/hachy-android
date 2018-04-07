@@ -1,9 +1,11 @@
 package ms.imagine.foodiemate.activity
 
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import kotlinx.android.synthetic.main.activity_detail.*
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.activity.MainActivity.Companion.NULL
@@ -16,7 +18,9 @@ import ms.imagine.foodiemate.Presenter.FbStorageWrite
 import ms.imagine.foodiemate.callbacks.AzureCallBacks
 import ms.imagine.foodiemate.callbacks.DbWriteCallBacks
 import ms.imagine.foodiemate.callbacks.StWriteCallBacks
-import ms.imagine.foodiemate.data.EggStagePossibility
+import ms.imagine.foodiemate.data.EggStages
+
+
 
 
 // Note: must have an Egg for this activity (hint: create a fake egg)
@@ -66,18 +70,18 @@ class DetailActivity : BaseActivity(), StWriteCallBacks, DbWriteCallBacks, Azure
         uriImg = uri.lastPathSegment.toString()
         imgView.setImageURI(uri)
         storagePresenter.uploadImage(uri)
-        showProgressDialog()
+        pb1.visibility = View.VISIBLE
     }
 
 
     //Storage Upload good or bad
     override fun uploadFailed() {
-        hideProgressDialog()
+        pb1.visibility = View.GONE
         toast("failed")
     }
 
     override fun uploadSuccess(uri: Uri?) {
-        hideProgressDialog() // cannot stop here, still gotta do recognition
+        // pb1.visibility = View.GONE // cannot stop here, still gotta do recognition
         Log.w("EUGWARN_CAM", uri.toString())
 
         val remote_url = uri.toString()
@@ -102,12 +106,48 @@ class DetailActivity : BaseActivity(), StWriteCallBacks, DbWriteCallBacks, Azure
 
     // Azure stuff
     override fun onAzureSuccess(str: String) {
-        // hideProgressDialog()
-        println(str)
+        println("beforeHide")
+        //pb1.visibility = View.GONE
+        println("backInCallBacc")
+
+        val egS = EggStages(str)
+        println("After EggStageCration")
+
+        if (egS.isEgg()) {
+            egg.status = egS.waEgg() + 1;
+        } else {
+            egg.status = 0
+        }
+        //toast(egg.displayStatus())
+        val state = egg.displayStatus();
+        println("status: " + state)
+
         databaseWrite.writeEgg(egg)
+        println("After writeEgg")
+
+        try {
+            runOnUiThread({
+                pb1.visibility = View.GONE
+                status.text = state
+            })
+        } catch (e:Exception){
+
+        }
+
+
+        /*
+        status.text = egg.displayStatus()
+        println("After updateEggStatus")
+
+
+        */
+    }
+
+    fun updateEggStatus(egS: EggStages){
+
     }
 
     override fun onAzureFailure() {
-        // hideProgressDialog()
+        pb1.visibility = View.GONE
     }
 }
