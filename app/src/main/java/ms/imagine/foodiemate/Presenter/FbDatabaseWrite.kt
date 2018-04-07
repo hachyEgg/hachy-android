@@ -1,8 +1,7 @@
 package ms.imagine.foodiemate.Presenter
 
-import ms.imagine.foodiemate.data.Egg
-import ms.imagine.foodiemate.callbacks.DbReadCallBacks
 import ms.imagine.foodiemate.callbacks.DbWriteCallBacks
+import ms.imagine.foodiemate.data.Egg
 
 class FbDatabaseWrite: FbDatabasePresenter{
     var callback: DbWriteCallBacks

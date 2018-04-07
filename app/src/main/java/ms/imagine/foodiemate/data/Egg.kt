@@ -2,16 +2,10 @@ package ms.imagine.foodiemate.data
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.v4.content.ContextCompat
-import android.util.Log
-import com.google.firebase.database.IgnoreExtraProperties
 import ms.imagine.foodiemate.R
-
-import java.sql.Time
-import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 

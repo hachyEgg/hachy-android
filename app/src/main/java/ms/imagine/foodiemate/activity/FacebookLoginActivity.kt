@@ -20,26 +20,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
-import com.facebook.FacebookSdk
-import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
 import kotlinx.android.synthetic.main.activity_facebook.*
-
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.utils.Eulog
 
@@ -95,6 +83,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun handleAnynomousSignIn() {
+        pb1.visibility = View.VISIBLE
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -133,6 +122,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
 
 
     private fun onLoginStatusChanged() {
+        pb1.visibility = View.GONE
         val user = mAuth.currentUser
         if (user != null) {
             val i = Intent(this@FacebookLoginActivity, MainActivity::class.java)
@@ -140,7 +130,8 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
             finish()
             startActivity(i)
         } else {
-            toast("Oops, you are logged out")
+            //toast("Oops, you are logged out")
+            // user would be expected to know that they are logged out
         }
     }
 

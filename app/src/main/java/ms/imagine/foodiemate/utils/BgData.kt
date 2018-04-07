@@ -6,24 +6,23 @@ import android.preference.PreferenceManager
 
 //Used for Retrieving background data
 
-object BgData {
+class BgData(val context: Context) {
     internal lateinit var sp: SharedPreferences
 
 
 
-    private fun init(context: Context) {
+    init{
         sp = PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     // get data but does not modify obtained data
-    operator fun get(context: Context, key: String, defualtValue: String): String {
-        init(context)
+    operator fun get(key: String, defualtValue: String): String {
         return sp.getString(key, defualtValue)
     }
 
     // get data and reset it to natural value
     fun retrieve(context: Context, key: String, naturalValue: String): String {
-        val value = get(context, key, naturalValue)
+        val value = get(key, naturalValue)
         if (value != naturalValue) {
             sp.edit().putString(key, naturalValue).apply()
         }
@@ -31,8 +30,7 @@ object BgData {
     }
 
     // write given Value, and check if correctly Written
-    fun write(context: Context, key: String, toWriteValue: String): Boolean {
-        init(context)
+    fun write(key: String, toWriteValue: String): Boolean {
         sp.edit().putString(key, toWriteValue).apply()
         return sp.getString(key, "null") == toWriteValue
     }

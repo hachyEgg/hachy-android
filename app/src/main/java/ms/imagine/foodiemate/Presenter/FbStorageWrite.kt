@@ -1,18 +1,13 @@
 package ms.imagine.foodiemate.Presenter
 
 import android.content.Context
-import android.media.Image
 import android.net.Uri
-import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.storage.StorageReference
-import kotlinx.android.synthetic.main.activity_detail.*
 import ms.imagine.foodiemate.callbacks.StWriteCallBacks
 import ms.imagine.foodiemate.utils.Time
-import java.text.SimpleDateFormat
-import java.util.*
 
 class FbStorageWrite (private val callback: StWriteCallBacks): FbStoragePresenter() {
 

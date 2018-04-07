@@ -3,13 +3,7 @@ package ms.imagine.foodiemate.Presenter
 
 import ms.imagine.foodiemate.callbacks.AzureCallBacks
 import ms.imagine.foodiemate.utils.Eulog
-import okhttp3.MediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.Callback
-import okhttp3.Call
-import okhttp3.Response
+import okhttp3.*
 import java.io.IOException
 
 class AzurePresenter(val callBacks: AzureCallBacks) {

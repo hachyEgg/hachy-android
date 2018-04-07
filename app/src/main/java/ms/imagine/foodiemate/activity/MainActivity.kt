@@ -6,18 +6,16 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import ms.imagine.foodiemate.Presenter.FbAuthStatePresenter
-import ms.imagine.foodiemate.R
-import ms.imagine.foodiemate.adapter.ResViewAdapter
-import ms.imagine.foodiemate.data.Egg
 import ms.imagine.foodiemate.Presenter.FbDatabasePresenter
 import ms.imagine.foodiemate.Presenter.FbDatabaseRead
+import ms.imagine.foodiemate.R
+import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.callbacks.DbReadCallBacks
-import ms.imagine.foodiemate.utils.BgData
+import ms.imagine.foodiemate.data.Egg
 import java.net.URI
 
 
@@ -70,7 +68,7 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
                     // No need to zip hence ignored here
                     //var uris = Image.createImage(uri);
                     // got to detailed View Here
-                    BgData.write(this, TAKE_PIC_FINISHED, uri.toString())
+                    bG.write(TAKE_PIC_FINISHED, uri.toString())
                     val i = Intent(this@MainActivity, DetailActivity::class.java)
                     i.putExtra("isNewEgg", true)
                     i.putExtra("Egg", Egg("coo", System.currentTimeMillis(), 0))

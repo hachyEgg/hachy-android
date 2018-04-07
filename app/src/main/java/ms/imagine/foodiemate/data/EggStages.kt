@@ -1,8 +1,6 @@
 package ms.imagine.foodiemate.data
 
-import android.webkit.JsPromptResult
 import org.json.JSONObject
-import kotlin.math.max
 
 class EggStages(json: String) {
     val jsonParent: JSONObject

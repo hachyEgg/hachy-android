@@ -5,20 +5,15 @@ package ms.imagine.foodiemate.activity
  */
 
 import android.content.Context
-import android.support.annotation.VisibleForTesting
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-
-import ms.imagine.foodiemate.R
-import android.widget.RelativeLayout
-import android.widget.ProgressBar
-
+import ms.imagine.foodiemate.utils.BgData
 
 
 open class BaseActivity : AppCompatActivity() {
-
+    internal val bG = BgData(this)
     fun toast(message: CharSequence) =
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 

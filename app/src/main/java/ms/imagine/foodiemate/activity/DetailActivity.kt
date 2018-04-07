@@ -1,26 +1,22 @@
 package ms.imagine.foodiemate.activity
 
 import android.net.Uri
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_detail.*
-import ms.imagine.foodiemate.R
-import ms.imagine.foodiemate.activity.MainActivity.Companion.NULL
-import ms.imagine.foodiemate.data.Egg
-import ms.imagine.foodiemate.utils.BgData
 import ms.imagine.foodiemate.Presenter.AzurePresenter
 import ms.imagine.foodiemate.Presenter.FbAuthStatePresenter
 import ms.imagine.foodiemate.Presenter.FbDatabaseWrite
 import ms.imagine.foodiemate.Presenter.FbStorageWrite
+import ms.imagine.foodiemate.R
+import ms.imagine.foodiemate.activity.MainActivity.Companion.NULL
 import ms.imagine.foodiemate.callbacks.AzureCallBacks
 import ms.imagine.foodiemate.callbacks.DbWriteCallBacks
 import ms.imagine.foodiemate.callbacks.StWriteCallBacks
+import ms.imagine.foodiemate.data.Egg
 import ms.imagine.foodiemate.data.EggStages
-
-
 
 
 // Note: must have an Egg for this activity (hint: create a fake egg)
@@ -66,7 +62,7 @@ class DetailActivity : BaseActivity(), StWriteCallBacks, DbWriteCallBacks, Azure
     }
 
     fun determineEgg() {
-        var uri = Uri.parse(BgData.retrieve(this, MainActivity.TAKE_PIC_FINISHED, NULL))
+        var uri = Uri.parse(bG.retrieve(this, MainActivity.TAKE_PIC_FINISHED, NULL))
         uriImg = uri.lastPathSegment.toString()
         imgView.setImageURI(uri)
         storagePresenter.uploadImage(uri)

@@ -1,8 +1,8 @@
 package ms.imagine.foodiemate.Presenter
 
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import ms.imagine.foodiemate.callbacks.StReadCallBacks
-import android.graphics.drawable.Drawable
 import java.io.InputStream
 import java.net.URL
 

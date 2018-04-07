@@ -4,11 +4,10 @@ package ms.imagine.foodiemate.views
  * Created by eugen on 3/27/2018.
  */
 
-import android.hardware.Camera
 import android.content.Context
+import android.hardware.Camera
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-
 import java.io.IOException
 
 class ImageSurfaceView(context: Context, private val camera: Camera) : SurfaceView(context), SurfaceHolder.Callback {
