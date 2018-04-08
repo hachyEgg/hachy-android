@@ -20,9 +20,9 @@ Hachy-android candles your egg using an app and a cardbox
  
 4. Press the button to capture the egg, the image will be persisted on the cloud and sent to Azure for analysis, Upon result complete, the status of the egg will change from "egg not found" to the deteremiend result
 
-Determining Image      | Result： egg development initiated       |   Result: No development         |    No Engg found
+Determining Egg in Progress:|  Egg development initiated    |   Found Egg but No development  |    No Engg found
 :-------------------------:|:------------------------------:|:-------------------------------:|:---------------------------:
-![](screenshots/detecting.jpg) |![](screenshots/detected.jpg)  | ![](screenshots/res_nodev.jpg)  | ![](screenshots/res_noegg.jpg) 
+![](screenshots/res_detecting.jpg)|![](screenshots/res_detected.jpg)| ![](screenshots/res_nodev.jpg)|![](screenshots/res_noegg.jpg) 
 
 5. Navigate back to observe a catalogue of egg status
 
