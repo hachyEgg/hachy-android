@@ -14,12 +14,12 @@ Hachy-android candles your egg using an app and a cardbox
 
 4. open app, login, and choose either to take picture or import existing egg picture: 
 
-Solarized dark             |  Solarized Ocean               |         
-:-------------------------:|:------------------------------:|:----------
-![](screenshots/login.jpg) |![](screenshots/catalogue.jpg)  |
+ sign in                   |  Egg Catalogue                 |       Select Picture            |    Take Picture   
+:-------------------------:|:------------------------------:|:-------------------------------:|:---------------------------:
+![](screenshots/login.jpg) |![](screenshots/catalogue.jpg)  | ![](screenshots/imgpick.jpg)  | ![](screenshots/camshot.jpg) 
  
 4. Press the button to capture the egg, the image will be persisted on the cloud and sent to Azure for analysis, Upon result complete, the status of the egg will change from "egg not found" to the deteremiend result
-(insert image)
+()
 
 5. Navigate back to observe a catalogue of egg status
 
