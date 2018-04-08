@@ -1,10 +1,10 @@
 # Hachy-android
-Hachy-android lets your candling egg by mounting the device onto a cardbox
+Hachy-android candles your egg using an app and a cardbox
 
 
 ## Set up and Use: 
 1. Purchase or make a cardbox of the following specs: 
-(insert image)
+![boxdesign](https://user-images.githubusercontent.com/7799433/38463598-7d6136e0-3acc-11e8-8c3c-4e20f85eb677.png)
 
 2. insert the device into the cardbox, A completed set up would look like this:
 (insert image)
@@ -18,18 +18,18 @@ Hachy-android lets your candling egg by mounting the device onto a cardbox
 5. Navigate back to observe a catalogue of egg status
 
 ## install app
-####option 1: Clone this repo and build it yourself
+#### option 1: Clone this repo and build it yourself
 `$git clone https://github.com/hachyEgg/hachy-android`
 Open up Android Studio->Open->find this folder->open
 
-####Option 2: Install apk from project's debug folder
+#### Option 2: Install apk from project's debug folder
 
-####Option 3: Download at http://hachy.azurewebsites.net/download
+#### Option 3: Download at http://hachy.azurewebsites.net/download
 
 
 
 ## Web-Client
-The [webClient](https://github.com/hachyEgg/hachy-web-dist) lets you see analysis data in realtime sync with the device. As the phone maybe a little hard to check as it is been mounted.
+As the phone is being mounted on the cardboard, it is a little hard to track egg status, the [Hachy Web Client](https://github.com/hachyEgg/hachy-web-dist) lets you see analysis data in realtime sync with the device remotely. As the phone maybe a little hard to check as it is been mounted.
 ![screenshot](https://user-images.githubusercontent.com/7799433/38462289-84e70c60-3ab2-11e8-9587-d5706807c0a2.png)
 
 ## Datasets: 
