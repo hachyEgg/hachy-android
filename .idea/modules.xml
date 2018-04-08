@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Foodiemate.iml" filepath="$PROJECT_DIR$/Foodiemate.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/foodiemate-android.iml" filepath="$PROJECT_DIR$/foodiemate-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hachy-android.iml" filepath="$PROJECT_DIR$/hachy-android.iml" />
     </modules>
   </component>
 </project>
