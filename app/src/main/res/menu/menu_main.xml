@@ -2,20 +2,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="ms.imagine.foodiemate.activity.MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_imageselect"
         android:orderInCategory="100"
-        android:title="picImg"
-        app:showAsAction="never"/>
+        android:icon="@drawable/upload"
+        android:title="@string/picimg"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_signout"
         android:orderInCategory="100"
+        android:icon="@drawable/logout"
         android:title="@string/action_signout"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
 </menu>

@@ -7,13 +7,7 @@ import android.preference.PreferenceManager
 //Used for Retrieving background data
 
 class BgData(val context: Context) {
-    internal lateinit var sp: SharedPreferences
-
-
-
-    init{
-        sp = PreferenceManager.getDefaultSharedPreferences(context)
-    }
+    internal  var sp=PreferenceManager.getDefaultSharedPreferences(context)
 
     // get data but does not modify obtained data
     operator fun get(key: String, defualtValue: String): String {

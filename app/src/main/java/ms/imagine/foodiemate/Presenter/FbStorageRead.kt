@@ -15,7 +15,7 @@ class FbStorageRead (private val callback: StReadCallBacks): FbStoragePresenter(
 
     fun LoadImageFromWebOperations(url: String): Drawable? {
         try {
-            val ois = URL(url).getContent() as InputStream
+            val ois = URL(url).content as InputStream
             return Drawable.createFromStream(ois, "src name")
         } catch (e: Exception) {
             return null

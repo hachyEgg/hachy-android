@@ -1,13 +1,17 @@
 package ms.imagine.foodiemate.activity
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import ms.imagine.foodiemate.Presenter.FbAuthStatePresenter
 import ms.imagine.foodiemate.Presenter.FbDatabasePresenter
@@ -16,6 +20,7 @@ import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.callbacks.DbReadCallBacks
 import ms.imagine.foodiemate.data.Egg
+import ms.imagine.foodiemate.utils.Eulog
 import java.net.URI
 
 
@@ -24,7 +29,7 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
     private lateinit var fbAuthStatePresenter: FbAuthStatePresenter
     private lateinit var viewAdapter: ResViewAdapter
     private lateinit var eggIndex: HashSet<String>
-    private lateinit var list: ArrayList<Egg>;
+    private lateinit var list: ArrayList<Egg>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,19 +39,67 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         //fab icon
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
-            val i = Intent(this@MainActivity, CameraActivity::class.java)
-            startActivity(i);
+            checkPermissionToProceed()
         }
 
         // FB connection Presenters:
-        eggIndex = HashSet();
+        eggIndex = HashSet()
         fbAuthStatePresenter = FbAuthStatePresenter()
         fbdatabase = FbDatabaseRead(fbAuthStatePresenter.userState()!!.uid, this)
 
         //Logic
-        if (fbAuthStatePresenter.userState() == null) finish();
-        list = ArrayList();
-        ResViewInit(list);
+        if (fbAuthStatePresenter.userState() == null) finish()
+        list = ArrayList()
+        ResViewInit(list)
+    }
+
+    private fun openCamera(){
+        val i = Intent(this@MainActivity, CameraActivity::class.java)
+        startActivity(i)
+    }
+
+    fun checkPermissionToProceed() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            // No explanation needed, we can request the permission.
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.CAMERA),
+                    MY_PERMISSIONS_REQUEST_CAMERA)
+        } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // No explanation needed, we can request the permission.
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    MY_PERMISSIONS_REQUEST_STORAGE)
+        } else {
+            openCamera()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_CAMERA -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    checkPermissionToProceed()
+                } else {
+                    toast(getString(R.string.plead_permission_camera))
+                }
+                return
+            }
+            MY_PERMISSIONS_REQUEST_STORAGE -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    checkPermissionToProceed()
+                } else {
+                    toast(getString(R.string.plead_permission_storage))
+                }
+                return
+            }
+
+            else -> {
+                // Ignore all other requests.
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -54,8 +107,8 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         println("OnREsult")
         if (requestCode == TAKE_PIC_CAMERA){
             if (resultCode == Activity.RESULT_OK){
-                val uri = data?.extras?.get(TAKE_PIC_FINISHED) as URI;
-                Log.w("EUGWARN_CAM", uri.toString())
+                val uri = data?.extras?.get(TAKE_PIC_FINISHED) as URI
+                Eulog.w(uri.toString())
             }
         } else if (requestCode == SELECT_PIC_LOCAL) {
             println("selectLocal")
@@ -65,9 +118,10 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
                 if (uri!=null ) {
                     println("uri.notnull")
 
-                    // No need to zip hence ignored here
+                    // No need to zip hentoce ignored here
                     //var uris = Image.createImage(uri);
                     // got to detailed View Here
+                    setBg(this)
                     bG.write(TAKE_PIC_FINISHED, uri.toString())
                     val i = Intent(this@MainActivity, DetailActivity::class.java)
                     i.putExtra("isNewEgg", true)
@@ -98,9 +152,8 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_settings -> return true
             R.id.action_signout -> {
-                fbAuthStatePresenter.signOut();
+                fbAuthStatePresenter.signOut()
                 signOut()
                 return true
             }
@@ -129,6 +182,7 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
     }
 
     override fun retrieveEgg(key: String, egg: Egg){
+        pb1.visibility = View.GONE
         if(eggIndex.add(key)){
             list.add(0,egg)
             viewAdapter.notifyDataSetChanged()
@@ -136,18 +190,18 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
     }
 
     override fun retrieveEggError() {
-        toast("failed to retrieve eggs")
+        toast(getString(R.string.failed_retrieve_eggs))
     }
 
     fun showEggDetail(egg: Egg) {
         var i = Intent(this@MainActivity, DetailActivity::class.java)
-        i.putExtra("Egg", egg);
+        i.putExtra("Egg", egg)
         startActivity(i)
     }
 
     override fun onItemClick(position: Int) {
         // toast(""+position)
-        showEggDetail(list.get(position));
+        showEggDetail(list.get(position))
     }
 
     companion object {
@@ -156,6 +210,8 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         const val SELECT_PIC_LOCAL = 0x7
         const val TAKE_PIC_FINISHED = "picTaken"
         const val NULL = "null_Found"
+        const val MY_PERMISSIONS_REQUEST_CAMERA = 0x667
+        const val MY_PERMISSIONS_REQUEST_STORAGE = 0x548
     }
 }
 

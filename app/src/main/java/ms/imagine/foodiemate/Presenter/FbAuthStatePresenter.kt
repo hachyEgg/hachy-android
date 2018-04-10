@@ -7,7 +7,7 @@ import com.google.firebase.auth.FirebaseUser
 
 
 class FbAuthStatePresenter {
-    var mAuth: FirebaseAuth;  //usernode here
+    var mAuth: FirebaseAuth  //usernode here
 
 
     constructor(){

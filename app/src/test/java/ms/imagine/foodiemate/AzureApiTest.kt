@@ -23,7 +23,7 @@ class AzureApiTest {
 
 
     companion object {
-        const val PIC_S0 = "";
+        const val PIC_S0 = ""
         const val PIC_S1 = "https://www.ifauna.cz/images/nforum-foto/prew/201204/4f998f80e6b2b.jpg"
         const val PIC_S2 = ""
     }

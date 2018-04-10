@@ -72,7 +72,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
     // Check if User is logged in on start
     public override fun onStart() {
         super.onStart()
-        Log.w("eugwarn", "entered on startup")
+        Eulog.w("entered on startup")
         onLoginStatusChanged()
     }
 
@@ -93,7 +93,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInAnonymously:failure", task.exception)
-                        toast("Authentication failed.")
+                        toast(getString(R.string.auth_failed))
                         onLoginStatusChanged()
                     }
                 }
@@ -113,7 +113,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
                     } else {
                         // If sign in fails, display a message to the user.
                         Eulog.d(TAG + "signInWithCredential:failure\n" + task.exception)
-                        toast("Authentication failed.")
+                        toast(getString(R.string.auth_failed))
                         onLoginStatusChanged()
                     }
                     pb1.visibility = View.GONE
@@ -126,11 +126,11 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
         val user = mAuth.currentUser
         if (user != null) {
             val i = Intent(this@FacebookLoginActivity, MainActivity::class.java)
-            i.putExtra("user", user)
+            i.putExtra(getString(R.string.tag_user), user)
             finish()
             startActivity(i)
         } else {
-            //toast("Oops, you are logged out")
+            toast(getString(R.string.log_out))
             // user would be expected to know that they are logged out
         }
     }

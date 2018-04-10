@@ -19,10 +19,10 @@ import ms.imagine.foodiemate.views.ImageSurfaceView
 
 class CameraActivity : BaseActivity(), View.OnClickListener {
     private var mImageSurfaceView: ImageSurfaceView? = null
-    private var camera: Camera? = null
+    private lateinit var camera: Camera
     private var cameraPreviewLayout: FrameLayout? = null
 
-    internal var pictureCallback: PictureCallback = PictureCallback { data, camera ->
+    private var pictureCallback: PictureCallback = PictureCallback { data, camera ->
         Eulog.w("pictureCallBackRegistered")
         val uri = Image.createImage(data)
         sendBack(uri)
@@ -34,7 +34,9 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         cameraPreviewLayout = findViewById(R.id.camera_preview)
-        camera = checkDeviceCamera()
+
+        camera = checkDeviceCamera()!!
+
 
         //STEP #1: Get rotation degrees
         val info = Camera.CameraInfo()
@@ -53,11 +55,13 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
         val rotate = (info.orientation - degrees + 360) % 360
 
         //STEP #2: Set the 'rotation' parameter
-        val params = camera!!.parameters
+        val params = camera.parameters
         params.setRotation(rotate)
-        camera!!.parameters = params
 
-        mImageSurfaceView = ImageSurfaceView(this@CameraActivity, camera!!)
+        params.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
+        camera.parameters = params
+
+        mImageSurfaceView = ImageSurfaceView(this@CameraActivity, camera)
         cameraPreviewLayout!!.addView(mImageSurfaceView)
 
         val captureButton = findViewById<ImageButton>(R.id.button_tak_pic)
@@ -79,6 +83,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
 
     private fun sendBack(uri: Uri) {
         Eulog.w(uri.toString())
+        setBg(this)
         if (uri != null && bG.write(MainActivity.TAKE_PIC_FINISHED, uri.toString())) {
             Eulog.w("value written")
             val i = Intent(this@CameraActivity, DetailActivity::class.java)
@@ -90,7 +95,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View) {
-        camera!!.takePicture(null, null, pictureCallback)
+        camera.takePicture(null, null, pictureCallback)
     }
 
     companion object {

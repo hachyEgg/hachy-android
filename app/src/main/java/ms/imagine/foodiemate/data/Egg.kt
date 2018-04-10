@@ -28,7 +28,7 @@ class Egg(): Parcelable {
 
     //no data for testing purpose
     override fun toString(): String {
-        return "EGG: \n\teggtag: "+eggtag +"\n\ttimestamp: "+ timestamp + "\n\tstatus: "+ status;
+        return "EGG: \n\teggtag: "+eggtag +"\n\ttimestamp: "+ timestamp + "\n\tstatus: "+ status
     }
 
     fun displayTime(): String{
@@ -50,11 +50,11 @@ class Egg(): Parcelable {
 
     fun displayStatusThumbnail(context: Context): Drawable?{
         when (status){
-            0->return ContextCompat.getDrawable(context, R.drawable.stg0);
-            1->return ContextCompat.getDrawable(context, R.drawable.stg1);
-            2->return ContextCompat.getDrawable(context, R.drawable.stg2);
-            3->return ContextCompat.getDrawable(context, R.drawable.stg3);
-            4->return ContextCompat.getDrawable(context, R.drawable.stg4);
+            0->return ContextCompat.getDrawable(context, R.drawable.stg0)
+            1->return ContextCompat.getDrawable(context, R.drawable.stg1)
+            2->return ContextCompat.getDrawable(context, R.drawable.stg2)
+            3->return ContextCompat.getDrawable(context, R.drawable.stg3)
+            4->return ContextCompat.getDrawable(context, R.drawable.stg4)
         }
         return null
     }
@@ -74,7 +74,7 @@ class Egg(): Parcelable {
     }
 
     fun zip(): String{
-        return eggtag + sep + timestamp + sep + status + sep + imgURL;
+        return eggtag + sep + timestamp + sep + status + sep + imgURL
     }
 
     constructor(compactString: String) : this() {
@@ -109,7 +109,7 @@ class Egg(): Parcelable {
         override fun newArray(size: Int): Array<Egg?> {
             return arrayOfNulls(size)
         }
-        const val sep = "lolxd";
+        const val sep = "lolxd"
 
     }
 }

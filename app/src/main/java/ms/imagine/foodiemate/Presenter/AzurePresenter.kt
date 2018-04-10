@@ -9,7 +9,11 @@ import java.io.IOException
 class AzurePresenter(val callBacks: AzureCallBacks) {
 
     companion object {
-        const val AZURE_VIEWREC_URL = "https://southcentralus.api.cognitive.microsoft.com/customvision/v1.1/Prediction/6ed4e03b-5c8d-4cc1-9cc0-ef527e4f625f/url?iterationId=31f38b48-43e6-43ff-a3c3-4638be6d0f52"
+        const val AZURE_VIEWREC_URL = "https://southcentralus.api.cognitive.microsoft.com" +
+                "/customvision/v1.1/Prediction/bf3f0d19-cb5b-4dee-95c7-23b530221fa4/url?" +
+                "iterationId=b1ac0250-d769-4594-9322-0788aee2dda1"
+        const val AZURE_TOKEN = "4e26554b300f47478e5c880d2a6492d7"
+
         const val TEST_IMG_URL = "https://www.ifauna.cz/images/nforum-foto/prew/201204/4f998f80e6b2b.jpg"
         const val AZURE_VIEWREC_FILE = "" // not used yet
         fun body (st: String): String {
@@ -36,13 +40,13 @@ class AzurePresenter(val callBacks: AzureCallBacks) {
 
         Eulog.w("yes_dispatch")
         println("YES_dispatch")
-        var client = OkHttpClient();
-        var mediaType= MediaType.parse("application/json");
-        var body = RequestBody.create(mediaType, body(link));
+        var client = OkHttpClient()
+        var mediaType= MediaType.parse("application/json")
+        var body = RequestBody.create(mediaType, body(link))
         var request = Request.Builder()
                 .url(AZURE_VIEWREC_URL)
                 .post(body)
-                .addHeader("prediction-key", "4e26554b300f47478e5c880d2a6492d7")
+                .addHeader("prediction-key", AZURE_TOKEN)
                 .addHeader("content-type", "application/json")
                 .build()
 
@@ -51,7 +55,7 @@ class AzurePresenter(val callBacks: AzureCallBacks) {
             override fun onResponse(call: Call, response: Response){
                 val str = response.body()?.string()
                 if (str != null && response.code() == 200  ) {
-                    println("Success" + str);
+                    println("Success" + str)
                     callBacks.onAzureSuccess(str)
                 } else {
                     callBacks.onAzureFailure()

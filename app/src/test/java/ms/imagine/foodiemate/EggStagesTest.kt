@@ -12,7 +12,7 @@ import org.junit.Before
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
 class EggStagesTest {
-    val eggS: EggStages;
+    val eggS: EggStages
     val sampleReturnJson = "{\n" +
             "\t\"Id\":\"7cf85d90-e279-47aa-bace-733db544ae61\",\n" +
             "\t\"Project\":\"6ed4e03b-5c8d-4cc1-9cc0-ef527e4f625f\",\n" +
@@ -43,7 +43,7 @@ class EggStagesTest {
 
     @Throws(Exception::class)
     fun maxEggIndex_IsCorrect() {
-        assertEquals(1, eggS.waEgg());
+        assertEquals(1, eggS.waEgg())
     }
 
     @Test

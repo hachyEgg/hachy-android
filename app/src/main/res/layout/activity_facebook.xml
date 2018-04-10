@@ -12,16 +12,12 @@
 
     <ProgressBar
         android:id="@+id/pb1"
-        android:layout_marginTop="?attr/actionBarSize"
         style="?android:attr/progressBarStyleHorizontal"
         android:visibility="gone"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:max="100"
-        android:backgroundTint="@color/egg_white"
-        android:layout_below="@+id/framelauout"
-        android:indeterminateTint="#1a09d6"
         />
 
     <FrameLayout

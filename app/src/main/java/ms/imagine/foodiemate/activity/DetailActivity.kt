@@ -1,5 +1,6 @@
 package ms.imagine.foodiemate.activity
 
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -22,8 +23,8 @@ import ms.imagine.foodiemate.data.EggStages
 // Note: must have an Egg for this activity (hint: create a fake egg)
 class DetailActivity : BaseActivity(), StWriteCallBacks, DbWriteCallBacks, AzureCallBacks {
     private lateinit var storagePresenter: FbStorageWrite
-    private lateinit var databaseWrite: FbDatabaseWrite;
-    private lateinit var azure: AzurePresenter;
+    private lateinit var databaseWrite: FbDatabaseWrite
+    private lateinit var azure: AzurePresenter
     private lateinit var egg: Egg
     private lateinit var uriImg: String
 
@@ -31,7 +32,8 @@ class DetailActivity : BaseActivity(), StWriteCallBacks, DbWriteCallBacks, Azure
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         setSupportActionBar(toolbar)
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.getNavigationIcon()?.setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
         storagePresenter = FbStorageWrite( this)
         databaseWrite = FbDatabaseWrite(FbAuthStatePresenter().userState()!!.uid, this)
         azure = AzurePresenter(this)
@@ -39,12 +41,14 @@ class DetailActivity : BaseActivity(), StWriteCallBacks, DbWriteCallBacks, Azure
         egg = intent.extras.get("Egg") as Egg
         titleBox.text = egg.eggtag
         time.text = egg.displayTime()
-        status.text = egg.displayStatus()
+
 
         var newEgg = intent.extras.get("isNewEgg") as Boolean?
         if (newEgg != null && newEgg){
             determineEgg()
+            status.text=""
         } else {
+            status.text = egg.displayStatus()
             storagePresenter.downloadImage(this, egg.imgURL, imgView)
         }
     }
@@ -62,6 +66,7 @@ class DetailActivity : BaseActivity(), StWriteCallBacks, DbWriteCallBacks, Azure
     }
 
     fun determineEgg() {
+        setBg(this)
         var uri = Uri.parse(bG.retrieve(this, MainActivity.TAKE_PIC_FINISHED, NULL))
         uriImg = uri.lastPathSegment.toString()
         imgView.setImageURI(uri)
@@ -81,12 +86,13 @@ class DetailActivity : BaseActivity(), StWriteCallBacks, DbWriteCallBacks, Azure
         Log.w("EUGWARN_CAM", uri.toString())
 
         val remote_url = uri.toString()
-        toast(""+remote_url)
+        toast("Image Successfully uploaded")
+        //toast(""+remote_url)
         egg.imgURL = uriImg
 
 
 
-        azure.dispatch(remote_url);
+        azure.dispatch(remote_url)
         //write to DB afterwards  even more ...
     }
 
@@ -109,13 +115,10 @@ class DetailActivity : BaseActivity(), StWriteCallBacks, DbWriteCallBacks, Azure
         val egS = EggStages(str)
         println("After EggStageCration")
 
-        if (egS.isEgg()) {
-            egg.status = egS.waEgg() + 1;
-        } else {
-            egg.status = 0
-        }
+        egg.status = egS.waEgg()
+
         //toast(egg.displayStatus())
-        val state = egg.displayStatus();
+        val state = egg.displayStatus()
         println("status: " + state)
 
         databaseWrite.writeEgg(egg)

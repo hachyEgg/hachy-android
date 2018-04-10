@@ -17,7 +17,7 @@ class FbStorageWrite (private val callback: StWriteCallBacks): FbStoragePresente
         println ("UPLOADING("+ Time.timehrs()+ "): started")
         uploadTask.addOnSuccessListener({ taskSnapshot ->
             val downloadUrl = taskSnapshot.downloadUrl
-            callback.uploadSuccess(downloadUrl);
+            callback.uploadSuccess(downloadUrl)
             println("UPLOADING("+ Time.timehrs()+ "): finished")
         })
 

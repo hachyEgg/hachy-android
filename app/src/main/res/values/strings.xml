@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Foodiemate</string>
+    <string name="app_name">Hachy</string>
     <string name="action_settings">Settings</string>
 
     <string name="facebook_app_id" translatable="false">968575153306898</string>
@@ -30,5 +30,12 @@
     <string name="action_signout">signout</string>
     <string name="title_activity_egg_detail">EggDetailActivity</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="auth_failed">Authentication failed.</string>
+    <string name="log_out">Logged out</string>
+    <string name="tag_user">user</string>
+    <string name="plead_permission_camera">Please grant me permission to use the camera at setting</string>
+    <string name="plead_permission_storage">Please grant me permission to use the camera at setting</string>
+    <string name="failed_retrieve_eggs">Failed to retrieve eggs</string>
+    <string name="picimg">upload Image</string>
 
 </resources>

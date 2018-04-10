@@ -1,5 +1,3 @@
 package ms.imagine.foodiemate.utils
 
-class ImagePick {
-    
-}
+class ImagePick

@@ -13,6 +13,7 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+
             app:titleTextColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -50,7 +51,6 @@
             android:indeterminate="true"
             android:max="100"
             android:background="@color/egg_white"
-            android:backgroundTint="@color/egg_white"
             android:indeterminateTint="#1a09d6"/>
 
         <LinearLayout
