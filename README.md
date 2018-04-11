@@ -14,15 +14,13 @@ Hahcy uses machine learning to candle eggs with a <b>phone</b> and a <b>Hachy Bo
 	* [Hachy Box Setup](#hachy-box-setup)
 	* [Install Android App](#install-android-app)
 	* [Android App Demo](#android-app-demo)
+	* [Facebook Test User Account](#facebook-test-user-account)
 	* [Web Client Demo](#web-client-demo)
 * [Architecture](#architecture)
 	* [How it works](#how-it-works)
 	* [Azure Usage](#azure-usage)
 	* [Egg Development Data selection](#egg-development-data-selection)
-* [References](#References)
-	* [Libraries](#libraries)
-	* [Dependencies](#dependencies)
-	* [Author and License](#author-and-license)
+* [Author and License](#author-and-license)
 
 ## Concept
 With the rise of Machine Learning and Image Recognition technologies, the market has seen useful agricultural tools such as [Banna Freshness Analyzer][bananaAnalyize], a [Cucumber Sorter][cucumberSorter] and so on. However, there lacks a tool for egg farmers and consumers for **smart egg checking**. 
@@ -87,6 +85,12 @@ Finished setup looks like this:
 
 [![IMG](screenshots/hachydemo.jpg)](https://www.youtube.com/watch?v=y0aG22pkg6I)
 
+### Facebook Test User Account
+item | value
+:------:|:----------:
+email   | scqerjhwwi_1523431167@tfbnw.net
+passowrd| hachEgg 
+
 ### Procedure
 1. insert the device into the cardbox, A completed set up would look like this:
 ![screenshot][img-beforeinsert]
@@ -95,6 +99,9 @@ Finished setup looks like this:
 ![screenshot][img-afterinsert]
 
 3. open app, login, and choose either to take picture or import existing egg picture: 
+
+
+
 
  Sign in                   |  Egg Catalogue                 |       Select Picture            |    Take Picture   
 :-------------------------:|:------------------------------:|:-------------------------------:|:---------------------------:
@@ -137,6 +144,18 @@ The datasets of which this modal is trained labeled in 3 different tags:
  * egg_0 for egg with no development (no development)
  * egg_1 for egg with a visible zygote (developing)
  * egg_2 for egg with visible blood lines and other organs (mature)
+ 
+Of all these tags the training image of eggs will have black/dark background and a yellowish light sphere, such that the training photo bear close resemblance to of egg in hachy box. Here are some examples:
+
+ eggEarly                  |  eggMid                      |       eggLat                   
+:-------------------------:|:----------------------------:|:--------------------------:
+![](screenshots/ml-ear.jpg) |![](screenshots/ml-mid.jpg)  | ![](screenshots/ml-lat.jpg) 
+
+After 3 iteration, the precision of 3 tags has yield Ok level of precision and recalls: 
+![](screenshots/info.png)
+
+However, there are exceptions to this data recognition as well. For example pointing it to any other spherical object with a background of a significantly different hue. It will mistake it for an egg and produce funny results.
+
 
 
 ## AUTHOR and LICENSE
