@@ -25,7 +25,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
     private var pictureCallback: PictureCallback = PictureCallback { data, camera ->
         Eulog.w("pictureCallBackRegistered")
         val uri = Image.createImage(data)
-        sendBack(uri)
+        sendBack(uri!!)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

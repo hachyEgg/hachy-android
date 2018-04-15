@@ -45,6 +45,6 @@ class EggStages(val prediction: List<Prediction>) {
         return i
     }
     companion object {
-        const val IS_EGG = 0.92
+        const val IS_EGG = 0.80
     }
 }
