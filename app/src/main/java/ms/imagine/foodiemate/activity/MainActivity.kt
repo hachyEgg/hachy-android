@@ -12,6 +12,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import ms.imagine.foodiemate.Presenter.FbAuthStatePresenter
 import ms.imagine.foodiemate.Presenter.FbDatabasePresenter
@@ -46,6 +48,7 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         eggIndex = HashSet()
         fbAuthStatePresenter = FbAuthStatePresenter()
         fbdatabase = FbDatabaseRead(fbAuthStatePresenter.userState()!!.uid, this)
+
 
         //Logic
         if (fbAuthStatePresenter.userState() == null) finish()

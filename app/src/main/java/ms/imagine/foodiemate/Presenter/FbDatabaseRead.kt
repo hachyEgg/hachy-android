@@ -3,6 +3,7 @@ package ms.imagine.foodiemate.Presenter
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import ms.imagine.foodiemate.callbacks.DbReadCallBacks
 import ms.imagine.foodiemate.data.Egg
@@ -10,10 +11,12 @@ import ms.imagine.foodiemate.data.Egg
 class FbDatabaseRead: FbDatabasePresenter{
     lateinit var callback: DbReadCallBacks
 
+
     constructor(_uid:String?, callBacks: DbReadCallBacks) :
             super( _uid) {
         callback = callBacks
         firebaseDB.addValueEventListener(postListener)
+
     }
 
     var postListener: ValueEventListener = object : ValueEventListener {

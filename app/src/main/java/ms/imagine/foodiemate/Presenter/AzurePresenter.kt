@@ -34,10 +34,10 @@ class AzurePresenter(val callBacks: AzureCallBacks) {
                 "}"
     }
 
+
+
+
     fun dispatch(link: String) {
-
-
-
         Eulog.w("yes_dispatch")
         println("YES_dispatch")
         var client = OkHttpClient()
@@ -62,9 +62,9 @@ class AzurePresenter(val callBacks: AzureCallBacks) {
                 }
             }
         })
-
-
     }
+
+
 
 
 
