@@ -1,26 +1,22 @@
 package ms.imagine.foodiemate.data
 
+import ms.imagine.foodiemate.api.Prediction
 import org.json.JSONObject
 
-class EggStages(json: String) {
-    val jsonParent: JSONObject
-
+class EggStages(val prediction: List<Prediction>) {
     var stage:DoubleArray = doubleArrayOf(.0,.1,.0,0.1)
 
     init{
-        jsonParent = JSONObject(json)
         attempt_toConvert()
     }
 
     fun attempt_toConvert(){
-        val ja = jsonParent.getJSONArray("Predictions")
-        println(ja)
-        for (i in 0..3){
-            val paramTag = ja?.getJSONObject(i)?.getString("Tag")
-            val paramPredicability = ja?.getJSONObject(i)?.getDouble("Probability")
-            println(paramTag + ":" + paramPredicability)
-
-            if (paramPredicability != null){
+        for (i in prediction){
+            val paramTag = i.tag
+            val paramPredicability = i.probability
+            if (paramTag == null || paramPredicability == null){
+                continue
+            } else {
                 if (paramTag.equals("egg") ) {
                     stage[0] = paramPredicability
                 } else if (paramTag.equals("egg_mid") ) {
@@ -32,12 +28,14 @@ class EggStages(json: String) {
                 }
             }
         }
+        println("" + stage.get(0)+"," + stage.get(1) +","+ stage.get(2)+"," + stage.get(3))
     }
 
-    fun isEgg():Boolean = (stage[0]>0.8)
+    fun isEgg():Boolean = (stage[0]>IS_EGG)
     fun waEgg():Int {
         var i = 0
         var tempStore = 0.0
+        if (!isEgg() ){return 0}
         for ((index, value) in stage.withIndex()){
             if(index !=0 && value > tempStore) {
                 tempStore = value
@@ -47,6 +45,6 @@ class EggStages(json: String) {
         return i
     }
     companion object {
-        const val IS_EGG = 0.11
+        const val IS_EGG = 0.92
     }
 }
