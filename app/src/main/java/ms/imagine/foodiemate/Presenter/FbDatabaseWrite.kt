@@ -16,7 +16,7 @@ class FbDatabaseWrite: FbDatabasePresenter{
         map.put("eggTag", egg.eggtag)
         map.put("timestamp", egg.timestamp)
         map.put("status", egg.status)
-        map.put("imgURL", egg.imgURL)
+        map.put("imgURL", egg.remoteImgURL)
 
         var leKey = firebaseDB.push().key
         firebaseDB.child(leKey).updateChildren(map as Map<String, Any>?)

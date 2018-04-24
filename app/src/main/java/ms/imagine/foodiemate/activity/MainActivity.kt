@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
@@ -106,26 +107,33 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        println("OnREsult")
-        if (requestCode == TAKE_PIC_CAMERA){
-            if (resultCode == Activity.RESULT_OK){
-                val uri = data?.extras?.get(TAKE_PIC_FINISHED) as URI
-                Eulog.w(uri.toString())
-            }
-        } else if (requestCode == SELECT_PIC_LOCAL) {
-            println("selectLocal")
-            if (resultCode == Activity.RESULT_OK){
-                println("imgSelect_OK")
-                val uri = data?.data
-                if (uri!=null ) {
-                    val i = Intent(this@MainActivity, DetailActivity::class.java)
-                    i.putExtra("Egg", Egg("coo", System.currentTimeMillis(), 0,uri))
-                    startActivity(i)
-                } else {
-                    toast("image Not found")
+        try {
+            println("OnREsult")
+            if (requestCode == TAKE_PIC_CAMERA){
+                if (resultCode == Activity.RESULT_OK){
+                    val uri = data?.extras?.get(TAKE_PIC_FINISHED) as URI
+                    Eulog.w(uri.toString())
+                }
+            } else if (requestCode == SELECT_PIC_LOCAL) {
+                println("selectLocal")
+                if (resultCode == Activity.RESULT_OK){
+                    println("imgSelect_OK")
+                    val uri: Uri? = data?.data
+                    if (uri!=null ) {
+                        val i = Intent(this@MainActivity, DetailActivity::class.java)
+                        i.putExtra("Egg", Egg("coo", System.currentTimeMillis(), 0,uri))
+                        println("start")
+                        startActivity(i)
+                    } else {
+                        toast("image Not found")
+                    }
                 }
             }
+        }catch (e:Exception){
+            println(e)
         }
+
+
         super.onActivityResult(requestCode, resultCode, data)
     }
 

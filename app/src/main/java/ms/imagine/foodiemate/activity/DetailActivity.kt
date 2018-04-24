@@ -19,25 +19,35 @@ class DetailActivity : BaseActivity(), IDetailedView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        toolbar.getNavigationIcon()?.setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+
+
         setSupportActionBar(toolbar)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        eggDeterminator = EggDeterminator(this, egg)
+
+        println("getEggbefore")
+
 
         egg = intent.extras.get("Egg") as Egg
         titleBox.text = egg.eggtag
         time.text = egg.displayTime()
 
+
+        eggDeterminator = EggDeterminator(this, egg)
+
         if (egg.isnewEgg){
             showProgress(true)
             var uri = (egg.localImgUri)
+
+            //here we are getting only the last segment of Uri, we dont want the full url as
+            // for the sake of database abstraction
+
             egg.remoteImgURL = uri.lastPathSegment.toString()
             imgView.setImageURI(uri)
             eggDeterminator.upload()
         } else {
             status.text = egg.displayStatus()
             eggDeterminator.download(this, imgView)
-            storagePresenter.downloadImage(this, egg.remoteImgURL, imgView)
         }
     }
 
@@ -52,17 +62,21 @@ class DetailActivity : BaseActivity(), IDetailedView {
     }
 
     override fun updateStatus(state: String){
+        println("updateStatus"+Thread.currentThread().name)
         status.text = state
     }
 
     override fun toast(st: String) {
-        toast(st)
+        println("toast"+Thread.currentThread().name)
+        super.toast(st)
     }
 
     override fun showProgress(show: Boolean) {
+        println("showProgress"+Thread.currentThread().name)
         when(show){
             true-> pb1.visibility = View.VISIBLE
             false -> pb1.visibility = View.GONE
         }
     }
+
 }

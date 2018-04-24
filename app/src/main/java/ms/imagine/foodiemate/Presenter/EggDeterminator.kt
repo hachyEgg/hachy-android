@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import android.widget.ImageView
+import ms.imagine.foodiemate.activity.DetailActivity
 import ms.imagine.foodiemate.api.Prediction
 import ms.imagine.foodiemate.callbacks.AzureCallBacks
 import ms.imagine.foodiemate.callbacks.DbWriteCallBacks
@@ -13,9 +14,15 @@ import ms.imagine.foodiemate.data.EggStages
 import ms.imagine.foodiemate.views.IDetailedView
 
 class EggDeterminator(val view: IDetailedView, val egg: Egg) : StWriteCallBacks, AzureCallBacks, DbWriteCallBacks {
-    private val databaseWrite = FbDatabaseWrite(FbAuthStatePresenter().userState()!!.uid,this)
-    private val azure = AzurePresenter(this)
-    private val storagePresenter = FbStorageWrite(this)
+    private lateinit var databaseWrite: FbDatabaseWrite
+    private lateinit var  azure: AzurePresenter
+    private lateinit var  storagePresenter: FbStorageWrite
+
+    init{
+        databaseWrite = FbDatabaseWrite(FbAuthStatePresenter().userState()!!.uid,this)
+        azure = AzurePresenter(this)
+        storagePresenter = FbStorageWrite(this)
+    }
 
     fun upload(){
         storagePresenter.uploadImage(egg.localImgUri)
@@ -29,7 +36,15 @@ class EggDeterminator(val view: IDetailedView, val egg: Egg) : StWriteCallBacks,
     override fun uploadSuccess(uri: Uri?) {
         Log.w("EUGWARN_CAM", uri.toString())
         val remote_url = uri.toString()
-        view.toast("Image Successfully uploaded")
+        println("remoteUrl" + uri.toString())
+
+        try{
+            view.toast("Image Successfully uploaded")
+        } catch (e:Exception){println(e)}
+
+        println("toUploadonAzure")
+
+        println(Thread.currentThread().name)
         azure.postImageFromUrl(remote_url)
     }
 
@@ -39,13 +54,14 @@ class EggDeterminator(val view: IDetailedView, val egg: Egg) : StWriteCallBacks,
     }
 
     override fun onAzureSuccess(prediction: List<Prediction>) {
+        println("AzureSuccess")
         val egS = EggStages(prediction)
         egg.status = egS.waEgg()
         val state = egg.displayStatus()
-        databaseWrite.writeEgg(egg)
         view.showProgress(false)
         view.updateStatus(state)
 
+        databaseWrite.writeEgg(egg)
     }
 
     override fun onAzureFailure(str: String) {

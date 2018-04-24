@@ -70,11 +70,15 @@ class Egg(): Parcelable {
     }
 
     constructor(eggtag: String, timestamp: Long, status: Int, url: String) : this() {
-        Egg(eggtag, timestamp, status)
+        this.eggtag = eggtag
+        this.timestamp = timestamp
+        this.status = status
         this.remoteImgURL = url
     }
     constructor(eggtag: String, timestamp: Long, status: Int, uri: Uri) : this() {
-        Egg(eggtag, timestamp, status)
+        this.eggtag = eggtag
+        this.timestamp = timestamp
+        this.status = status
         this.localImgUri = uri
     }
 
