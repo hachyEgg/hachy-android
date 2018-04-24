@@ -2,6 +2,7 @@ package ms.imagine.foodiemate.data
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.v4.content.ContextCompat
@@ -23,7 +24,9 @@ class Egg(): Parcelable {
     var eggtag = "Healthy Egg"
     var timestamp: Long = 100
     var status = 0
-    var imgURL: String = "noImg"
+    var remoteImgURL: String = "noImg"
+    var localImgUri: Uri = Uri.parse(remoteImgURL)
+    var isnewEgg = true
 
 
     //no data for testing purpose
@@ -38,14 +41,14 @@ class Egg(): Parcelable {
     }
 
     fun displayStatus(): String{
-        when (status){
-            0->return "No Egg detected"
-            1->return "Egg discovered but with no VISIBLE DEVELOPMENT"
-            2->return "Egg has just initiated development"
-            3->return "Egg has matured Development"
-            4->return "Egg has quit"
+        return when (status){
+            0->"No Egg detected"
+            1->"Egg discovered but with no VISIBLE DEVELOPMENT"
+            2->"Egg has just initiated development"
+            3->"Egg has matured Development"
+            4->"Egg has quit"
+            else->"No Egg detected"
         }
-        return "No Egg detected"
     }
 
     fun displayStatusThumbnail(context: Context): Drawable?{
@@ -67,36 +70,30 @@ class Egg(): Parcelable {
     }
 
     constructor(eggtag: String, timestamp: Long, status: Int, url: String) : this() {
-        this.eggtag = eggtag
-        this.timestamp = timestamp
-        this.status = status
-        this.imgURL = url
+        Egg(eggtag, timestamp, status)
+        this.remoteImgURL = url
     }
-
-    fun zip(): String{
-        return eggtag + sep + timestamp + sep + status + sep + imgURL
-    }
-
-    constructor(compactString: String) : this() {
-        var arr = compactString.split(sep)
-        eggtag = arr[0]
-        timestamp = arr[1].toLong()
-        status = arr[2].toInt()
-        imgURL = (arr[3])
+    constructor(eggtag: String, timestamp: Long, status: Int, uri: Uri) : this() {
+        Egg(eggtag, timestamp, status)
+        this.localImgUri = uri
     }
 
     constructor(parcel: Parcel) : this() {
         eggtag = parcel.readString()
         timestamp = parcel.readLong()
         status = parcel.readInt()
-        imgURL = (parcel.readString())
+        remoteImgURL = (parcel.readString())
+        localImgUri = Uri.parse(parcel.readString())
+        isnewEgg = (parcel.readInt() == 1)
     }
 
     override fun writeToParcel(p0: Parcel?, p1: Int) {
         p0?.writeString(eggtag)
         p0?.writeLong(timestamp)
         p0?.writeInt(status)
-        p0?.writeString(imgURL)
+        p0?.writeString(remoteImgURL)
+        p0?.writeString(localImgUri.toString())
+        p0?.writeInt((if(isnewEgg) 1 else 0))
     }
 
     override fun describeContents() = 0
@@ -109,7 +106,5 @@ class Egg(): Parcelable {
         override fun newArray(size: Int): Array<Egg?> {
             return arrayOfNulls(size)
         }
-        const val sep = "lolxd"
-
     }
 }

@@ -83,14 +83,10 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
 
     private fun sendBack(uri: Uri) {
         Eulog.w(uri.toString())
-        setBg(this)
-        if (uri != null && bG.write(MainActivity.TAKE_PIC_FINISHED, uri.toString())) {
-            Eulog.w("value written")
-            val i = Intent(this@CameraActivity, DetailActivity::class.java)
-            i.putExtra("isNewEgg", true)
-            i.putExtra("Egg", Egg("coo", System.currentTimeMillis(), 0))
-            startActivity(i)
-        }
+        Eulog.w("value written")
+        val i = Intent(this@CameraActivity, DetailActivity::class.java)
+        i.putExtra("Egg", Egg("coo", System.currentTimeMillis(), 0, uri))
+        startActivity(i)
         finish()
     }
 

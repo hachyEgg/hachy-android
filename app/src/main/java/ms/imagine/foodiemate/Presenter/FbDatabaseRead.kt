@@ -27,7 +27,7 @@ class FbDatabaseRead: FbDatabasePresenter{
                         child.child("timestamp").value.toString().toLong(),
                         child.child("status").value.toString().toInt(),
                         child.child("imgURL").value.toString())
-                //Log.w("postegg", egg.toString())
+                egg.isnewEgg = false
                 callback.retrieveEgg(child.key, egg)
             })
         }

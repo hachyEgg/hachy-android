@@ -49,7 +49,6 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         fbAuthStatePresenter = FbAuthStatePresenter()
         fbdatabase = FbDatabaseRead(fbAuthStatePresenter.userState()!!.uid, this)
 
-
         //Logic
         if (fbAuthStatePresenter.userState() == null) finish()
         list = ArrayList()
@@ -119,17 +118,11 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
                 println("imgSelect_OK")
                 val uri = data?.data
                 if (uri!=null ) {
-                    println("uri.notnull")
-
-                    // No need to zip hentoce ignored here
-                    //var uris = Image.createImage(uri);
-                    // got to detailed View Here
-                    setBg(this)
-                    bG.write(TAKE_PIC_FINISHED, uri.toString())
                     val i = Intent(this@MainActivity, DetailActivity::class.java)
-                    i.putExtra("isNewEgg", true)
-                    i.putExtra("Egg", Egg("coo", System.currentTimeMillis(), 0))
+                    i.putExtra("Egg", Egg("coo", System.currentTimeMillis(), 0,uri))
                     startActivity(i)
+                } else {
+                    toast("image Not found")
                 }
             }
         }
