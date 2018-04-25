@@ -4,6 +4,7 @@ Hachy uses machine learning to candle eggs with a <b>phone</b> and a <b>Hachy Bo
 
 
 ## Table of Content
+This document is also avaliable in
 * [Concept](#concept)
 	* [Audience](#audience)
 	* [Vision](#vision)

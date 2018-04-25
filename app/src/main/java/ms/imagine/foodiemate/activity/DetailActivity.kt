@@ -10,25 +10,19 @@ import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.data.Egg
 import ms.imagine.foodiemate.views.IDetailedView
 
-
+//todo add this thing so one egg may store multiple stages:
 class DetailActivity : BaseActivity(), IDetailedView {
-    private lateinit var storagePresenter: FbStorageWrite
     private lateinit var egg: Egg
     private lateinit var eggDeterminator: EggDeterminator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-
-
         setSupportActionBar(toolbar)
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        println("getEggbefore")
-
-
         egg = intent.extras.get("Egg") as Egg
+
+
         titleBox.text = egg.eggtag
         time.text = egg.displayTime()
 
@@ -38,10 +32,6 @@ class DetailActivity : BaseActivity(), IDetailedView {
         if (egg.isnewEgg){
             showProgress(true)
             var uri = (egg.localImgUri)
-
-            //here we are getting only the last segment of Uri, we dont want the full url as
-            // for the sake of database abstraction
-
             egg.remoteImgURL = uri.lastPathSegment.toString()
             imgView.setImageURI(uri)
             eggDeterminator.upload()
@@ -78,5 +68,4 @@ class DetailActivity : BaseActivity(), IDetailedView {
             false -> pb1.visibility = View.GONE
         }
     }
-
 }

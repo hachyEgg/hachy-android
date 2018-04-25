@@ -88,7 +88,6 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
                 } else {
                     toast(getString(R.string.plead_permission_camera))
                 }
-                return
             }
             MY_PERMISSIONS_REQUEST_STORAGE -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
@@ -96,44 +95,29 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
                 } else {
                     toast(getString(R.string.plead_permission_storage))
                 }
-                return
-            }
 
-            else -> {
-                // Ignore all other requests.
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        try {
-            println("OnREsult")
+        println("OnREsult") // we should probably no do this
+        if (resultCode == Activity.RESULT_OK){
             if (requestCode == TAKE_PIC_CAMERA){
-                if (resultCode == Activity.RESULT_OK){
-                    val uri = data?.extras?.get(TAKE_PIC_FINISHED) as URI
-                    Eulog.w(uri.toString())
-                }
+                val uri = data?.extras?.get(TAKE_PIC_FINISHED) as URI
+                Eulog.w(uri.toString())
             } else if (requestCode == SELECT_PIC_LOCAL) {
-                println("selectLocal")
-                if (resultCode == Activity.RESULT_OK){
-                    println("imgSelect_OK")
-                    val uri: Uri? = data?.data
-                    if (uri!=null ) {
-                        val i = Intent(this@MainActivity, DetailActivity::class.java)
-                        i.putExtra("Egg", Egg("coo", System.currentTimeMillis(), 0,uri))
-                        println("start")
-                        startActivity(i)
-                    } else {
-                        toast("image Not found")
-                    }
+                println("imgSelect_OK")
+                val uri: Uri? = data?.data
+                if (uri!=null ) {
+                    val i = Intent(this@MainActivity, DetailActivity::class.java)
+                    i.putExtra("Egg", Egg("coo", System.currentTimeMillis(), 0,uri))
+                    println("start")
+                    startActivity(i)
                 }
             }
-        }catch (e:Exception){
-            println(e)
         }
-
-
         super.onActivityResult(requestCode, resultCode, data)
     }
 
@@ -149,36 +133,26 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.action_signout -> {
-                fbAuthStatePresenter.signOut()
                 signOut()
-                return true
+                true
             }
             R.id.action_imageselect -> {
-                val getIntent = Intent(Intent.ACTION_GET_CONTENT)
-                getIntent.type = "image/*"
-
-                val pickIntent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                pickIntent.type = "image/*"
-
-                val chooserIntent = Intent.createChooser(getIntent, "Select Image")
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
-
-                startActivityForResult(chooserIntent, SELECT_PIC_LOCAL)
-                return true
+                startImagePicActivity()
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
     fun signOut() {
+        fbAuthStatePresenter.signOut()
         val i = Intent(this@MainActivity, FacebookLoginActivity::class.java)
         i.putExtra(TO_SIGN_OUT, true)
         finish()
@@ -204,7 +178,6 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
     }
 
     override fun onItemClick(position: Int) {
-        // toast(""+position)
         showEggDetail(list.get(position))
     }
 
