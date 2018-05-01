@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.storage.StorageReference
 import ms.imagine.foodiemate.callbacks.StWriteCallBacks
-import ms.imagine.foodiemate.utils.Time
+import ms.imagine.foodiemate.data.Time
 
 class FbStorageWrite (private val callback: StWriteCallBacks): FbStoragePresenter() {
 

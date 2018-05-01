@@ -1,16 +1,24 @@
 package ms.imagine.foodiemate.Presenter
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.firebase.ui.storage.images.FirebaseImageLoader
+import com.google.firebase.storage.StorageReference
 import ms.imagine.foodiemate.callbacks.StReadCallBacks
 import java.io.InputStream
 import java.net.URL
 
 
-class FbStorageRead (private val callback: StReadCallBacks): FbStoragePresenter() {
+class FbStorageRead (): FbStoragePresenter() {
 
-    fun downloadImage(uri: Uri) {
-
+    fun downloadImage(context: Context, imgURL: String, imgView: ImageView){
+        Glide.with(context /* context */)
+                .using<StorageReference>(FirebaseImageLoader())
+                .load(imagesRef.child(imgURL))
+                .into(imgView)
     }
 
     fun LoadImageFromWebOperations(url: String): Drawable? {

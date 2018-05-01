@@ -10,6 +10,7 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -42,4 +43,9 @@ open class BaseActivity : AppCompatActivity() {
     fun acceptImagePic() {
 
     }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
 }

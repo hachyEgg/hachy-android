@@ -132,11 +132,6 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_signout -> {
@@ -153,7 +148,7 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
 
     fun signOut() {
         fbAuthStatePresenter.signOut()
-        val i = Intent(this@MainActivity, FacebookLoginActivity::class.java)
+        val i = Intent(this@MainActivity, LoginActivity::class.java)
         i.putExtra(TO_SIGN_OUT, true)
         finish()
         startActivity(i)

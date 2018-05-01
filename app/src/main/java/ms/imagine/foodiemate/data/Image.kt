@@ -17,7 +17,6 @@ import java.util.Date
 import java.util.Locale
 
 import ms.imagine.foodiemate.utils.Eulog
-import ms.imagine.foodiemate.utils.Time
 
 object Image {
     private val MEDIA_TYPE_IMAGE = 1

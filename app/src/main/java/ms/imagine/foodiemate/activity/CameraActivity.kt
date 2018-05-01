@@ -6,6 +6,7 @@ import android.hardware.Camera
 import android.hardware.Camera.PictureCallback
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
 import android.view.Surface
 import android.view.View
 import android.widget.FrameLayout
@@ -77,7 +78,6 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
         return mCamera
     }
 

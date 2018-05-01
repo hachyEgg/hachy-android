@@ -8,44 +8,81 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.firebase.ui.storage.images.FirebaseImageLoader
+import com.google.firebase.storage.StorageReference
+import ms.imagine.foodiemate.Presenter.FbStorageRead
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.data.Egg
+import ms.imagine.foodiemate.data.EggScan
+import org.w3c.dom.Text
 
 
 /**
  * Created by eugen on 3/30/2018.
  */
-class ResViewAdapter(private val myDataset: ArrayList<Egg>, private val context: Context) :
-        RecyclerView.Adapter<ResViewAdapter.ViewHolder>() {
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView = view.findViewById<View>(R.id.egg_tag) as TextView
+class EggscanAdapter(private val myDataset: Egg, private val context: Context) :
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    val fbStorageRead =  FbStorageRead()
+
+    inner class VH_HEAD(view: View) : RecyclerView.ViewHolder(view) {
         val imgView: ImageView = view.findViewById<View>(R.id.imgview_thumbnail) as ImageView
-        val timestamp: TextView = view.findViewById<View>(R.id.egg_timestamp) as TextView
         val status: TextView = view.findViewById<View>(R.id.egg_info) as TextView
-        val entity: CardView = view.findViewById<View>(R.id.card_view) as CardView
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val egg = myDataset[position]
-        holder.title.text = egg.eggtag
-        holder.timestamp.text = egg.displayTime()
-        holder.status.text = egg.displayStatus()
-        holder.imgView.setImageDrawable(egg.displayStatusThumbnail(context))
-        holder.entity.setOnClickListener { onClick.onItemClick(position) }
+
+    inner class VH_BODY(view: View) : RecyclerView.ViewHolder(view) {
+        val status: TextView = view.findViewById<View>(R.id.status) as TextView
+        val imgView: ImageView = view.findViewById<View>(R.id.imgView) as ImageView
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.card, parent, false) as View
-        return ViewHolder(itemView)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val egg = myDataset
+        if(holder is VH_HEAD){
+            holder.status.text = egg.displayStatus()
+            holder.imgView.setImageDrawable(egg.displayStatusThumbnail(context))
+        }
+
+
+        if (holder is VH_BODY){
+            holder.status.text = egg.displayStatus()
+            fbStorageRead.downloadImage(context, egg.remoteImgURL, holder.imgView)
+        }
+        //holder.entity.setOnClickListener { onClick.onItemClick(position) }
     }
 
-    override fun getItemCount() = myDataset.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == 0) {
+            VH_HEAD(LayoutInflater.from(parent.context)
+                    .inflate(R.layout.card_detailhead, parent, false) as View)
+        } else {
+            VH_BODY(LayoutInflater.from(parent.context)
+                    .inflate(R.layout.card_detailbody, parent, false) as View)
+        }
+    }
+
+    override fun getItemCount() = 3
+
+
+
+
     private lateinit var onClick: OnItemClicked
-    fun setOnClick(onClick: OnItemClicked) {
-        this.onClick = onClick
-    }
+
+
     interface OnItemClicked {
         fun onItemClick(position: Int)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if(position ==0) {
+            0
+        } else {
+            1
+        }
+    }
+
+    companion object {
+        val HEADER = 0
+        val BODY = 1
     }
 }
