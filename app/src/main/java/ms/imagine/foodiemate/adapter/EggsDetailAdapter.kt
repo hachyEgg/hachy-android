@@ -1,27 +1,21 @@
 package ms.imagine.foodiemate.adapter
 
 import android.content.Context
-import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.firebase.ui.storage.images.FirebaseImageLoader
-import com.google.firebase.storage.StorageReference
 import ms.imagine.foodiemate.Presenter.FbStorageRead
 import ms.imagine.foodiemate.R
-import ms.imagine.foodiemate.data.Egg
-import ms.imagine.foodiemate.data.EggScan
-import org.w3c.dom.Text
+import ms.imagine.foodiemate.data.Eggs
 
 
 /**
  * Created by eugen on 3/30/2018.
  */
-class EggscanAdapter(private val myDataset: Egg, private val context: Context) :
+class EggsDetailAdapter(private val myDataset: Eggs, private val context: Context) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val fbStorageRead =  FbStorageRead()
 
@@ -45,8 +39,19 @@ class EggscanAdapter(private val myDataset: Egg, private val context: Context) :
 
 
         if (holder is VH_BODY){
-            holder.status.text = egg.displayStatus()
-            fbStorageRead.downloadImage(context, egg.remoteImgURL, holder.imgView)
+            if (egg.isLegacyEgg()){
+                holder.status.text = egg.displayStatus()
+                if (egg.isnewEgg) {
+                    holder.imgView.setImageURI(egg.localImgUri)
+                } else {
+                    fbStorageRead.downloadImage(context, egg.remoteImgURL, holder.imgView)
+                }
+            } else {
+                holder.status.text = egg.egg.get(position-1).status.toString()
+                holder.imgView.setImageURI(egg.localImgUri)
+                fbStorageRead.downloadImage(context, egg.egg.get(position-1).remoteImgURL, holder.imgView)
+            }
+
         }
         //holder.entity.setOnClickListener { onClick.onItemClick(position) }
     }
@@ -61,7 +66,13 @@ class EggscanAdapter(private val myDataset: Egg, private val context: Context) :
         }
     }
 
-    override fun getItemCount() = 3
+    override fun getItemCount(): Int {
+        return if(myDataset.isLegacyEgg()){
+            2
+        } else {
+            myDataset.egg.size + 1
+        }
+    }
 
 
 

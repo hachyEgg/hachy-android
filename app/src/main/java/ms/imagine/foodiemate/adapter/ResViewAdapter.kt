@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import ms.imagine.foodiemate.R
-import ms.imagine.foodiemate.data.Egg
+import ms.imagine.foodiemate.data.Eggs
 
 
 /**
  * Created by eugen on 3/30/2018.
  */
-class ResViewAdapter(private val myDataset: ArrayList<Egg>, private val context: Context) :
+class ResViewAdapter(private val myDataset: ArrayList<Eggs>, private val context: Context) :
         RecyclerView.Adapter<ResViewAdapter.ViewHolder>() {
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById<View>(R.id.egg_tag) as TextView

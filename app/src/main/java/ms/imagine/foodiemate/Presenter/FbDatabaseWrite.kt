@@ -1,7 +1,7 @@
 package ms.imagine.foodiemate.Presenter
 
 import ms.imagine.foodiemate.callbacks.DbWriteCallBacks
-import ms.imagine.foodiemate.data.Egg
+import ms.imagine.foodiemate.data.Eggs
 
 class FbDatabaseWrite: FbDatabasePresenter{
     var callback: DbWriteCallBacks
@@ -11,12 +11,15 @@ class FbDatabaseWrite: FbDatabasePresenter{
         callback = callBacks
     }
 
-    fun writeEgg(egg: Egg){
+    fun writeEgg(eggs: Eggs){
         var map = HashMap<String, Any>()
-        map.put("eggTag", egg.eggtag)
-        map.put("timestamp", egg.timestamp)
-        map.put("status", egg.status)
-        map.put("imgURL", egg.remoteImgURL)
+        map.put("eggTag", eggs.eggtag)
+        map.put("timestamp", eggs.timestamp)
+        map.put("status", eggs.status)
+        map.put("imgURL", eggs.remoteImgURL)
+        if (!eggs.isLegacyEgg()){
+            map.put("egg", eggs.egg)
+        }
 
         var leKey = firebaseDB.push().key
         firebaseDB.child(leKey).updateChildren(map as Map<String, Any>?)

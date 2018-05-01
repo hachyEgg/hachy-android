@@ -6,13 +6,12 @@ import android.hardware.Camera
 import android.hardware.Camera.PictureCallback
 import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
 import android.view.Surface
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import ms.imagine.foodiemate.R
-import ms.imagine.foodiemate.data.Egg
+import ms.imagine.foodiemate.data.Eggs
 import ms.imagine.foodiemate.data.Image
 import ms.imagine.foodiemate.utils.Eulog
 import ms.imagine.foodiemate.views.ImageSurfaceView
@@ -85,7 +84,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
         Eulog.w(uri.toString())
         Eulog.w("value written")
         val i = Intent(this@CameraActivity, DetailActivity::class.java)
-        i.putExtra("Egg", Egg("coo", System.currentTimeMillis(), 0, uri))
+        i.putExtra("Egg", Eggs("coo", System.currentTimeMillis(), 0, uri))
         startActivity(i)
         finish()
     }

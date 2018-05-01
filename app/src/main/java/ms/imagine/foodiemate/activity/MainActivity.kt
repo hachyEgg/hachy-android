@@ -10,11 +10,8 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.google.firebase.FirebaseApp
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import ms.imagine.foodiemate.Presenter.FbAuthStatePresenter
 import ms.imagine.foodiemate.Presenter.FbDatabasePresenter
@@ -22,7 +19,7 @@ import ms.imagine.foodiemate.Presenter.FbDatabaseRead
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.callbacks.DbReadCallBacks
-import ms.imagine.foodiemate.data.Egg
+import ms.imagine.foodiemate.data.Eggs
 import ms.imagine.foodiemate.utils.Eulog
 import java.net.URI
 
@@ -32,7 +29,7 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
     private lateinit var fbAuthStatePresenter: FbAuthStatePresenter
     private lateinit var viewAdapter: ResViewAdapter
     private lateinit var eggIndex: HashSet<String>
-    private lateinit var list: ArrayList<Egg>
+    private lateinit var list: ArrayList<Eggs>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,7 +109,7 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
                 val uri: Uri? = data?.data
                 if (uri!=null ) {
                     val i = Intent(this@MainActivity, DetailActivity::class.java)
-                    i.putExtra("Egg", Egg("coo", System.currentTimeMillis(), 0,uri))
+                    i.putExtra("Egg", Eggs("coo", System.currentTimeMillis(), 0,uri))
                     println("start")
                     startActivity(i)
                 }
@@ -121,7 +118,7 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun ResViewInit(coolDataHere: ArrayList<Egg>){
+    private fun ResViewInit(coolDataHere: ArrayList<Eggs>){
         val viewManager = LinearLayoutManager(this)
         viewAdapter = ResViewAdapter(coolDataHere, this)
         viewAdapter.setOnClick(this)
@@ -154,10 +151,10 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         startActivity(i)
     }
 
-    override fun retrieveEgg(key: String, egg: Egg){
+    override fun retrieveEgg(key: String, eggs: Eggs){
         pb1.visibility = View.GONE
         if(eggIndex.add(key)){
-            list.add(0,egg)
+            list.add(0,eggs)
             viewAdapter.notifyDataSetChanged()
         }
     }
@@ -166,9 +163,9 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         toast(getString(R.string.failed_retrieve_eggs))
     }
 
-    fun showEggDetail(egg: Egg) {
+    fun showEggDetail(eggs: Eggs) {
         var i = Intent(this@MainActivity, DetailActivity::class.java)
-        i.putExtra("Egg", egg)
+        i.putExtra("Egg", eggs)
         startActivity(i)
     }
 

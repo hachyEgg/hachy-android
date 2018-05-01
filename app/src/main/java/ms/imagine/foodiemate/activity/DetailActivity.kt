@@ -1,22 +1,19 @@
 package ms.imagine.foodiemate.activity
 
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
-import android.view.View
 import kotlinx.android.synthetic.main.activity_detail.*
 import ms.imagine.foodiemate.Presenter.*
 import ms.imagine.foodiemate.R
-import ms.imagine.foodiemate.adapter.EggscanAdapter
-import ms.imagine.foodiemate.adapter.ResViewAdapter
-import ms.imagine.foodiemate.data.Egg
+import ms.imagine.foodiemate.adapter.EggsDetailAdapter
+import ms.imagine.foodiemate.data.Eggs
 import ms.imagine.foodiemate.views.IDetailedView
 
 
 class DetailActivity : BaseActivity(), IDetailedView {
     private lateinit var storagePresenter: FbStorageWrite
-    private lateinit var egg: Egg
+    private lateinit var eggs: Eggs
     private lateinit var eggDeterminator: EggDeterminator
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,30 +24,32 @@ class DetailActivity : BaseActivity(), IDetailedView {
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        egg = intent.extras.get("Egg") as Egg
+        eggs = intent.extras.get("Egg") as Eggs
 
-        ResViewInit(egg)
+        ResViewInit(eggs)
 
         //titleBox.text = egg.eggtag
         //time.text = egg.displayTime()
 
-        eggDeterminator = EggDeterminator(this, egg)
-        if (egg.isnewEgg){
+        eggDeterminator = EggDeterminator(this, eggs)
+        if (eggs.isnewEgg){
             showProgress(true)
-            var uri = (egg.localImgUri)
+            var uri = (eggs.localImgUri)
 
             // here we are getting only the last segment of Uri,
             // we dont want the full url as for the sake of database abstraction
 
-            egg.remoteImgURL = uri.lastPathSegment.toString()
+            eggs.remoteImgURL = uri.lastPathSegment.toString()
+
+            my_recycler_view.adapter.notifyDataSetChanged()
             //imgView.setImageURI(uri)
             eggDeterminator.upload()
         }
     }
 
-    private fun ResViewInit(coolDataHere: Egg){
+    private fun ResViewInit(coolDataHere: Eggs){
         val viewManager = LinearLayoutManager(this)
-        val viewAdapter = EggscanAdapter(coolDataHere, this)
+        val viewAdapter = EggsDetailAdapter(coolDataHere, this)
 
         my_recycler_view.apply {
             setHasFixedSize(true)

@@ -4,16 +4,15 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import android.widget.ImageView
-import ms.imagine.foodiemate.activity.DetailActivity
 import ms.imagine.foodiemate.api.Prediction
 import ms.imagine.foodiemate.callbacks.AzureCallBacks
 import ms.imagine.foodiemate.callbacks.DbWriteCallBacks
 import ms.imagine.foodiemate.callbacks.StWriteCallBacks
-import ms.imagine.foodiemate.data.Egg
+import ms.imagine.foodiemate.data.Eggs
 import ms.imagine.foodiemate.data.EggStages
 import ms.imagine.foodiemate.views.IDetailedView
 
-class EggDeterminator(val view: IDetailedView, val egg: Egg) : StWriteCallBacks, AzureCallBacks, DbWriteCallBacks {
+class EggDeterminator(val view: IDetailedView, val eggs: Eggs) : StWriteCallBacks, AzureCallBacks, DbWriteCallBacks {
     private lateinit var databaseWrite: FbDatabaseWrite
     private lateinit var  azure: AzurePresenter
     private lateinit var  storagePresenter: FbStorageWrite
@@ -25,12 +24,12 @@ class EggDeterminator(val view: IDetailedView, val egg: Egg) : StWriteCallBacks,
     }
 
     fun upload(){
-        storagePresenter.uploadImage(egg.localImgUri)
+        storagePresenter.uploadImage(eggs.localImgUri)
     }
 
 
     fun download(context: Context, image: ImageView){
-        storagePresenter.downloadImage(context, egg.remoteImgURL, image)
+        storagePresenter.downloadImage(context, eggs.remoteImgURL, image)
     }
 
     override fun uploadSuccess(uri: Uri?) {
@@ -56,12 +55,12 @@ class EggDeterminator(val view: IDetailedView, val egg: Egg) : StWriteCallBacks,
     override fun onAzureSuccess(prediction: List<Prediction>) {
         println("AzureSuccess")
         val egS = EggStages(prediction)
-        egg.status = egS.waEgg()
-        val state = egg.displayStatus()
+        eggs.status = egS.waEgg()
+        val state = eggs.displayStatus()
         view.showProgress(false)
         view.updateStatus(state)
 
-        databaseWrite.writeEgg(egg)
+        databaseWrite.writeEgg(eggs)
     }
 
     override fun onAzureFailure(str: String) {
