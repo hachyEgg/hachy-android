@@ -44,8 +44,6 @@
             android:layout_below="@id/imgView"
             android:layout_margin="20sp"
             android:lines="2"
-            android:paddingEnd="130dp"
-            android:paddingStart="130dp"
             android:text="status"
             android:textColor="@color/grey_500"
             android:textSize="20dp" />
