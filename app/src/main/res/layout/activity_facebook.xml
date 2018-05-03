@@ -24,17 +24,16 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:layout_marginBottom="75dp"
         android:orientation="vertical"
-        android:layout_marginBottom="60dp"
         android:paddingTop="20dp">
 
         <ImageView
-            android:layout_margin="30dp"
-            android:layout_height="240dp"
             android:layout_width="160dp"
+            android:layout_height="240dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/logo_icon" >
-        </ImageView>
+            android:layout_margin="30dp"
+            android:src="@drawable/logo_icon"></ImageView>
     </FrameLayout>
 
 
@@ -58,8 +57,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="40dp">
+                android:layout_marginBottom="60dp"
+                android:orientation="vertical">
 
                 <Button
                     android:id="@+id/btn_sub_device"
@@ -84,7 +83,9 @@
                     android:layout_width="280dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center"
-                    android:layout_margin="20dp"
+                    android:layout_margin="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="1"
                     android:background="@drawable/round_purple_button"
                     android:drawableLeft="@drawable/log_facebook"
