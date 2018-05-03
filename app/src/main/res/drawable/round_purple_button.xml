@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="false">
         <shape android:shape="rectangle">
-            <corners android:radius="1000dp" />
+            <corners android:radius="80dp" />
             <solid android:color="@color/com_facebook_blue" />
             <stroke
                 android:width="2dip"
@@ -16,7 +16,7 @@
     </item>
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <corners android:radius="1000dp" />
+            <corners android:radius="80dp" />
             <solid android:color="#3b3b98" />
             <stroke
                 android:width="2dip"
