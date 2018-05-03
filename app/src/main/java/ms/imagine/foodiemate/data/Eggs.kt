@@ -59,11 +59,11 @@ data class Eggs(var eggtag: String, var timestamp: Long, var status : Int): Parc
 
     fun displayStatusThumbnail(context: Context): Drawable?{
         when (status){
-            0->return ContextCompat.getDrawable(context, R.drawable.stg0)
-            1->return ContextCompat.getDrawable(context, R.drawable.stg1)
-            2->return ContextCompat.getDrawable(context, R.drawable.stg2)
-            3->return ContextCompat.getDrawable(context, R.drawable.stg3)
-            4->return ContextCompat.getDrawable(context, R.drawable.stg4)
+            0->return ContextCompat.getDrawable(context, R.drawable.stg0_t)
+            1->return ContextCompat.getDrawable(context, R.drawable.stg1_t)
+            2->return ContextCompat.getDrawable(context, R.drawable.stg2_t)
+            3->return ContextCompat.getDrawable(context, R.drawable.stg3_t)
+            4->return ContextCompat.getDrawable(context, R.drawable.stg4_t)
         }
         return null
     }
