@@ -21,10 +21,7 @@ import kotlin.collections.ArrayList
 // Create a firebase API that lets streaming data to Azure ImageRecognition
 // Train it
 // Create 3 stages of the eggs
-class Eggs(): Parcelable {
-    var eggtag = "Healthy Egg"
-    var timestamp: Long = 100
-    var status = 0
+data class Eggs(var eggtag: String, var timestamp: Long, var status : Int): Parcelable {
     var remoteImgURL: String = "noImg"
     var localImgUri: Uri = Uri.parse(remoteImgURL)
     var isnewEgg = true
@@ -56,6 +53,9 @@ class Eggs(): Parcelable {
             else->"No Egg detected"
         }
     }
+    fun insertSnap( eggSnapshot: Egg){
+        egg.add(eggSnapshot)
+    }
 
     fun displayStatusThumbnail(context: Context): Drawable?{
         when (status){
@@ -69,32 +69,23 @@ class Eggs(): Parcelable {
     }
 
 
-    constructor(eggtag: String, timestamp: Long, status: Int) : this() {
-        this.eggtag = eggtag
-        this.timestamp = timestamp
-        this.status = status
-    }
-
-    constructor(eggtag: String, timestamp: Long, status: Int, url: String) : this() {
-        this.eggtag = eggtag
-        this.timestamp = timestamp
-        this.status = status
+    constructor(eggtag: String, timestamp: Long, status: Int, url: String) :
+            this(eggtag, timestamp, status) {
         this.remoteImgURL = url
     }
-    constructor(eggtag: String, timestamp: Long, status: Int, uri: Uri) : this() {
-        this.eggtag = eggtag
-        this.timestamp = timestamp
-        this.status = status
+
+    constructor(eggtag: String, timestamp: Long, status: Int, uri: Uri) :
+            this(eggtag, timestamp, status) {
         this.localImgUri = uri
     }
 
-    constructor(parcel: Parcel) : this() {
-        eggtag = parcel.readString()
-        timestamp = parcel.readLong()
-        status = parcel.readInt()
+    constructor(parcel: Parcel) : this(parcel.readString(), parcel.readLong(),parcel.readInt()) {
         remoteImgURL = (parcel.readString())
         localImgUri = Uri.parse(parcel.readString())
         isnewEgg = (parcel.readInt() == 1)
+        egg = arrayListOf<Egg>().apply {
+            parcel.readList(this, Egg::class.java.classLoader)
+        }
     }
 
     override fun writeToParcel(p0: Parcel?, p1: Int) {
@@ -104,6 +95,7 @@ class Eggs(): Parcelable {
         p0?.writeString(remoteImgURL)
         p0?.writeString(localImgUri.toString())
         p0?.writeInt((if(isnewEgg) 1 else 0))
+        p0?.writeList(egg)
     }
 
     override fun describeContents() = 0

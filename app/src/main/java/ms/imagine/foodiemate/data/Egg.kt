@@ -6,9 +6,12 @@ class Egg {
     var timestamp: Long = 100
     var status = 0
     var remoteImgURL: String = "noImg"
-    var localImgUri: Uri = Uri.parse(remoteImgURL)
 
-    constructor()
+    constructor(toString: String, toInt: Int, toLong: Long){
+        remoteImgURL = toString
+        status = toInt
+        timestamp = toLong
+    }
 
 
 }

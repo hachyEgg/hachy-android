@@ -1,7 +1,6 @@
 package ms.imagine.foodiemate.adapter
 
 import android.content.Context
-import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +21,7 @@ class ResViewAdapter(private val myDataset: ArrayList<Eggs>, private val context
         val imgView: ImageView = view.findViewById<View>(R.id.imgview_thumbnail) as ImageView
         val timestamp: TextView = view.findViewById<View>(R.id.egg_timestamp) as TextView
         val status: TextView = view.findViewById<View>(R.id.egg_info) as TextView
-        val entity: CardView = view.findViewById<View>(R.id.card_view) as CardView
+        val entity = view.findViewById<View>(R.id.card_view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

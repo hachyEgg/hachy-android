@@ -19,30 +19,21 @@ class DetailActivity : BaseActivity(), IDetailedView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-
-
         setSupportActionBar(toolbar)
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        eggs = intent.extras.get("Egg") as Eggs
 
+        eggs = intent.extras.get("Egg") as Eggs
         ResViewInit(eggs)
 
-        //titleBox.text = egg.eggtag
-        //time.text = egg.displayTime()
+        // toolbar.setTitle(eggs.eggtag.toString())
+        // toolbar.setSubtitle(eggs.displayTime())
 
+        toast(eggs.isLegacyEgg().toString())
         eggDeterminator = EggDeterminator(this, eggs)
         if (eggs.isnewEgg){
             showProgress(true)
-            var uri = (eggs.localImgUri)
-
-            // here we are getting only the last segment of Uri,
-            // we dont want the full url as for the sake of database abstraction
-
-            eggs.remoteImgURL = uri.lastPathSegment.toString()
-
+            eggs.remoteImgURL = eggs.localImgUri.lastPathSegment.toString()
             my_recycler_view.adapter.notifyDataSetChanged()
-            //imgView.setImageURI(uri)
             eggDeterminator.upload()
         }
     }

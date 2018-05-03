@@ -17,8 +17,9 @@ class FbDatabaseWrite: FbDatabasePresenter{
         map.put("timestamp", eggs.timestamp)
         map.put("status", eggs.status)
         map.put("imgURL", eggs.remoteImgURL)
+
         if (!eggs.isLegacyEgg()){
-            map.put("egg", eggs.egg)
+            map.put("egglist", eggs.egg)
         }
 
         var leKey = firebaseDB.push().key

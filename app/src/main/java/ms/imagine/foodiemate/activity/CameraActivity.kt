@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import ms.imagine.foodiemate.R
+import ms.imagine.foodiemate.data.Egg
 import ms.imagine.foodiemate.data.Eggs
 import ms.imagine.foodiemate.data.Image
 import ms.imagine.foodiemate.utils.Eulog
@@ -84,7 +85,12 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
         Eulog.w(uri.toString())
         Eulog.w("value written")
         val i = Intent(this@CameraActivity, DetailActivity::class.java)
-        i.putExtra("Egg", Eggs("coo", System.currentTimeMillis(), 0, uri))
+        val timestamp = System.currentTimeMillis()
+        val eggs = Eggs("coo", timestamp, 0, uri)
+
+        // New Egg Processing technique
+        eggs.insertSnap(Egg(uri.lastPathSegment,0 ,timestamp ))
+        i.putExtra("Egg", eggs)
         startActivity(i)
         finish()
     }
