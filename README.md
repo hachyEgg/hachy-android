@@ -1,6 +1,6 @@
 # Hachy-android
 Hachy uses machine learning to candle eggs with a <b>phone</b> and a <b>Hachy Box</b>:
-![screenshot][userImage]
+![](screenshots/banner_new.png)
 
 
 ## Table of Content
