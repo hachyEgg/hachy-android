@@ -106,13 +106,13 @@ password| hachEgg
 
  Sign in                   |  Egg Catalogue                 |       Select Picture            |    Take Picture   
 :-------------------------:|:------------------------------:|:-------------------------------:|:---------------------------:
-![](screenshots/login.jpg) |![](screenshots/catalogue.jpg)  | ![](screenshots/imgpick.jpg)  | ![](screenshots/camshot.jpg) 
+![](screenshots/Login.png) |![](screenshots/Main.png)  | ![](screenshots/imgpick.jpg)  | ![](screenshots/camshot.jpg) 
  
 4. Press the button to capture the egg. The image will be persisted on the cloud and sent to Azure for analysis. Upon completion, the status of the egg will change from "egg not found" to the determined result.
 
 Determining Egg in Progress:|  Egg development initiated    |   Found Egg but No development  |    No Egg found
 :-------------------------:|:------------------------------:|:-------------------------------:|:---------------------------:
-![](screenshots/res_detecting.jpg)|![](screenshots/res_detected.jpg)| ![](screenshots/res_nodev.jpg)|![](screenshots/res_noegg.jpg) 
+![](screenshots/res_detecting.jpg)|![](screenshots/res_detected.jpg)| ![](screenshots/res_nodev.jpg)|![](screenshots/no_egg_detected.png) 
 
 5. Navigate back to observe a catalogue of egg statuses.
 
