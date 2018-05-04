@@ -112,7 +112,7 @@ password| hachEgg
 
 Determining Egg in Progress:|  Egg development initiated    |   Found Egg but No development  |    No Egg found
 :-------------------------:|:------------------------------:|:-------------------------------:|:---------------------------:
-![](screenshots/res_detecting.jpg)|![](screenshots/res_detected.jpg)| ![](screenshots/res_nodev.jpg)|![](screenshots/no_egg_detected.png) 
+![](screenshots/egg_detecting.png)|![](screenshots/egg_initiate.png)| ![](screenshots/res_nodev.jpg)|![](screenshots/no_egg_detected.png) 
 
 5. Navigate back to observe a catalogue of egg statuses.
 
