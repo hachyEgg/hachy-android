@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import ms.imagine.foodiemate.presenters.FbStorageRead
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.data.Eggs
+import ms.imagine.foodiemate.presenters.FbStorageRead
 
 
 /**

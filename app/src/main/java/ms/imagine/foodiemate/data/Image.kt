@@ -53,7 +53,7 @@ object Image {
             val fos = FileOutputStream(pictureFile)
             fos.write(bos.toByteArray())
             fos.close()
-            println("IMAGE: write files finished" + Time.timehrs())
+            println("IMAGE: write files finished" + SimpleDateFormat("HH:mm:ss:SSS").format(Date(System.currentTimeMillis())))
             return uri
         } catch (e: FileNotFoundException) {
             println("IMAGE: File not found: " + e.message)
