@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,7 +21,6 @@ import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.callbacks.DbReadCallBacks
 import ms.imagine.foodiemate.data.Eggs
-import ms.imagine.foodiemate.utils.Eulog
 import java.net.URI
 
 
@@ -103,7 +103,7 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         if (resultCode == Activity.RESULT_OK){
             if (requestCode == TAKE_PIC_CAMERA){
                 val uri = data?.extras?.get(TAKE_PIC_FINISHED) as URI
-                Eulog.w(uri.toString())
+                Log.w(TAG, uri.toString())
             } else if (requestCode == SELECT_PIC_LOCAL) {
                 println("imgSelect_OK")
                 val uri: Uri? = data?.data
@@ -174,6 +174,7 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
     }
 
     companion object {
+        const val TAG = "MainActivity"
         const val TO_SIGN_OUT = "sign_out"
         const val TAKE_PIC_CAMERA = 0x9
         const val SELECT_PIC_LOCAL = 0x7

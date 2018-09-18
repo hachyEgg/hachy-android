@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 
 import org.jetbrains.annotations.NonNls
 
@@ -16,9 +17,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-import ms.imagine.foodiemate.utils.Eulog
-
 object Image {
+    private const val TAG = "Image"
     private val MEDIA_TYPE_IMAGE = 1
     private val MEDIA_TYPE_VIDEO = 2
     @NonNls
@@ -68,6 +68,8 @@ object Image {
         return Uri.fromFile(getOutputMediaFile(type))
     }
 
+
+
     /** Create a File for saving an image or video  */
     private fun getOutputMediaFile(type: Int): File? {
         // To be safe, you should check that the SDCard is mounted
@@ -81,12 +83,12 @@ object Image {
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Eulog.d("failed to create directory")
+                Log.d(TAG, "failed to create directory")
                 return null
             }
         }
 
-        Eulog.w("HasFolder")
+        Log.w(TAG, "HasFolder")
 
         // Create a media file name
         val timeStamp = SimpleDateFormat(YYYY_M_MDD_H_HMMSS, Locale.ENGLISH).format(Date())
@@ -94,7 +96,7 @@ object Image {
         if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = File(mediaStorageDir.path + File.separator +
                     "IMG_" + timeStamp + ".jpg")
-            Eulog.w(mediaFile.absolutePath)
+            Log.w(TAG, mediaFile.absolutePath)
         } else if (type == MEDIA_TYPE_VIDEO) {
             mediaFile = File(mediaStorageDir.path + File.separator +
                     "VID_" + timeStamp + ".mp4")

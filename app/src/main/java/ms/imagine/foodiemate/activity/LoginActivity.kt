@@ -29,7 +29,7 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_facebook.*
 import ms.imagine.foodiemate.R
-import ms.imagine.foodiemate.utils.Eulog
+
 
 /**
  * Demonstrate Firebase Authentication using a Facebook access token.
@@ -53,17 +53,17 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         button_facebook_login.setReadPermissions("email", "public_profile")
         button_facebook_login.registerCallback(mCallbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
-                Eulog.d(TAG + "facebook:onSuccess:" + loginResult)
+                Log.d(TAG , String.format("facebook:onSuccess: %n", loginResult))
                 handleFacebookAccessToken(loginResult.accessToken)
             }
 
             override fun onCancel() {
-                Eulog.d(TAG + "facebook:onCancel")
+                Log.d(TAG, "facebook:onCancel")
                 onLoginStatusChanged()
             }
 
             override fun onError(error: FacebookException) {
-                Eulog.d(TAG + "facebook:onError"+ error)
+                Log.d(TAG, "facebook:onError %n", error)
                 onLoginStatusChanged()
             }
         })
@@ -72,7 +72,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     // Check if User is logged in on start
     public override fun onStart() {
         super.onStart()
-        Eulog.w("entered on startup")
+        Log.w(TAG, "entered on startup")
         onLoginStatusChanged()
     }
 
@@ -88,7 +88,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Eulog.d(TAG + "signInAnonymously:success")
+                        Log.d(TAG, "signInAnonymously:success")
                         onLoginStatusChanged()
                     } else {
                         // If sign in fails, display a message to the user.
@@ -100,7 +100,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun handleFacebookAccessToken(token: AccessToken) {
-        Eulog.d(TAG + "handleFacebookAccessToken:" + token)
+        Log.d(TAG , String.format("handleFacebookAccessToken: %n", token))
         pb1.visibility = View.VISIBLE
 
         val credential = FacebookAuthProvider.getCredential(token.token)
@@ -108,11 +108,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Eulog.d(TAG + "signInWithCredential:success")
+                        Log.d(TAG ,"signInWithCredential:success")
                         onLoginStatusChanged()
                     } else {
                         // If sign in fails, display a message to the user.
-                        Eulog.d(TAG + "signInWithCredential:failure\n" + task.exception)
+                        Log.d(TAG , "signInWithCredential:failure", task.exception)
                         toast(getString(R.string.auth_failed))
                         onLoginStatusChanged()
                     }

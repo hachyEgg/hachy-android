@@ -6,6 +6,7 @@ import android.hardware.Camera
 import android.hardware.Camera.PictureCallback
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Surface
 import android.view.View
 import android.widget.FrameLayout
@@ -14,7 +15,6 @@ import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.data.Egg
 import ms.imagine.foodiemate.data.Eggs
 import ms.imagine.foodiemate.data.Image
-import ms.imagine.foodiemate.utils.Eulog
 import ms.imagine.foodiemate.views.ImageSurfaceView
 
 
@@ -24,7 +24,7 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
     private var cameraPreviewLayout: FrameLayout? = null
 
     private var pictureCallback: PictureCallback = PictureCallback { data, camera ->
-        Eulog.w("pictureCallBackRegistered")
+        Log.w(TAG, "pictureCallBackRegistered")
         val uri = Image.createImage(data)
         sendBack(uri!!)
     }
@@ -82,8 +82,8 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun sendBack(uri: Uri) {
-        Eulog.w(uri.toString())
-        Eulog.w("value written")
+        Log.w(TAG, uri.toString())
+        Log.w(TAG, "value written")
         val i = Intent(this@CameraActivity, DetailActivity::class.java)
         val timestamp = System.currentTimeMillis()
         val eggs = Eggs("coo", timestamp, 0, uri)
@@ -100,6 +100,6 @@ class CameraActivity : BaseActivity(), View.OnClickListener {
     }
 
     companion object {
-        val TAG = "CameraActivity"
+        const val TAG = "CameraActivity"
     }
 }
