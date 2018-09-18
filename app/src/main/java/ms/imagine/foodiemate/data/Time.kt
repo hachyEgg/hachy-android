@@ -1,4 +1,4 @@
-package ms.imagine.foodiemate.utils
+package ms.imagine.foodiemate.data
 
 import java.text.SimpleDateFormat
 import java.util.*

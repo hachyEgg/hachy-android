@@ -4,16 +4,14 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.google.firebase.FirebaseApp
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import ms.imagine.foodiemate.Presenter.FbAuthStatePresenter
 import ms.imagine.foodiemate.Presenter.FbDatabasePresenter
@@ -21,7 +19,7 @@ import ms.imagine.foodiemate.Presenter.FbDatabaseRead
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.callbacks.DbReadCallBacks
-import ms.imagine.foodiemate.data.Egg
+import ms.imagine.foodiemate.data.Eggs
 import ms.imagine.foodiemate.utils.Eulog
 import java.net.URI
 
@@ -31,7 +29,7 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
     private lateinit var fbAuthStatePresenter: FbAuthStatePresenter
     private lateinit var viewAdapter: ResViewAdapter
     private lateinit var eggIndex: HashSet<String>
-    private lateinit var list: ArrayList<Egg>
+    private lateinit var list: ArrayList<Eggs>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +46,6 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         eggIndex = HashSet()
         fbAuthStatePresenter = FbAuthStatePresenter()
         fbdatabase = FbDatabaseRead(fbAuthStatePresenter.userState()!!.uid, this)
-
 
         //Logic
         if (fbAuthStatePresenter.userState() == null) finish()
@@ -88,7 +85,6 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
                 } else {
                     toast(getString(R.string.plead_permission_camera))
                 }
-                return
             }
             MY_PERMISSIONS_REQUEST_STORAGE -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
@@ -96,39 +92,25 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
                 } else {
                     toast(getString(R.string.plead_permission_storage))
                 }
-                return
-            }
 
-            else -> {
-                // Ignore all other requests.
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        println("OnREsult")
-        if (requestCode == TAKE_PIC_CAMERA){
-            if (resultCode == Activity.RESULT_OK){
+        println("OnREsult") // we should probably no do this
+        if (resultCode == Activity.RESULT_OK){
+            if (requestCode == TAKE_PIC_CAMERA){
                 val uri = data?.extras?.get(TAKE_PIC_FINISHED) as URI
                 Eulog.w(uri.toString())
-            }
-        } else if (requestCode == SELECT_PIC_LOCAL) {
-            println("selectLocal")
-            if (resultCode == Activity.RESULT_OK){
+            } else if (requestCode == SELECT_PIC_LOCAL) {
                 println("imgSelect_OK")
-                val uri = data?.data
+                val uri: Uri? = data?.data
                 if (uri!=null ) {
-                    println("uri.notnull")
-
-                    // No need to zip hentoce ignored here
-                    //var uris = Image.createImage(uri);
-                    // got to detailed View Here
-                    setBg(this)
-                    bG.write(TAKE_PIC_FINISHED, uri.toString())
                     val i = Intent(this@MainActivity, DetailActivity::class.java)
-                    i.putExtra("isNewEgg", true)
-                    i.putExtra("Egg", Egg("coo", System.currentTimeMillis(), 0))
+                    i.putExtra("Egg", Eggs("coo", System.currentTimeMillis(), 0,uri))
+                    println("start")
                     startActivity(i)
                 }
             }
@@ -136,7 +118,7 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun ResViewInit(coolDataHere: ArrayList<Egg>){
+    private fun ResViewInit(coolDataHere: ArrayList<Eggs>){
         val viewManager = LinearLayoutManager(this)
         viewAdapter = ResViewAdapter(coolDataHere, this)
         viewAdapter.setOnClick(this)
@@ -147,47 +129,32 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.action_signout -> {
-                fbAuthStatePresenter.signOut()
                 signOut()
-                return true
+                true
             }
             R.id.action_imageselect -> {
-                val getIntent = Intent(Intent.ACTION_GET_CONTENT)
-                getIntent.type = "image/*"
-
-                val pickIntent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                pickIntent.type = "image/*"
-
-                val chooserIntent = Intent.createChooser(getIntent, "Select Image")
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
-
-                startActivityForResult(chooserIntent, SELECT_PIC_LOCAL)
-                return true
+                startImagePicActivity()
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
     fun signOut() {
-        val i = Intent(this@MainActivity, FacebookLoginActivity::class.java)
+        fbAuthStatePresenter.signOut()
+        val i = Intent(this@MainActivity, LoginActivity::class.java)
         i.putExtra(TO_SIGN_OUT, true)
         finish()
         startActivity(i)
     }
 
-    override fun retrieveEgg(key: String, egg: Egg){
+    override fun retrieveEgg(key: String, eggs: Eggs){
         pb1.visibility = View.GONE
         if(eggIndex.add(key)){
-            list.add(0,egg)
+            list.add(0,eggs)
             viewAdapter.notifyDataSetChanged()
         }
     }
@@ -196,14 +163,13 @@ class MainActivity : BaseActivity(), DbReadCallBacks, ResViewAdapter.OnItemClick
         toast(getString(R.string.failed_retrieve_eggs))
     }
 
-    fun showEggDetail(egg: Egg) {
+    fun showEggDetail(eggs: Eggs) {
         var i = Intent(this@MainActivity, DetailActivity::class.java)
-        i.putExtra("Egg", egg)
+        i.putExtra("Egg", eggs)
         startActivity(i)
     }
 
     override fun onItemClick(position: Int) {
-        // toast(""+position)
         showEggDetail(list.get(position))
     }
 

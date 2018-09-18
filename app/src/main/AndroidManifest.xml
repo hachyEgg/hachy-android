@@ -25,7 +25,7 @@
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.FacebookLoginActivity"
+            android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

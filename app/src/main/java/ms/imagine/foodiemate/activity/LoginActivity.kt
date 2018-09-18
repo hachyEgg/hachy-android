@@ -34,7 +34,7 @@ import ms.imagine.foodiemate.utils.Eulog
 /**
  * Demonstrate Firebase Authentication using a Facebook access token.
  */
-class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
+class LoginActivity : BaseActivity(), View.OnClickListener {
     private lateinit var mAuth: FirebaseAuth
 
 
@@ -125,7 +125,7 @@ class FacebookLoginActivity : BaseActivity(), View.OnClickListener {
         pb1.visibility = View.GONE
         val user = mAuth.currentUser
         if (user != null) {
-            val i = Intent(this@FacebookLoginActivity, MainActivity::class.java)
+            val i = Intent(this@LoginActivity, MainActivity::class.java)
             i.putExtra(getString(R.string.tag_user), user)
             finish()
             startActivity(i)

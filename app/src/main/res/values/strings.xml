@@ -9,7 +9,7 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_foodiemate">FoodieMate</string>
-    <string name="login_btn_facebook">Login by Facebook</string>
+    <string name="login_btn_facebook">Sign In</string>
     <string name="login_failed">Login Failed, please try again</string>
     <string name="title_activity_google_sign_in">GoogleSignInActivity</string>
     <string name="disconnect">discounnect</string>
@@ -25,8 +25,8 @@
     <string name="take_picture">shoot</string>
     <string name="desc">description</string>
     <string name="login_desc">Facebook</string>
-    <string name="continue_with_facebook">Continue with Facebook</string>
-    <string name="continue_with_device">Continue without Login</string>
+    <string name="continue_with_facebook">Sign In</string>
+    <string name="continue_with_device">Try it out</string>
     <string name="action_signout">signout</string>
     <string name="title_activity_egg_detail">EggDetailActivity</string>
     <string name="title_activity_detail">DetailActivity</string>

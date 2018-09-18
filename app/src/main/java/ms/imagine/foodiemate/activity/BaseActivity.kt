@@ -5,10 +5,17 @@ package ms.imagine.foodiemate.activity
  */
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.PorterDuff
+import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_detail.*
+import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.utils.BgData
 
 
@@ -17,10 +24,28 @@ open class BaseActivity : AppCompatActivity() {
     fun toast(message: CharSequence) =
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
-    fun setBg(lol:Context){ bG= BgData(lol)}
 
-    fun hideKeyboard(view: View) {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
+
+
+    fun startImagePicActivity(){
+        val getIntent = Intent(Intent.ACTION_GET_CONTENT)
+        getIntent.type = "image/*"
+
+        val pickIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        pickIntent.type = "image/*"
+
+        val chooserIntent = Intent.createChooser(getIntent, "Select Image")
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
+
+        startActivityForResult(chooserIntent, MainActivity.SELECT_PIC_LOCAL)
     }
+
+    fun acceptImagePic() {
+
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
 }

@@ -5,14 +5,14 @@
 
     <item
         android:id="@+id/action_imageselect"
-        android:orderInCategory="100"
         android:icon="@drawable/upload"
+        android:orderInCategory="100"
         android:title="@string/picimg"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_signout"
-        android:orderInCategory="100"
         android:icon="@drawable/logout"
+        android:orderInCategory="100"
         android:title="@string/action_signout"
         app:showAsAction="ifRoom" />
 
