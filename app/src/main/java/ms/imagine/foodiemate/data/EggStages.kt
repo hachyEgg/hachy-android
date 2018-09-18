@@ -1,8 +1,5 @@
 package ms.imagine.foodiemate.data
 
-import ms.imagine.foodiemate.api.Prediction
-import org.json.JSONObject
-
 class EggStages(val prediction: List<Prediction>) {
     var stage:DoubleArray = doubleArrayOf(.0,.1,.0,0.1)
 

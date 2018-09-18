@@ -1,5 +1,6 @@
 package ms.imagine.foodiemate.api
 
+import ms.imagine.foodiemate.data.AzurePrediction
 import retrofit2.Call
 import retrofit2.http.*
 

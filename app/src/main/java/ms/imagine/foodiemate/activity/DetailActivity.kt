@@ -14,19 +14,12 @@ import ms.imagine.foodiemate.Presenter.FbStorageWrite
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.activity.MainActivity.Companion.NULL
 import ms.imagine.foodiemate.api.AzureClient
-import ms.imagine.foodiemate.api.AzurePrediction
-import ms.imagine.foodiemate.api.Prediction
+import ms.imagine.foodiemate.data.Prediction
 import ms.imagine.foodiemate.callbacks.AzureCallBacks
 import ms.imagine.foodiemate.callbacks.DbWriteCallBacks
 import ms.imagine.foodiemate.callbacks.StWriteCallBacks
 import ms.imagine.foodiemate.data.Egg
 import ms.imagine.foodiemate.data.EggStages
-import ms.imagine.foodiemate.utils.Eulog
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 // Note: must have an Egg for this activity (hint: create a fake egg)

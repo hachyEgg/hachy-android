@@ -13,7 +13,7 @@ class FbDatabaseWrite: FbDatabasePresenter{
 
     fun writeEgg(egg: Egg){
         var map = HashMap<String, Any>()
-        map.put("eggTag", egg.eggtag)
+        map.put("eggTag", egg)
         map.put("timestamp", egg.timestamp)
         map.put("status", egg.status)
         map.put("imgURL", egg.imgURL)
