@@ -53,7 +53,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         button_facebook_login.setReadPermissions("email", "public_profile")
         button_facebook_login.registerCallback(mCallbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
-                Log.d(TAG , String.format("facebook:onSuccess: %n", loginResult))
+                Log.d(TAG , String.format("facebook:onSuccess: %s", loginResult))
                 handleFacebookAccessToken(loginResult.accessToken)
             }
 
@@ -63,7 +63,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             }
 
             override fun onError(error: FacebookException) {
-                Log.d(TAG, "facebook:onError %n", error)
+                Log.d(TAG, "facebook:onError %s", error)
                 onLoginStatusChanged()
             }
         })
@@ -100,7 +100,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun handleFacebookAccessToken(token: AccessToken) {
-        Log.d(TAG , String.format("handleFacebookAccessToken: %n", token))
+        Log.d(TAG , String.format("handleFacebookAccessToken: %s", token))
         pb1.visibility = View.VISIBLE
 
         val credential = FacebookAuthProvider.getCredential(token.token)
