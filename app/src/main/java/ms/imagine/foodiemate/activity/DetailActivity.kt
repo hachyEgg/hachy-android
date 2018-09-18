@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_detail.*
-import ms.imagine.foodiemate.Presenter.*
+import ms.imagine.foodiemate.presenters.*
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.adapter.EggsDetailAdapter
 import ms.imagine.foodiemate.data.Eggs

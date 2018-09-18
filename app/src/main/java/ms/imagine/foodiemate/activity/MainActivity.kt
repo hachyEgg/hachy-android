@@ -13,9 +13,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-import ms.imagine.foodiemate.Presenter.FbAuthStatePresenter
-import ms.imagine.foodiemate.Presenter.FbDatabasePresenter
-import ms.imagine.foodiemate.Presenter.FbDatabaseRead
+import ms.imagine.foodiemate.presenters.FbAuthStatePresenter
+import ms.imagine.foodiemate.presenters.FbDatabasePresenter
+import ms.imagine.foodiemate.presenters.FbDatabaseRead
 import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.callbacks.DbReadCallBacks

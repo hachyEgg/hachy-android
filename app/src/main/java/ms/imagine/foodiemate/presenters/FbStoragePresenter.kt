@@ -1,4 +1,4 @@
-package ms.imagine.foodiemate.Presenter
+package ms.imagine.foodiemate.presenters
 
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference

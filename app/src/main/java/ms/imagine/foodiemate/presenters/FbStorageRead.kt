@@ -1,13 +1,11 @@
-package ms.imagine.foodiemate.Presenter
+package ms.imagine.foodiemate.presenters
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.storage.StorageReference
-import ms.imagine.foodiemate.callbacks.StReadCallBacks
 import java.io.InputStream
 import java.net.URL
 

@@ -1,4 +1,4 @@
-package ms.imagine.foodiemate.Presenter
+package ms.imagine.foodiemate.presenters
 
 import android.util.Log
 import com.google.firebase.database.DataSnapshot

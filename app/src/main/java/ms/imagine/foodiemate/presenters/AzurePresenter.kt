@@ -1,14 +1,11 @@
-package ms.imagine.foodiemate.Presenter
+package ms.imagine.foodiemate.presenters
 
 
 import ms.imagine.foodiemate.api.AzureClient
 import ms.imagine.foodiemate.api.AzurePrediction
 import ms.imagine.foodiemate.callbacks.AzureCallBacks
-import ms.imagine.foodiemate.utils.Eulog
-import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 
 class AzurePresenter(val callBacks: AzureCallBacks) : retrofit2.Callback<AzurePrediction> {
     private val azureClient: AzureClient
