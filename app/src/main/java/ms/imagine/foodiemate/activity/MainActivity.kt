@@ -18,6 +18,9 @@ import ms.imagine.foodiemate.R
 import ms.imagine.foodiemate.adapter.ResViewAdapter
 import ms.imagine.foodiemate.callbacks.DbReadCallBacks
 import ms.imagine.foodiemate.data.Eggs
+import ms.imagine.foodiemate.presenters.FbDatabasePresenter
+import ms.imagine.foodiemate.presenters.FbAuthStatePresenter
+import ms.imagine.foodiemate.presenters.FbDatabaseRead
 import java.net.URI
 
 

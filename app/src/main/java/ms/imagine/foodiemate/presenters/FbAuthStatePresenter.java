@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-class FbAuthStatePresenter {
+public class FbAuthStatePresenter {
     FirebaseAuth mAuth;  //usernode here
 
 
@@ -14,11 +14,11 @@ class FbAuthStatePresenter {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    FirebaseUser userState() {
+    public FirebaseUser userState() {
         return mAuth.getCurrentUser();
     }
 
-    void signOut(){
+    public void signOut(){
         mAuth.signOut();
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();

@@ -12,7 +12,7 @@ public class FbDatabaseRead extends FbDatabasePresenter {
     DbReadCallBacks callback;
 
 
-    FbDatabaseRead(String _uid, DbReadCallBacks callBacks) {
+    public FbDatabaseRead(String _uid, DbReadCallBacks callBacks) {
         super(_uid);
         callback = callBacks;
         firebaseDB.addValueEventListener(new ValueEventListener() {
