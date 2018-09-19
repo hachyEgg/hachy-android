@@ -1,36 +1,32 @@
 package ms.imagine.foodiemate.activity;
 
-package ms.imagine.foodiemate.activity
-
-import android.content.Intent
-import android.content.pm.ActivityInfo
-import android.hardware.Camera
-import android.hardware.Camera.PictureCallback
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.hardware.Camera;
+import android.hardware.Camera.PictureCallback;
 import android.icu.text.IDNA;
-import android.net.Uri
-import android.os.Bundle
-import android.util.Log
-import android.view.Surface
-import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageButton
-import ms.imagine.foodiemate.R
-import ms.imagine.foodiemate.data.Egg
-import ms.imagine.foodiemate.data.Eggs
-import ms.imagine.foodiemate.data.Image
-import ms.imagine.foodiemate.views.ImageSurfaceView
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Surface;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import ms.imagine.foodiemate.R;
+import ms.imagine.foodiemate.data.Egg;
+import ms.imagine.foodiemate.data.Eggs;
+import ms.imagine.foodiemate.data.Image;
+import ms.imagine.foodiemate.views.ImageSurfaceView;
 
 
 public class CameraActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = "CameraActivity";
     private ImageSurfaceView mImageSurfaceView;
     private Camera camera;
     private FrameLayout cameraPreviewLayout;
 
-    private var pictureCallback: PictureCallback = PictureCallback { data, camera ->
-            Log.w(TAG, "pictureCallBackRegistered")
-        val uri = Image.createImage(data)
-        sendBack(uri)
-    }
+    private PictureCallback pictureCallback;
+
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,44 +62,44 @@ public class CameraActivity extends BaseActivity implements View.OnClickListener
         params.setFocusMode (Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         camera.setParameters(params);
 
-        mImageSurfaceView = ImageSurfaceView(this@CameraActivity, camera)
-        cameraPreviewLayout!!.addView(mImageSurfaceView)
+        mImageSurfaceView = new ImageSurfaceView(CameraActivity.this, camera);
+        cameraPreviewLayout.addView(mImageSurfaceView);
 
-        val captureButton = findViewById<ImageButton>(R.id.button_tak_pic)
+        ImageButton captureButton = findViewById(R.id.button_tak_pic);
                 // lol
                 //cameraPreviewLayout.setOnClickListener(this);
-                captureButton.setOnClickListener(this)
+        captureButton.setOnClickListener(this);
     }
 
-    private fun checkDeviceCamera(): Camera? {
-        var mCamera: Camera? = null
+    private Camera checkDeviceCamera() {
+        Camera mCamera = null;
         try {
-            mCamera = Camera.open()
-        } catch (e: Exception) {
-            e.printStackTrace()
+            mCamera = Camera.open();
+        } catch (Exception e ) {
+            e.printStackTrace();
         }
-        return mCamera
+        return mCamera;
     }
 
-    private fun sendBack(uri: Uri) {
-        Log.w(TAG, uri.toString())
-        Log.w(TAG, "value written")
-        val i = Intent(this@CameraActivity, DetailActivity::class.java)
-        val timestamp = System.currentTimeMillis()
-        val eggs = Eggs("coo", timestamp, 0, uri)
+    private void sendBack(Uri uri) {
+        Log.w(TAG, uri.toString());
+        Log.w(TAG, "value written");
+        Intent i = new Intent(CameraActivity.this, DetailActivity.class);
+        long timestamp = System.currentTimeMillis();
+        Eggs eggs = new Eggs("coo", timestamp, 0, uri);
 
         // New Egg Processing technique
-        eggs.insertSnap(Egg(uri.lastPathSegment,0 ,timestamp ))
-        i.putExtra("Egg", eggs)
-        startActivity(i)
-        finish()
+        eggs.insertSnap(new Egg(uri.getLastPathSegment(),0 ,timestamp ));
+        i.putExtra("Egg", eggs);
+        startActivity(i);
+        finish();
     }
 
-    override fun onClick(view: View) {
-        camera.takePicture(null, null, pictureCallback)
-    }
-
-    companion object {
-        const val TAG = "CameraActivity"
+    @Override public void onClick(View view) {
+        camera.takePicture(null, null, (data, camera) -> {
+                Log.w(TAG, "pictureCallBackRegistered");
+                Uri uri = Image.createImage(data);
+                sendBack(uri);
+        });
     }
 }
