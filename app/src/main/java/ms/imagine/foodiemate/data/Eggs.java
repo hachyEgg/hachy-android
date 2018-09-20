@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import ms.imagine.foodiemate.R;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import kotlin.collections.ArrayList
 
 
 /**
@@ -22,23 +21,69 @@ import kotlin.collections.ArrayList
 // Train it
 // Create 3 stages of the eggs
 public class Eggs implements Parcelable {
-    String remoteImgURL = "noImg";
-    Uri localImgUri;
-    boolean isnewEgg = true;
+    private String remoteImgURL;
+    private Uri localImgUri;
+    private boolean isnewEgg = true;
     private ArrayList<Egg> egg;
 
-    String eggtag;
-    long timestamp;
-    int status;
+    private String eggtag;
+    private long timestamp;
+    private int status;
 
+    public String getRemoteImgURL() {
+        return remoteImgURL;
+    }
 
-    Eggs(String eggtag, long timestamp, int status){
+    public void setRemoteImgURL(String remoteImgURL) {
+        this.remoteImgURL = remoteImgURL;
+    }
+
+    public Uri getLocalImgUri() {
+        return localImgUri;
+    }
+
+    public void setLocalImgUri(Uri localImgUri) {
+        this.localImgUri = localImgUri;
+    }
+
+    public boolean isIsnewEgg() {
+        return isnewEgg;
+    }
+
+    public void setIsnewEgg(boolean isnewEgg) {
+        this.isnewEgg = isnewEgg;
+    }
+
+    public ArrayList<Egg> getEgg() {
+        return egg;
+    }
+
+    public void setEgg(ArrayList<Egg> egg) {
+        this.egg = egg;
+    }
+
+    public String getEggtag() {
+        return eggtag;
+    }
+
+    public void setEggtag(String eggtag) {
         this.eggtag = eggtag;
-        this.timestamp = timestamp;
-        this.status = status;
+    }
 
-        Uri.parse(remoteImgURL);
-        egg = new ArrayList<>();
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     //no data for testing purpose
@@ -46,14 +91,14 @@ public class Eggs implements Parcelable {
         return "EGG: \n\teggtag: "+eggtag +"\n\ttimestamp: "+ timestamp + "\n\tstatus: "+ status;
     }
 
-    String displayTime() {
+    public String displayTime() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         String formattedDate = df.format(timestamp);
         return formattedDate;
     }
 
     public boolean isLegacyEgg() {
-        return (egg.isEmpty() || egg.size == 0)
+        return (egg.isEmpty());
     }
 
     public String displayStatus(){
@@ -70,7 +115,7 @@ public class Eggs implements Parcelable {
         egg.add(eggSnapshot);
     }
 
-    Drawable displayStatusThumbnail(Context context) {
+    public Drawable displayStatusThumbnail(Context context) {
         switch (status){
             case 0: return ContextCompat.getDrawable(context, R.drawable.stg0_t);
             case 1: return ContextCompat.getDrawable(context, R.drawable.stg1_t);
@@ -81,45 +126,64 @@ public class Eggs implements Parcelable {
         return null;
     }
 
-
-    public Eggs(eggtag: String, timestamp: Long, status: Int, url: String) :
-            this(eggtag, timestamp, status) {
-        this.remoteImgURL = url
+    public Eggs(String eggtag, long timestamp, int status){
+        this(eggtag, timestamp, status, "");
     }
 
-    constructor(eggtag: String, timestamp: Long, status: Int, uri: Uri) :
-            this(eggtag, timestamp, status) {
-        this.localImgUri = uri
+
+    public Eggs(String eggtag, long timestamp, int status, String remoteImgURL) {
+        this(eggtag, timestamp, status, remoteImgURL, null, false, new ArrayList<Egg>());
     }
 
-    constructor(parcel: Parcel) : this(parcel.readString(), parcel.readLong(),parcel.readInt()) {
-        remoteImgURL = (parcel.readString())
-        localImgUri = Uri.parse(parcel.readString())
-        isnewEgg = (parcel.readInt() == 1)
-        egg = arrayListOf<Egg>().apply {
-            parcel.readList(this, Egg::class.java.classLoader)
+    public Eggs (String eggtag, long timestamp, int status, Uri uri) {
+            this(eggtag, timestamp, status, null, uri, false, new ArrayList<Egg>());
+    }
+
+
+
+    public Eggs(String eggtag, long timestamp, int status, String remoteImgURL, Uri localUri, boolean isNewEgg, ArrayList<Egg> list_egg){
+        this.eggtag = eggtag;
+        this.timestamp = timestamp;
+        this.status = status;
+        this.remoteImgURL = remoteImgURL;
+        this.localImgUri  = localUri;
+        this.isnewEgg = isNewEgg;
+        this.egg = list_egg;
+    }
+
+    public Eggs (Parcel parcel) {
+        this(
+                parcel.readString(),
+                parcel.readLong(),
+                parcel.readInt(),
+                parcel.readString(),
+                Uri.parse(parcel.readString()),
+                parcel.readInt() == 1,
+                parcel.readArrayList(Eggs.class.getClassLoader()));
+    }
+
+
+    @Override
+    public void writeToParcel(Parcel p0, int p1) {
+        p0.writeString(eggtag);
+        p0.writeLong(timestamp);
+        p0.writeInt(status);
+        p0.writeString(remoteImgURL);
+        p0.writeString(localImgUri.toString());
+        p0.writeInt((isnewEgg? 1 :0));
+        p0.writeList(egg);
+    }
+
+    @Override public int describeContents() { return 0; }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        @Override public Eggs createFromParcel(Parcel parcel)  {
+            return new Eggs(parcel);
         }
-    }
 
-    override fun writeToParcel(p0: Parcel?, p1: Int) {
-        p0?.writeString(eggtag)
-        p0?.writeLong(timestamp)
-        p0?.writeInt(status)
-        p0?.writeString(remoteImgURL)
-        p0?.writeString(localImgUri.toString())
-        p0?.writeInt((if(isnewEgg) 1 else 0))
-        p0?.writeList(egg)
-    }
-
-    override fun describeContents() = 0
-
-    companion object CREATOR : Parcelable.Creator<Eggs> {
-        override fun createFromParcel(parcel: Parcel): Eggs {
-            return Eggs(parcel)
+        @Override public Eggs[] newArray (int size){
+            return new Eggs[size];
         }
+    };
 
-        override fun newArray(size: Int): Array<Eggs?> {
-            return arrayOfNulls(size)
-        }
-    }
 }

@@ -74,7 +74,7 @@ public class EggsDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             VH_BODY holder = (VH_BODY) raw_holder;
             if (egg.isLegacyEgg()) {
                 holder.status.setText(egg.displayStatus());
-                if (egg.getIsnewEgg()) {
+                if (egg.isIsnewEgg()) {
                     holder.imgView.setImageURI(egg.getLocalImgUri());
                 } else {
                     fbStorageRead.downloadImage(context, egg.getRemoteImgURL(), holder.imgView);

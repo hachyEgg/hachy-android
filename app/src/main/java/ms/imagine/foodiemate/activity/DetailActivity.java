@@ -37,7 +37,7 @@ public class DetailActivity extends BaseActivity implements IDetailedView {
         toast(""+eggs.isLegacyEgg());
         eggDeterminator = new EggDeterminator(this, eggs);
 
-        if (eggs.getIsnewEgg()){
+        if (eggs.isIsnewEgg()){
             showProgress(true);
             eggs.setRemoteImgURL(eggs.getLocalImgUri().getLastPathSegment());
             my_recycler_view.getAdapter().notifyDataSetChanged();
