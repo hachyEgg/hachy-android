@@ -1,6 +1,6 @@
 package ms.imagine.foodiemate.callbacks;
 
-import ms.imagine.foodiemate.data.Prediction;
+import ms.imagine.foodiemate.api.Prediction;
 
 import java.util.List;
 

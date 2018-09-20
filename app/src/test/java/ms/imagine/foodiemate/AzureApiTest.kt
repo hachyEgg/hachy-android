@@ -1,6 +1,5 @@
 package ms.imagine.foodiemate
 
-import ms.imagine.foodiemate.Presenter.AzurePresenter
 import org.junit.Test
 
 import org.junit.Assert.*
