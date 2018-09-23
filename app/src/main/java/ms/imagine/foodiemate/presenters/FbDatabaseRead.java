@@ -4,17 +4,17 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import ms.imagine.foodiemate.callbacks.DbReadCallBacks;
+import ms.imagine.foodiemate.callbacks.Database;
 import ms.imagine.foodiemate.data.Egg;
 import ms.imagine.foodiemate.data.Eggs;
 
 public class FbDatabaseRead extends FbDatabasePresenter {
-    DbReadCallBacks callback;
+    Database database;
 
 
-    public FbDatabaseRead(String _uid, DbReadCallBacks callBacks) {
+    public FbDatabaseRead(String _uid, Database database) {
         super(_uid);
-        callback = callBacks;
+        this.database = database;
         firebaseDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -22,7 +22,7 @@ public class FbDatabaseRead extends FbDatabasePresenter {
                     Eggs egg = new Eggs(c.child("eggTag").getValue().toString(),
                             Long.parseLong( String.valueOf( c.child("timestamp").getValue())),
                             Integer.parseInt (String.valueOf (c.child("status").getValue())),
-                            c.child("imgURL").getValue().toString());
+                            c.child("imgURL").getValue().toString(), null);
 
                     // for non legacy eggs
                     if (c.hasChild("egglist")) {
@@ -36,7 +36,7 @@ public class FbDatabaseRead extends FbDatabasePresenter {
 
                     }
                     egg.setIsnewEgg(false);
-                callback.retrieveEgg(c.getKey(), egg);
+                    database.retrieveEgg(c.getKey(), egg);
                 }
 
 
@@ -44,7 +44,6 @@ public class FbDatabaseRead extends FbDatabasePresenter {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callback.retrieveEggError();
                 Log.w("post", "loadPost:onCancelled", databaseError.toException());
             }
         });

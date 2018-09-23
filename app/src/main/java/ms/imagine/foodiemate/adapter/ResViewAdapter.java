@@ -47,8 +47,8 @@ public class ResViewAdapter extends RecyclerView.Adapter<ResViewAdapter.ViewHold
         Eggs egg = myDataset.get(position);
         holder.title.setText(egg.getEggtag());
         holder.timestamp.setText(egg.displayTime());
-        holder.status.setText(egg.displayStatus());
-        holder.imgView.setImageDrawable(egg.displayStatusThumbnail(context));
+        holder.status.setText(egg.status());
+        holder.imgView.setImageResource(egg.getThumbnail());
         holder.entity.setOnClickListener ((it)->onClick.onItemClick(position));
     }
 

@@ -1,175 +1,75 @@
 package ms.imagine.foodiemate.data;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.DrawableRes;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import ms.imagine.foodiemate.R;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-
-/**
- * Created by eugen on 3/30/2018.
- */
-
-
-// What is left to do:
-// Create a firebase API that lets streaming data to Azure ImageRecognition
-// Train it
-// Create 3 stages of the eggs
+@Data
+@AllArgsConstructor
 public class Eggs implements Parcelable {
+    private static final String[] STATUS = {"No Egg detected", "Egg discovered but with no VISIBLE DEVELOPMENT",
+            "Egg has just initiated development", "Egg has matured Development", "Egg has quit", "No Egg detected" };
+    private static int DRAWABLE_THUMBNAIL[] = {R.drawable.stg0_t, R.drawable.stg1_t, R.drawable.stg2_t, R.drawable.stg3_t, R.drawable.stg4_t};
+
+    // Attributes
+    private String eggtag;
+    private long timestamp;
+    private int status;
     private String remoteImgURL;
     private Uri localImgUri;
     private boolean isnewEgg = true;
     private ArrayList<Egg> egg;
 
-    private String eggtag;
-    private long timestamp;
-    private int status;
+    public Eggs(){}
 
-    public String getRemoteImgURL() {
-        return remoteImgURL;
+    public Eggs(String eggtag, long timestamp, int status){
+        this(eggtag, timestamp, status, "", null);
     }
 
-    public void setRemoteImgURL(String remoteImgURL) {
-        this.remoteImgURL = remoteImgURL;
-    }
 
-    public Uri getLocalImgUri() {
-        return localImgUri;
-    }
-
-    public void setLocalImgUri(Uri localImgUri) {
-        this.localImgUri = localImgUri;
-    }
-
-    public boolean isIsnewEgg() {
-        return isnewEgg;
-    }
-
-    public void setIsnewEgg(boolean isnewEgg) {
-        this.isnewEgg = isnewEgg;
-    }
-
-    public ArrayList<Egg> getEgg() {
-        return egg;
-    }
-
-    public void setEgg(ArrayList<Egg> egg) {
-        this.egg = egg;
-    }
-
-    public String getEggtag() {
-        return eggtag;
-    }
-
-    public void setEggtag(String eggtag) {
-        this.eggtag = eggtag;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    //no data for testing purpose
-    @Override public String toString() {
-        return "EGG: \n\teggtag: "+eggtag +"\n\ttimestamp: "+ timestamp + "\n\tstatus: "+ status;
+    public Eggs(String eggtag, long timestamp, int status, String remoteImgURL, Uri uri) {
+        this(eggtag, timestamp, status, remoteImgURL, uri, false, new ArrayList<>());
     }
 
     public String displayTime() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-        String formattedDate = df.format(timestamp);
-        return formattedDate;
+        return df.format(timestamp);
     }
 
     public boolean isLegacyEgg() {
         return (egg.isEmpty());
     }
 
-    public String displayStatus(){
-         switch (status){
-             case 0: return "No Egg detected" ;
-             case 1: return "Egg discovered but with no VISIBLE DEVELOPMENT";
-             case 2: return "Egg has just initiated development";
-             case 3: return "Egg has matured Development";
-             case 4: return "Egg has quit";
-            default: return "No Egg detected";
-        }
+    public String status(){
+         return STATUS[status];
     }
+
     public void insertSnap(Egg eggSnapshot){
         egg.add(eggSnapshot);
     }
 
-    public Drawable displayStatusThumbnail(Context context) {
-        switch (status){
-            case 0: return ContextCompat.getDrawable(context, R.drawable.stg0_t);
-            case 1: return ContextCompat.getDrawable(context, R.drawable.stg1_t);
-            case 2: return ContextCompat.getDrawable(context, R.drawable.stg2_t);
-            case 3: return ContextCompat.getDrawable(context, R.drawable.stg3_t);
-            case 4: return ContextCompat.getDrawable(context, R.drawable.stg4_t);
-        }
-        return null;
+    public @DrawableRes int getThumbnail(){
+        return DRAWABLE_THUMBNAIL[status];
     }
 
-    public Eggs(String eggtag, long timestamp, int status){
-        this(eggtag, timestamp, status, "");
+    // Parcelable boiler
+    public Eggs (Parcel p) {
+        this(p.readString(), p.readLong(),p.readInt(),p.readString(),Uri.parse(p.readString()),
+                p.readInt() == 1, p.readArrayList(Eggs.class.getClassLoader()));
     }
 
-
-    public Eggs(String eggtag, long timestamp, int status, String remoteImgURL) {
-        this(eggtag, timestamp, status, remoteImgURL, null, false, new ArrayList<Egg>());
-    }
-
-    public Eggs (String eggtag, long timestamp, int status, Uri uri) {
-            this(eggtag, timestamp, status, null, uri, false, new ArrayList<Egg>());
-    }
-
-
-
-    public Eggs(String eggtag, long timestamp, int status, String remoteImgURL, Uri localUri, boolean isNewEgg, ArrayList<Egg> list_egg){
-        this.eggtag = eggtag;
-        this.timestamp = timestamp;
-        this.status = status;
-        this.remoteImgURL = remoteImgURL;
-        this.localImgUri  = localUri;
-        this.isnewEgg = isNewEgg;
-        this.egg = list_egg;
-    }
-
-    public Eggs (Parcel parcel) {
-        this(
-                parcel.readString(),
-                parcel.readLong(),
-                parcel.readInt(),
-                parcel.readString(),
-                Uri.parse(parcel.readString()),
-                parcel.readInt() == 1,
-                parcel.readArrayList(Eggs.class.getClassLoader()));
-    }
-
-
-    @Override
-    public void writeToParcel(Parcel p0, int p1) {
+    @Override public void writeToParcel(Parcel p0, int p1) {
         p0.writeString(eggtag);
         p0.writeLong(timestamp);
         p0.writeInt(status);
         p0.writeString(remoteImgURL);
-        p0.writeString(localImgUri.toString());
+        p0.writeString(String.valueOf(localImgUri));
         p0.writeInt((isnewEgg? 1 :0));
         p0.writeList(egg);
     }
@@ -177,6 +77,7 @@ public class Eggs implements Parcelable {
     @Override public int describeContents() { return 0; }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+
         @Override public Eggs createFromParcel(Parcel parcel)  {
             return new Eggs(parcel);
         }

@@ -19,7 +19,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import ms.imagine.foodiemate.R;
 import ms.imagine.foodiemate.adapter.ResViewAdapter;
-import ms.imagine.foodiemate.callbacks.DbReadCallBacks;
+import ms.imagine.foodiemate.callbacks.Database;
 import ms.imagine.foodiemate.data.Eggs;
 import ms.imagine.foodiemate.presenters.FbDatabasePresenter;
 import ms.imagine.foodiemate.presenters.FbAuthStatePresenter;
@@ -31,7 +31,7 @@ import java.util.HashSet;
 
 
 
-class MainActivity extends BaseActivity implements DbReadCallBacks, ResViewAdapter.OnItemClicked {
+class MainActivity extends BaseActivity implements Database, ResViewAdapter.OnItemClicked {
     private RecyclerView my_recycler_view;
     private ProgressBar pb1;
     private FbDatabasePresenter fbdatabase;
@@ -128,7 +128,7 @@ class MainActivity extends BaseActivity implements DbReadCallBacks, ResViewAdapt
                 Uri uri = data.getData();
                 if (uri!=null ) {
                     Intent i = new Intent(MainActivity.this, DetailActivity.class);
-                    i.putExtra("Egg", new Eggs("coo", System.currentTimeMillis(), 0,uri));
+                    i.putExtra("Egg", new Eggs("coo", System.currentTimeMillis(), 0,"",uri));
                     Log.d(TAG, "start");
                     startActivity(i);
                 }

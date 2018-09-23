@@ -65,7 +65,7 @@ public class EggDeterminator implements StWriteCallBacks, AzureCallBacks, DbWrit
         Log.d(TAG, "AzureSuccess");
         EggStages egS = new EggStages(prediction);
         eggs.setStatus(egS.waEgg());
-        String state = eggs.displayStatus();
+        String state = eggs.status();
         view.showProgress(false);
         view.updateStatus(state);
 

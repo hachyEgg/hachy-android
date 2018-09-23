@@ -45,7 +45,7 @@ public class DetailActivity extends BaseActivity implements IDetailedView {
         }
     }
 
-    private void  ResViewInit(Eggs coolDataHere){
+    private void ResViewInit(Eggs coolDataHere){
         LinearLayoutManager viewManager = new LinearLayoutManager(this);
         EggsDetailAdapter viewAdapter = new EggsDetailAdapter(coolDataHere, this);
 

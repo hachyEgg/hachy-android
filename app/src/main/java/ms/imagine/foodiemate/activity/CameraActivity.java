@@ -86,7 +86,7 @@ public class CameraActivity extends BaseActivity implements View.OnClickListener
         Log.w(TAG, "value written");
         Intent i = new Intent(CameraActivity.this, DetailActivity.class);
         long timestamp = System.currentTimeMillis();
-        Eggs eggs = new Eggs("coo", timestamp, 0, uri);
+        Eggs eggs = new Eggs("coo", timestamp, 0,"", uri);
 
         // New Egg Processing technique
         eggs.insertSnap(new Egg(uri.getLastPathSegment(),0 ,timestamp ));

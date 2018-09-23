@@ -3,50 +3,17 @@ package ms.imagine.foodiemate.data;
  * Created by eugen on 3/30/2018.
  */
 
-
-// What is left to do:
-// Create a firebase API that lets streaming data to Azure ImageRecognition
-// Train it
-// Create 3 stages of the eggs
-
-import org.jetbrains.annotations.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import java.io.Serializable;
 
 
-public class Egg {
-    private long timestamp;
-    private int status;
-    @NotNull
+@Data
+@AllArgsConstructor
+public class Egg implements Serializable{
     private String remoteImgURL;
+    private int status;
+    private long timestamp;
 
-    public final long getTimestamp() {
-        return this.timestamp;
-    }
-
-    public final void setTimestamp(long var1) {
-        this.timestamp = var1;
-    }
-
-    public final int getStatus() {
-        return this.status;
-    }
-
-    public final void setStatus(int var1) {
-        this.status = var1;
-    }
-
-    @NotNull
-    public final String getRemoteImgURL() {
-        return this.remoteImgURL;
-    }
-
-    public final void setRemoteImgURL( String var1) {
-        this.remoteImgURL = var1;
-    }
-
-    public Egg( String toString, int toInt, long toLong) {
-        this.timestamp = 100L;
-        this.remoteImgURL = toString;
-        this.status = toInt;
-        this.timestamp = toLong;
-    }
+    public Egg(){}
 }

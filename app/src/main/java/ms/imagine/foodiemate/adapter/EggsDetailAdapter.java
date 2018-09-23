@@ -1,6 +1,7 @@
 package ms.imagine.foodiemate.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ms.imagine.foodiemate.R;
+import ms.imagine.foodiemate.data.Egg;
 import ms.imagine.foodiemate.data.Eggs;
 import ms.imagine.foodiemate.presenters.FbStorageRead;
 
@@ -67,20 +69,21 @@ public class EggsDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Eggs egg = myDataset;
         if (raw_holder instanceof VH_HEAD) {
             VH_HEAD holder = (VH_HEAD) raw_holder;
-            holder.status.setText(egg.displayStatus());
-            holder.imgView.setImageDrawable(egg.displayStatusThumbnail(context));
+            holder.status.setText(egg.status());
+            holder.imgView.setImageResource(egg.getThumbnail());
         }
         if (raw_holder instanceof VH_BODY) {
             VH_BODY holder = (VH_BODY) raw_holder;
             if (egg.isLegacyEgg()) {
-                holder.status.setText(egg.displayStatus());
+                holder.status.setText(egg.status());
                 if (egg.isIsnewEgg()) {
                     holder.imgView.setImageURI(egg.getLocalImgUri());
                 } else {
                     fbStorageRead.downloadImage(context, egg.getRemoteImgURL(), holder.imgView);
                 }
             } else {
-                holder.status.setText(""+egg.getEgg().get(position - 1).getStatus());
+                Egg place = (egg.getEgg().get(position - 1));
+                holder.status.setText(place.getStatus());
                 holder.imgView.setImageURI(egg.getLocalImgUri());
                 fbStorageRead.downloadImage(context, egg.getEgg().get(position - 1).getRemoteImgURL(), holder.imgView);
             }
