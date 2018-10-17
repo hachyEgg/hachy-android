@@ -2,6 +2,10 @@
 Hachy uses machine learning to candle eggs with a <b>phone</b> and a <b>Hachy Box</b>:
 ![](screenshots/banner_new.png)
 
+# Media
+![](https://firebasestorage.googleapis.com/v0/b/eugsland.appspot.com/o/techvibes.jpg?alt=media)
+![](https://firebasestorage.googleapis.com/v0/b/eugsland.appspot.com/o/microsoft.jpg?alt=media)
+![](https://firebasestorage.googleapis.com/v0/b/eugsland.appspot.com/o/hun.jpg?alt=media)
 
 ## Table of Content
 This document is also avaliable in
